@@ -157,3 +157,6 @@ required-features = ["pangocairo"]
 [[bin]]
 name = "gio_async_tls"
 required-features = ["async-tls"]
+
+[[bin]]
+name = "gio_task"
