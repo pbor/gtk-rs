@@ -21,38 +21,9 @@ jobs:
           update: true
           install: base-devel git mingw-w64-x86_64-gtk3
 
-      - uses: actions/checkout@v2
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable-x86_64-pc-windows-gnu
-          override: true
-
-      - name: setup env
-        run: |
-            echo 'PKG_CONFIG_PATH=/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig' >> $GITHUB_ENV
-
       - name: show env
         run: |
           env | sort
-          find . -name "*.pc"
-          find . -name "*glib*"
-          
-      - name: atk test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path atk/Cargo.toml --features "v2_34"
-
-      - name: atk-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path atk/sys/Cargo.toml --features "v2_34"
-
-      - name: atk build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path atk/sys/Cargo.toml --features "v2_34"
-
+          cd /
+          find / "*.pc"
+          find / "*glib*"
