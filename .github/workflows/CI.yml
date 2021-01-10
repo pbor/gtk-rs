@@ -10,6 +10,8 @@ jobs:
   build-win:
     name: build windows msys2
     runs-on: windows-latest
+    env:
+      PKG_CONFIG_PATH: /mingw64/lib/pkgconfig:/mingw64/share/pkgconfig
     defaults:
       run:
         shell: msys2 {0}
@@ -26,7 +28,7 @@ jobs:
 
       - name: env
         run: |
-          env
+          env | sort
 
       - name: atk test
         uses: actions-rs/cargo@v1
