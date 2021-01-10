@@ -31,12 +31,11 @@ jobs:
       - name: setup env
         run: |
             echo 'PKG_CONFIG_PATH=/mingw64/share/pkgconfig:/mingw64/lib/pkgconfig' >> $GITHUB_ENV
-
+            echo 'GTK_LIB_DIR=/mingw64/lib' >> $GITHUB_ENV
+            
       - name: show env
         run: |
           env | sort
-          find / -name "*.pc"
-          find / -name "*glib*"
           
       - name: atk test
         uses: actions-rs/cargo@v1
