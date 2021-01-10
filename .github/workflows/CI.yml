@@ -27,9 +27,9 @@ jobs:
         run: |
             echo 'PKG_CONFIG_PATH=/mingw64/share/pkgconfig:/mingw64/lib/pkgconfig' >> $GITHUB_ENV
             echo 'GTK_LIB_DIR=/mingw64/lib' >> $GITHUB_ENV
-            
+
       - name: show env
-      - uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable-x86_64-pc-windows-gnu
           override: true
