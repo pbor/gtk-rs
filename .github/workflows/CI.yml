@@ -5,6 +5,8 @@ on:
 
 name: CI
 
+jobs:
+
   build-win:
     name: build windows msys2
     runs-on: windows-latest
