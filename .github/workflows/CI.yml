@@ -21,8 +21,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
+          toolchain: stable-x86_64-pc-windows-gnu
           override: true
+
+      - name: env
+        run: |
+          env
 
       - name: atk test
         uses: actions-rs/cargo@v1
