@@ -35,7 +35,9 @@ jobs:
       - name: show env
         run: |
           env | sort
-
+          find . -name "*.pc"
+          find . -name "*glib*"
+          
       - name: atk test
         uses: actions-rs/cargo@v1
         with:
