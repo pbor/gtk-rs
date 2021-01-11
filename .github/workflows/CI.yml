@@ -21,7 +21,7 @@ jobs:
         
       - name: gvsbuild
         run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\mingw64 gtk3
-        working-directory: C:\gtk-build\github\gvsbuild
+        working-directory: gtk-build\github\gvsbuild
 
       - name: Setup env
         run: echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
