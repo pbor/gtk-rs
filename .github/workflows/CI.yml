@@ -53,6 +53,12 @@ jobs:
           echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
           echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
 
+      - name: Test
+        run:  |
+          echo $PKG_CONFIG
+          echo $PATH
+          C:\gtk-build\gtk\x64\release\bin\pkgconf.exe --libs --cflags glib-2.0
+
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
