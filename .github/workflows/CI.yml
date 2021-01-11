@@ -13,30 +13,34 @@ jobs:
 
     steps:
 
+      - uses: actions/checkout@v2
+
       - name: Checkout gvsbuild
         uses: actions/checkout@v2
         with:
           repository: wingtk/gvsbuild
+          ref: ${{ github.event.pull_request.head.sha }}
           path: gvsbuild
 
-      # remove the preinstalled git, it causes errors related to cygwin
-      - name: remove git
-        run: rmdir "C:\Program Files\Git\usr\bin" /s /q
-        shell: cmd
-
-# todo gvsbuild caching
       - name: gvsbuild cache
         uses: actions/cache@v2
         id: gvsbuildcache
         with:
           path: C:\gtk-build\**
-          key: ${{ runner.os }}-gvsbuild--${{ hashFiles('gvsbuild/**') }}
+          # how to define a unique key? maybe we can specify the ref of the gvsbuild repo
+          key: ${{ runner.os }}-gvsbuild-xxxx
+
+      # Remove the preinstalled git, it causes errors related to cygwin.
+      # Note this need to happen after we checked out the projects.
+      - name: remove git
+        if: runner.os == 'windows' && steps.gvsbuildcache.outputs.cache-hit != 'true'
+        run: rmdir "C:\Program Files\Git\usr\bin" /s /q
+        shell: cmd
 
       - name: gvsbuild
         working-directory: gvsbuild
         if: runner.os == 'windows' && steps.gvsbuildcache.outputs.cache-hit != 'true'
-        # FIXME only build glib to speed up testing
-        run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 glib
+        run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 gtk3
 
 #      - name: move gtk files
 #        run: xcopy /e /i gtk-build\gtk C:\gtk
