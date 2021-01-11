@@ -21,6 +21,7 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      # this is needed for the cache restore to work
       - name: (GTK binaries) create dir
         run: mkdir C:\gtk-build\gtk\x64\release
 
@@ -58,8 +59,8 @@ jobs:
 
       - name: Test
         run:  |
-          echo $PKG_CONFIG
-          echo $PATH
+          echo %PKG_CONFIG%
+          echo %PATH%
           C:\gtk-build\gtk\x64\release\bin\pkgconf.exe --libs --cflags glib-2.0
 
       - uses: actions-rs/toolchain@v1
@@ -67,11 +68,13 @@ jobs:
           toolchain: stable
           default: true
 
-#      - name: atk test
-#        uses: actions-rs/cargo@v1
-#        with:
-#          command: test
-#          args: --manifest-path atk/Cargo.toml --features "v2_34"
+      - name: atk test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path atk/Cargo.toml --features "v2_34"
+          env:
+            PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe
 
 #
 #      - name: atk-sys test
