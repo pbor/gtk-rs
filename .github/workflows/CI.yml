@@ -8,29 +8,21 @@ name: CI
 jobs:
 
   build-win:
-    name: build windows msys2
+    name: build windows
     runs-on: windows-latest
-      
-    defaults:
-      run:
-        shell: msys2 {0}
 
     steps:
-      - uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: base-devel mingw-w64-x86_64-pkg-config mingw-w64-x86_64-gtk3 
 
-      - name: show
-        run: |
-          /mingw64/bin/pkg-config.exe --cflags glib-2.0
-          echo "================="
-          /mingw64/bin/x86_64-w64-mingw32-pkg-config.exe --cflags glib-2.0
+      - name: gvsbuild
+        run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\mingw64 gtk3
+        working-directory: C:\gtk-build\github\gvsbuild
+
+      - name: Setup env
+        run: echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
 
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: x86_64-pc-windows-gnu
           default: true
 
       - uses: actions/checkout@v2
@@ -40,11 +32,7 @@ jobs:
         with:
           command: test
           args: --manifest-path atk/Cargo.toml --features "v2_34"
-        env:
-          GTK_LIB_DIR: C:\mingw64\bin
-          PKG_CONFIG_ALLOW_CROSS: 1
-          PKG_CONFIG: C:\mingw64\bin\pkg-config.exe
-          PKG_CONFIG_PATH: C:\mingw64\share\pkgconfig;C:\mingw64\lib\pkgconfig
+
 #
 #      - name: atk-sys test
 #        uses: actions-rs/cargo@v1
