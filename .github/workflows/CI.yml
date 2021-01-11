@@ -18,13 +18,18 @@ jobs:
         with:
           repository: wingtk/gvsbuild
           path: gtk-build\github\gvsbuild
+        
+        #echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
+
+      - name: Setup env
+        run: |
+          dir C:\mingw64\bin
+          echo "==========="
+          dir C:\mingw64\usr\bin
 
       - name: gvsbuild
         run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\mingw64 gtk3
         working-directory: gtk-build\github\gvsbuild
-
-      - name: Setup env
-        run: echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
 
       - uses: actions-rs/toolchain@v1
         with:
