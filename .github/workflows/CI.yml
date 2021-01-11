@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: wingtk/gvsbuild
-#          path: gtk-build\github\gvsbuild
+          path: gvsbuild
 
       # remove the preinstalled git, it causes errors related to cygwin
       - name: remove git
