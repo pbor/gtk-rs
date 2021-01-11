@@ -21,13 +21,19 @@ jobs:
           update: true
           install: base-devel mingw-w64-x86_64-pkg-config mingw-w64-x86_64-gtk3 
 
+      - name: show
+        run: |
+          ls /mingw64/
+          ls /mingw64/bin
+
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable-x86_64-pc-windows-gnu
-          override: true
+          toolchain: stable
+          target: x86_64-pc-windows-gnu
+          default: true
 
       - uses: actions/checkout@v2
-          
+
       - name: atk test
         uses: actions-rs/cargo@v1
         with:
