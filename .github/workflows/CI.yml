@@ -73,7 +73,7 @@ jobs:
           command: test
           args: --manifest-path atk/Cargo.toml --features "v2_34"
           env:
-            GTK_LIB_DIR=C:\gtk-build\gtk\x64\release\bin\
+            PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe
 
 #
 #      - name: atk-sys test
