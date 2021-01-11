@@ -59,8 +59,7 @@ jobs:
 
       - name: Test
         run:  |
-          echo %PKG_CONFIG%
-          echo %PATH%
+          set
           C:\gtk-build\gtk\x64\release\bin\pkgconf.exe --libs --cflags glib-2.0
 
       - uses: actions-rs/toolchain@v1
@@ -74,7 +73,7 @@ jobs:
           command: test
           args: --manifest-path atk/Cargo.toml --features "v2_34"
           env:
-            PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe
+            GTK_LIB_DIR=C:\gtk-build\gtk\x64\release\bin\
 
 #
 #      - name: atk-sys test
