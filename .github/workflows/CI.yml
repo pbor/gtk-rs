@@ -65,12 +65,11 @@ jobs:
 
       # ATK
 
-      # OK
-      #- name: atk test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path atk/Cargo.toml --features "v2_34"
+      - name: atk test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path atk/Cargo.toml --features "v2_34"
 
       # FAILS: thread 'cross_validate_constants_with_c' panicked at 'configured compiler: Os { code: 2, kind: NotFound, message: "The system cannot find the file specified." }', atk\sys\tests\abi.rs:131:30
       #- name: atk-sys test
@@ -79,26 +78,25 @@ jobs:
       #    command: test
       #    args: --manifest-path atk/sys/Cargo.toml --features "v2_34"
 
-      # OK
-      #- name: atk build
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: build
-      #    args: --manifest-path atk/Cargo.toml --features "v2_34"
+      - name: atk build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path atk/Cargo.toml --features "v2_34"
 
       # Cairo
 
-      #- name: cairo test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
+      - name: cairo test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
 
-      #- name: cairo-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path cairo/sys/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
+      - name: cairo-sys test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path cairo/sys/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
 
       - name: cairo build
         uses: actions-rs/cargo@v1
@@ -108,17 +106,17 @@ jobs:
 
       # GDK
 
-      #- name: gdk test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gdk/Cargo.toml --features v3_24
+      - name: gdk test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path gdk/Cargo.toml --features v3_24
 
-      #- name: gdk-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gdk/sys/Cargo.toml --features v3_24
+      - name: gdk-sys test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path gdk/sys/Cargo.toml --features v3_24
 
       - name: gdk build
         uses: actions-rs/cargo@v1
@@ -128,17 +126,17 @@ jobs:
 
       # gdk-pixbuf
 
-      #- name: gdk-pixbuf test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gdk-pixbuf/Cargo.toml --features "v2_40"
+      - name: gdk-pixbuf test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path gdk-pixbuf/Cargo.toml --features "v2_40"
 
-      #- name: gdk-pixbuf-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gdk-pixbuf/sys/Cargo.toml --features "v2_40"
+      - name: gdk-pixbuf-sys test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path gdk-pixbuf/sys/Cargo.toml --features "v2_40"
 
       - name: gdk-pixbuf build
         uses: actions-rs/cargo@v1
@@ -146,13 +144,34 @@ jobs:
           command: build
           args: --manifest-path gdk-pixbuf/Cargo.toml --features "v2_40"
 
-      # glib
+      # gio
 
-      - name: glib test
+      - name: gio test
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path glib/Cargo.toml --features "v2_66"
+          args: --manifest-path gio/Cargo.toml --features "v2_66" -- --nocapture
+
+      - name: gio-sys test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path gio/sys/Cargo.toml --features "v2_66"
+
+      - name: gio build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path gio/Cargo.toml --features "v2_66"
+
+      # glib
+
+      # FAILS in translate::tests::test_paths stdout: "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmpMhxy2C" vs "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\.tmpMhxy2C"
+      #- name: glib test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path glib/Cargo.toml --features "v2_66"
 
       - name: glib-sys test
         uses: actions-rs/cargo@v1
@@ -179,26 +198,6 @@ jobs:
         with:
           command: build
           args: --manifest-path glib-macros/Cargo.toml
-
-      # gio
-
-      - name: gio test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gio/Cargo.toml --features "v2_66" -- --nocapture
-
-      - name: gio-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gio/sys/Cargo.toml --features "v2_66"
-
-      - name: gio build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path gio/Cargo.toml --features "v2_66"
 
       # pango
 
