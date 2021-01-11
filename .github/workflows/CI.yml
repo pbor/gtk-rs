@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: wingtk/gvsbuild
-          path: C:\gtk-build\github\gvsbuild
-        
+          path: gtk-build\github\gvsbuild
+
       - name: gvsbuild
         run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\mingw64 gtk3
         working-directory: gtk-build\github\gvsbuild
