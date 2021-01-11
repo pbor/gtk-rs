@@ -212,11 +212,11 @@ jobs:
           command: test
           args: --manifest-path pango/Cargo.toml --features "v1_46"
 
-      - name: pango-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path pango/sys/Cargo.toml --features "v1_46"
+      #- name: pango-sys test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path pango/sys/Cargo.toml --features "v1_46"
 
       - name: pango build
         uses: actions-rs/cargo@v1
@@ -232,11 +232,11 @@ jobs:
           command: test
           args: --manifest-path pango/Cargo.toml
 
-      - name: pangocairo-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path pango/sys/Cargo.toml
+      #- name: pangocairo-sys test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path pango/sys/Cargo.toml
 
       - name: pangocairo build
         uses: actions-rs/cargo@v1
@@ -252,11 +252,11 @@ jobs:
           command: test
           args: --manifest-path pango/Cargo.toml --features "v3_24_9"
 
-      - name: gtk-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path pango/sys/Cargo.toml --features "v3_24_9"
+      #- name: gtk-sys test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path pango/sys/Cargo.toml --features "v3_24_9"
 
       - name: gtk build
         uses: actions-rs/cargo@v1
