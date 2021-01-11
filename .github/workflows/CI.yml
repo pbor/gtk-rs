@@ -59,7 +59,7 @@ jobs:
 
       - name: Test
         run:  |
-          set
+          env | sort
           C:\gtk-build\gtk\x64\release\bin\pkgconf.exe --libs --cflags glib-2.0
 
       - uses: actions-rs/toolchain@v1
