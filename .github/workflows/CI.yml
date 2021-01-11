@@ -18,18 +18,26 @@ jobs:
         with:
           repository: wingtk/gvsbuild
           path: gtk-build\github\gvsbuild
-        
-        #echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
 
-      - name: Setup env
-        run: |
-          dir C:\mingw64\bin
-          echo "==========="
-          dir C:\mingw64\usr\bin
+# todo gvsbuild caching
 
       - name: gvsbuild
-        run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\mingw64 gtk3
         working-directory: gtk-build\github\gvsbuild
+        run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 gtk3
+
+#      run: | 
+#         xcopy /e /i gtk-build\gtk C:\gtk
+#         echo "C:\gtk\x64\release\bin" >> $GITHUB_PATH
+
+#     - name: Copy gtk
+#      if: runner.os == 'windows' && steps.cache.outputs.cache-hit == 'true'
+#      run: xcopy /e /i release C:\gtk-build\gtk\x64\release
+#      shell: cmd
+#    - name: Windows dependencies (copy gvsbuild)
+#      if: runner.os == 'windows' && steps.cache.outputs.cache-hit != 'true'
+
+#      - name: Setup env
+        #echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
 
       - uses: actions-rs/toolchain@v1
         with:
