@@ -1,5 +1,5 @@
 fn main() {
-    println!("XXXXX {}", = env::var("PKG_CONFIG_PATH").unwrap());
+    println!("XXXXX {}", env::var("PKG_CONFIG_PATH").unwrap());
     
     manage_docs();
 }

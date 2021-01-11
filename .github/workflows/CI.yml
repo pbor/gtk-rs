@@ -23,8 +23,9 @@ jobs:
 
       - name: show
         run: |
-          ls /mingw64/
-          ls /mingw64/bin
+          /mingw64/bin/pkg-config.exe --cflags glib-2.0
+          echo "================="
+          /mingw64/bin/x86_64-w64-mingw32-pkg-config.exe --cflags glib-2.0
 
       - uses: actions-rs/toolchain@v1
         with:
