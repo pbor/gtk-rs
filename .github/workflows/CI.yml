@@ -20,14 +20,24 @@ jobs:
           path: gtk-build\github\gvsbuild
 
 # todo gvsbuild caching
+      - name: gvsbuild cache
+        uses: actions/cache@v2
+        id: gvsbuildcache
+        with:
+          path: gtk-build\gtk\x64\release\**
+          key: ${{ runner.os }}-gvsbuild--${{ hashFiles('gtk-build/github/gvsbuild/**') }}
 
       - name: gvsbuild
         working-directory: gtk-build\github\gvsbuild
-        run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 gtk3
+        if: runner.os == 'windows' && steps.gvsbuildcache.outputs.cache-hit != 'true'
+        # FIXME only build glib to speed up testing
+        run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 glib
 
-#      run: | 
-#         xcopy /e /i gtk-build\gtk C:\gtk
-#         echo "C:\gtk\x64\release\bin" >> $GITHUB_PATH
+      - name: move gtk files
+        run: xcopy /e /i gtk-build\gtk C:\gtk
+
+      - name: setup env
+        run:  echo "C:\gtk\x64\release\bin" >> $GITHUB_PATH
 
 #     - name: Copy gtk
 #      if: runner.os == 'windows' && steps.cache.outputs.cache-hit == 'true'
