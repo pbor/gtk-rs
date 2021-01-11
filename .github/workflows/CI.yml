@@ -53,9 +53,11 @@ jobs:
         run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 gtk3
 
       - name: Setup env
+        shell: bash
         run: echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
 
       - name: Test
+        shell: bash
         run:  |
           env | sort
           C:\gtk-build\gtk\x64\release\bin\pkgconf.exe --libs --cflags glib-2.0
@@ -65,6 +67,11 @@ jobs:
           toolchain: stable
           default: true
 
+      - name: atk test aa
+        run: cargo test --manifest-path atk/Cargo.toml --features "v2_34"
+        env:
+          PKG_CONFIG: C:\gtk-build\gtk\x64\release\bin\pkgconf.exe
+        
       - name: atk test
         uses: actions-rs/cargo@v1
         with:
