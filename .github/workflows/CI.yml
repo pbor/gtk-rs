@@ -53,9 +53,7 @@ jobs:
         run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 gtk3
 
       - name: Setup env
-        run:  |
-          echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
-          echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
+        run: echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
 
       - name: Test
         run:  |
@@ -72,8 +70,6 @@ jobs:
         with:
           command: test
           args: --manifest-path atk/Cargo.toml --features "v2_34"
-          env:
-            PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe
 
 #
 #      - name: atk-sys test
