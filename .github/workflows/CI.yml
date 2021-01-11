@@ -63,11 +63,12 @@ jobs:
 
       # ATK
 
-      - name: atk test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path atk/Cargo.toml --features "v2_34"
+      # OK
+      #- name: atk test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path atk/Cargo.toml --features "v2_34"
 
       # FAILS: thread 'cross_validate_constants_with_c' panicked at 'configured compiler: Os { code: 2, kind: NotFound, message: "The system cannot find the file specified." }', atk\sys\tests\abi.rs:131:30
       #- name: atk-sys test
@@ -76,11 +77,12 @@ jobs:
       #    command: test
       #    args: --manifest-path atk/sys/Cargo.toml --features "v2_34"
 
-      - name: atk build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path atk/Cargo.toml --features "v2_34"
+      # OK
+      #- name: atk build
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: build
+      #    args: --manifest-path atk/Cargo.toml --features "v2_34"
 
       # Cairo
 
@@ -88,19 +90,19 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,xcb,xlib,win32-surface"
+          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
 
       - name: cairo-sys test
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path cairo/sys/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,xcb,xlib,win32-surface"
+          args: --manifest-path cairo/sys/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
 
       - name: cairo build
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,xcb,xlib,win32-surface"
+          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
 
       # GDK
 
