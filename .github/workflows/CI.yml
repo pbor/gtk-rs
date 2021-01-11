@@ -14,6 +14,9 @@ jobs:
       # git revision of gvsbuild we use for the GTK dependendency
       gvsbuildref: 3c45d961a5ab23f8ece72f6a5470b8ec87081b5e
 
+      # bump this number if you want to force a rebuild of gvsbuild
+      gvsbuildupdate: 1
+
     steps:
 
       - uses: actions/checkout@v2
@@ -23,7 +26,7 @@ jobs:
         id: gvsbuildcache
         with:
           path: C:\gtk-build\**
-          key: ${{ runner.os }}-gvsbuild-${{ env.gvsbuildref }}
+          key: gvsbuild-${{ env.gvsbuildupdate }}-${{ env.gvsbuildref }}
 
       - name: (GTK binaries) checkout gvsbuild
         if: steps.gvsbuildcache.outputs.cache-hit != 'true'
@@ -53,11 +56,11 @@ jobs:
           toolchain: stable
           default: true
 
-      - name: atk test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path atk/Cargo.toml --features "v2_34"
+#      - name: atk test
+#        uses: actions-rs/cargo@v1
+#        with:
+#          command: test
+#          args: --manifest-path atk/Cargo.toml --features "v2_34"
 
 #
 #      - name: atk-sys test
