@@ -230,19 +230,19 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path pango/Cargo.toml
+          args: --manifest-path pangocairo/Cargo.toml
 
       #- name: pangocairo-sys test
       #  uses: actions-rs/cargo@v1
       #  with:
       #    command: test
-      #    args: --manifest-path pango/sys/Cargo.toml
+      #    args: --manifest-path pangocairo/sys/Cargo.toml
 
       - name: pangocairo build
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --manifest-path pango/Cargo.toml
+          args: --manifest-path pangocairo/Cargo.toml
 
       # GTK
 
@@ -250,19 +250,19 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path pango/Cargo.toml --features "v3_24_9"
+          args: --manifest-path gtk/Cargo.toml --features "v3_24_9"
 
       #- name: gtk-sys test
       #  uses: actions-rs/cargo@v1
       #  with:
       #    command: test
-      #    args: --manifest-path pango/sys/Cargo.toml --features "v3_24_9"
+      #    args: --manifest-path gtk/sys/Cargo.toml --features "v3_24_9"
 
       - name: gtk build
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --manifest-path pango/Cargo.toml --features "v3_24_9"
+          args: --manifest-path gtk/Cargo.toml --features "v3_24_9"
 
       # Examples
 
