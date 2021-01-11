@@ -86,37 +86,37 @@ jobs:
 
       # Cairo
 
-      - name: cairo test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
+      #- name: cairo test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
 
-      - name: cairo-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path cairo/sys/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
+      #- name: cairo-sys test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path cairo/sys/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
 
       - name: cairo build
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
+          args: --manifest-path cairo/Cargo.toml --features "png,use_glib,v1_16,freetype,win32-surface"
 
       # GDK
 
-      - name: gdk test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gdk/Cargo.toml --features v3_24
+      #- name: gdk test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path gdk/Cargo.toml --features v3_24
 
-      - name: gdk-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gdk/sys/Cargo.toml --features v3_24
+      #- name: gdk-sys test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path gdk/sys/Cargo.toml --features v3_24
 
       - name: gdk build
         uses: actions-rs/cargo@v1
@@ -126,17 +126,17 @@ jobs:
 
       # gdk-pixbuf
 
-      - name: gdk-pixbuf test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gdk-pixbuf/Cargo.toml --features "v2_40"
+      #- name: gdk-pixbuf test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path gdk-pixbuf/Cargo.toml --features "v2_40"
 
-      - name: gdk-pixbuf-sys test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gdk-pixbuf/sys/Cargo.toml --features "v2_40"
+      #- name: gdk-pixbuf-sys test
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: test
+      #    args: --manifest-path gdk-pixbuf/sys/Cargo.toml --features "v2_40"
 
       - name: gdk-pixbuf build
         uses: actions-rs/cargo@v1
