@@ -49,6 +49,7 @@ jobs:
         run: python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 gtk3
 
       - name: Setup env
+        run:  echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
         run:  echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
 
       - uses: actions-rs/toolchain@v1
@@ -56,11 +57,11 @@ jobs:
           toolchain: stable
           default: true
 
-#      - name: atk test
-#        uses: actions-rs/cargo@v1
-#        with:
-#          command: test
-#          args: --manifest-path atk/Cargo.toml --features "v2_34"
+      - name: atk test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path atk/Cargo.toml --features "v2_34"
 
 #
 #      - name: atk-sys test
