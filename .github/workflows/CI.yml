@@ -17,6 +17,24 @@ jobs:
       # bump this number if you want to force a rebuild of gvsbuild
       gvsbuildupdate: 1
 
+    strategy:
+      matrix:
+        # For now we turn off almost all sys tests, since they fail the ABI check
+        projects:
+          - { name: "atk", test: true, test-sys: false, features: "v2_34" }
+          # Turn test off: hangs in context::tests::clip_rectange has been running for over 60 seconds
+          - { name: "cairo", test: false, test-sys: true, features: "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface" }
+          - { name: "gdk", test: true, test-sys: false, features: "v3_24" }
+          - { name: "gdk-pixbuf", test: true, test-sys: false, features: "v2_40" }
+          - { name: "gdkx11", test: true, test-sys: false, features: "v3_24" }
+          - { name: "gio", test: true, test-sys: false, features: "v2_66" }
+          # Turn test off: fails in translate::tests::test_paths stdout: "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmpMhxy2C" vs "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\.tmpMhxy2C"
+          - { name: "glib", test: false, test-sys: false, features: "v2_66" }
+          - { name: "graphene", test: true, test-sys: false, features: "v1_10" }
+          - { name: "gtk", test: true, test-sys: false, features: "v3_24_9" }
+          - { name: "pango", test: true, test-sys: false, features: "v1_46" }
+          - { name: "pangocairo", test: true, test-sys: false, features: "" }
+
     steps:
 
       - uses: actions/checkout@v2
@@ -54,215 +72,36 @@ jobs:
 
       - name: Setup env
         run: |
-          call echo PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe >> %GITHUB_ENV%
-          call echo C:\gtk-build\gtk\x64\release\bin >> %GITHUB_PATH%
-        shell: cmd
+          echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
+          echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
+        shell: bash
 
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           default: true
 
-      # ATK
+      # Crates
 
-      - name: atk test
+      - name: test
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path atk/Cargo.toml --features "v2_34"
+          args: --manifest-path ${{ matrix.projects.name }}/Cargo.toml --features ${{ matrix.projects.features }}
+        if: matrix.projects.test
 
-      # FAILS: thread 'cross_validate_constants_with_c' panicked at 'configured compiler: Os { code: 2, kind: NotFound, message: "The system cannot find the file specified." }', atk\sys\tests\abi.rs:131:30
-      #- name: atk-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path atk/sys/Cargo.toml --features "v2_34"
-
-      - name: atk build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path atk/Cargo.toml --features "v2_34"
-
-      # Cairo
-
-      # HANGS: test context::tests::clip_rectange ... test context::tests::clip_rectange has been running for over 60 seconds
-      #- name: cairo test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
-
-      - name: cairo-sys test
+      - name: test sys
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path cairo/sys/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
+          args: --manifest-path ${{ matrix.projects.name }}/sys/Cargo.toml --features ${{ matrix.projects.features }}
+        if: matrix.projects.test-sys
 
-      - name: cairo build
+      - name: build
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --manifest-path cairo/Cargo.toml --features "png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface"
-
-      # GDK
-
-      - name: gdk test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gdk/Cargo.toml --features v3_24
-
-      # FAILS: abi check
-      # - name: gdk-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gdk/sys/Cargo.toml --features v3_24
-
-      - name: gdk build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path gdk/Cargo.toml --features v3_24
-
-      # gdk-pixbuf
-
-      - name: gdk-pixbuf test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gdk-pixbuf/Cargo.toml --features "v2_40"
-
-      # FAILS: abi check
-      #- name: gdk-pixbuf-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gdk-pixbuf/sys/Cargo.toml --features "v2_40"
-
-      - name: gdk-pixbuf build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path gdk-pixbuf/Cargo.toml --features "v2_40"
-
-      # gio
-
-      - name: gio test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gio/Cargo.toml --features "v2_66" -- --nocapture
-
-      # FAILS: abi check
-      #- name: gio-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gio/sys/Cargo.toml --features "v2_66"
-
-      - name: gio build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path gio/Cargo.toml --features "v2_66"
-
-      # glib
-
-      # FAILS in translate::tests::test_paths stdout: "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmpMhxy2C" vs "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\.tmpMhxy2C"
-      #- name: glib test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path glib/Cargo.toml --features "v2_66"
-
-      # FAILS: abi check
-      #- name: glib-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path glib/sys/Cargo.toml --features "v2_66"
-
-      - name: glib build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path glib/Cargo.toml --features "v2_66"
-
-      # glib-macros
-
-      - name: glib-macros test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path glib-macros/Cargo.toml
-
-      - name: glib-macros build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path glib-macros/Cargo.toml
-
-      # pango
-
-      - name: pango test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path pango/Cargo.toml --features "v1_46"
-
-      #- name: pango-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path pango/sys/Cargo.toml --features "v1_46"
-
-      - name: pango build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path pango/Cargo.toml --features "v1_46"
-
-      # pangocairo
-
-      - name: pangocairo test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path pangocairo/Cargo.toml
-
-      #- name: pangocairo-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path pangocairo/sys/Cargo.toml
-
-      - name: pangocairo build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path pangocairo/Cargo.toml
-
-      # GTK
-
-      - name: gtk test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path gtk/Cargo.toml --features "v3_24_9"
-
-      #- name: gtk-sys test
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    command: test
-      #    args: --manifest-path gtk/sys/Cargo.toml --features "v3_24_9"
-
-      - name: gtk build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path gtk/Cargo.toml --features "v3_24_9"
+          args: --manifest-path ${{ matrix.projects.name }}/Cargo.toml --features ${{ matrix.projects.features }}
 
       # Examples
 
