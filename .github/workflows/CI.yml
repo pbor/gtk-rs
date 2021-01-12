@@ -54,8 +54,8 @@ jobs:
 
       - name: Setup env
         run: |
-          echo PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe >> %GITHUB_ENV%
-          echo C:\gtk-build\gtk\x64\release\bin >> %GITHUB_PATH%
+          call echo PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe >> %GITHUB_ENV%
+          call echo C:\gtk-build\gtk\x64\release\bin >> %GITHUB_PATH%
         shell: cmd
 
       - uses: actions-rs/toolchain@v1
