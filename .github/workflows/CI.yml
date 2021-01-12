@@ -21,7 +21,7 @@ jobs:
       matrix:
         # For now we turn off almost all sys tests, since they fail the ABI check
         projects:
-          - { name: "atk", test: true, test-sys: false, args: "v2_34" }
+          - { name: "atk", test: true, test-sys: false, args: "--features v2_34" }
           # Turn test off: hangs in context::tests::clip_rectange has been running for over 60 seconds
           - { name: "cairo", test: false, test-sys: true, args: "--features png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface" }
           - { name: "gdk", test: true, test-sys: false, args: "--features v3_24" }
