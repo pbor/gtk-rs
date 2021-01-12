@@ -30,7 +30,6 @@ jobs:
           - { name: "gio", test: true, test-sys: false, args: "--features v2_66" }
           # Turn test off: fails in translate::tests::test_paths stdout: "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmpMhxy2C" vs "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\.tmpMhxy2C"
           - { name: "glib", test: false, test-sys: false, args: "--features v2_66" }
-          - { name: "graphene", test: true, test-sys: false, args: "--features v1_10" }
           - { name: "gtk", test: true, test-sys: false, args: "--features v3_24_9" }
           - { name: "pango", test: true, test-sys: false, args: "--features v1_46" }
           - { name: "pangocairo", test: true, test-sys: false, args: "" }
