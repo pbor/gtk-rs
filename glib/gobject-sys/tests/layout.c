@@ -5,8 +5,67 @@
 #include "manual.h"
 #include <stdalign.h>
 #include <stdio.h>
-
 int main() {
-    printf("%zu\n%zu", sizeof(ABI_TYPE_NAME), alignof(ABI_TYPE_NAME));
+    printf("%s;%zu;%zu", "GBindingFlags", sizeof(GBindingFlags), alignof(GBindingFlags));
+    printf("%s;%zu;%zu", "GClosureNotifyData", sizeof(GClosureNotifyData), alignof(GClosureNotifyData));
+    printf("%s;%zu;%zu", "GConnectFlags", sizeof(GConnectFlags), alignof(GConnectFlags));
+    printf("%s;%zu;%zu", "GEnumClass", sizeof(GEnumClass), alignof(GEnumClass));
+    printf("%s;%zu;%zu", "GEnumValue", sizeof(GEnumValue), alignof(GEnumValue));
+    printf("%s;%zu;%zu", "GFlagsClass", sizeof(GFlagsClass), alignof(GFlagsClass));
+    printf("%s;%zu;%zu", "GFlagsValue", sizeof(GFlagsValue), alignof(GFlagsValue));
+    printf("%s;%zu;%zu", "GInitiallyUnowned", sizeof(GInitiallyUnowned), alignof(GInitiallyUnowned));
+    printf("%s;%zu;%zu", "GInitiallyUnownedClass", sizeof(GInitiallyUnownedClass), alignof(GInitiallyUnownedClass));
+    printf("%s;%zu;%zu", "GInterfaceInfo", sizeof(GInterfaceInfo), alignof(GInterfaceInfo));
+    printf("%s;%zu;%zu", "GObject", sizeof(GObject), alignof(GObject));
+    printf("%s;%zu;%zu", "GObjectClass", sizeof(GObjectClass), alignof(GObjectClass));
+    printf("%s;%zu;%zu", "GObjectConstructParam", sizeof(GObjectConstructParam), alignof(GObjectConstructParam));
+    printf("%s;%zu;%zu", "GParamFlags", sizeof(GParamFlags), alignof(GParamFlags));
+    printf("%s;%zu;%zu", "GParamSpec", sizeof(GParamSpec), alignof(GParamSpec));
+    printf("%s;%zu;%zu", "GParamSpecBoolean", sizeof(GParamSpecBoolean), alignof(GParamSpecBoolean));
+    printf("%s;%zu;%zu", "GParamSpecBoxed", sizeof(GParamSpecBoxed), alignof(GParamSpecBoxed));
+    printf("%s;%zu;%zu", "GParamSpecChar", sizeof(GParamSpecChar), alignof(GParamSpecChar));
+    printf("%s;%zu;%zu", "GParamSpecClass", sizeof(GParamSpecClass), alignof(GParamSpecClass));
+    printf("%s;%zu;%zu", "GParamSpecDouble", sizeof(GParamSpecDouble), alignof(GParamSpecDouble));
+    printf("%s;%zu;%zu", "GParamSpecEnum", sizeof(GParamSpecEnum), alignof(GParamSpecEnum));
+    printf("%s;%zu;%zu", "GParamSpecFlags", sizeof(GParamSpecFlags), alignof(GParamSpecFlags));
+    printf("%s;%zu;%zu", "GParamSpecFloat", sizeof(GParamSpecFloat), alignof(GParamSpecFloat));
+    printf("%s;%zu;%zu", "GParamSpecGType", sizeof(GParamSpecGType), alignof(GParamSpecGType));
+    printf("%s;%zu;%zu", "GParamSpecInt", sizeof(GParamSpecInt), alignof(GParamSpecInt));
+    printf("%s;%zu;%zu", "GParamSpecInt64", sizeof(GParamSpecInt64), alignof(GParamSpecInt64));
+    printf("%s;%zu;%zu", "GParamSpecLong", sizeof(GParamSpecLong), alignof(GParamSpecLong));
+    printf("%s;%zu;%zu", "GParamSpecObject", sizeof(GParamSpecObject), alignof(GParamSpecObject));
+    printf("%s;%zu;%zu", "GParamSpecOverride", sizeof(GParamSpecOverride), alignof(GParamSpecOverride));
+    printf("%s;%zu;%zu", "GParamSpecParam", sizeof(GParamSpecParam), alignof(GParamSpecParam));
+    printf("%s;%zu;%zu", "GParamSpecPointer", sizeof(GParamSpecPointer), alignof(GParamSpecPointer));
+    printf("%s;%zu;%zu", "GParamSpecTypeInfo", sizeof(GParamSpecTypeInfo), alignof(GParamSpecTypeInfo));
+    printf("%s;%zu;%zu", "GParamSpecUChar", sizeof(GParamSpecUChar), alignof(GParamSpecUChar));
+    printf("%s;%zu;%zu", "GParamSpecUInt", sizeof(GParamSpecUInt), alignof(GParamSpecUInt));
+    printf("%s;%zu;%zu", "GParamSpecUInt64", sizeof(GParamSpecUInt64), alignof(GParamSpecUInt64));
+    printf("%s;%zu;%zu", "GParamSpecULong", sizeof(GParamSpecULong), alignof(GParamSpecULong));
+    printf("%s;%zu;%zu", "GParamSpecUnichar", sizeof(GParamSpecUnichar), alignof(GParamSpecUnichar));
+    printf("%s;%zu;%zu", "GParamSpecValueArray", sizeof(GParamSpecValueArray), alignof(GParamSpecValueArray));
+    printf("%s;%zu;%zu", "GParamSpecVariant", sizeof(GParamSpecVariant), alignof(GParamSpecVariant));
+    printf("%s;%zu;%zu", "GParameter", sizeof(GParameter), alignof(GParameter));
+    printf("%s;%zu;%zu", "GSignalCMarshaller", sizeof(GSignalCMarshaller), alignof(GSignalCMarshaller));
+    printf("%s;%zu;%zu", "GSignalFlags", sizeof(GSignalFlags), alignof(GSignalFlags));
+    printf("%s;%zu;%zu", "GSignalInvocationHint", sizeof(GSignalInvocationHint), alignof(GSignalInvocationHint));
+    printf("%s;%zu;%zu", "GSignalMatchType", sizeof(GSignalMatchType), alignof(GSignalMatchType));
+    printf("%s;%zu;%zu", "GSignalQuery", sizeof(GSignalQuery), alignof(GSignalQuery));
+    printf("%s;%zu;%zu", "GTypeClass", sizeof(GTypeClass), alignof(GTypeClass));
+    printf("%s;%zu;%zu", "GTypeDebugFlags", sizeof(GTypeDebugFlags), alignof(GTypeDebugFlags));
+    printf("%s;%zu;%zu", "GTypeFlags", sizeof(GTypeFlags), alignof(GTypeFlags));
+    printf("%s;%zu;%zu", "GTypeFundamentalFlags", sizeof(GTypeFundamentalFlags), alignof(GTypeFundamentalFlags));
+    printf("%s;%zu;%zu", "GTypeFundamentalInfo", sizeof(GTypeFundamentalInfo), alignof(GTypeFundamentalInfo));
+    printf("%s;%zu;%zu", "GTypeInfo", sizeof(GTypeInfo), alignof(GTypeInfo));
+    printf("%s;%zu;%zu", "GTypeInstance", sizeof(GTypeInstance), alignof(GTypeInstance));
+    printf("%s;%zu;%zu", "GTypeInterface", sizeof(GTypeInterface), alignof(GTypeInterface));
+    printf("%s;%zu;%zu", "GTypeModule", sizeof(GTypeModule), alignof(GTypeModule));
+    printf("%s;%zu;%zu", "GTypeModuleClass", sizeof(GTypeModuleClass), alignof(GTypeModuleClass));
+    printf("%s;%zu;%zu", "GTypePluginClass", sizeof(GTypePluginClass), alignof(GTypePluginClass));
+    printf("%s;%zu;%zu", "GTypeQuery", sizeof(GTypeQuery), alignof(GTypeQuery));
+    printf("%s;%zu;%zu", "GTypeValueTable", sizeof(GTypeValueTable), alignof(GTypeValueTable));
+    printf("%s;%zu;%zu", "GValue", sizeof(GValue), alignof(GValue));
+    printf("%s;%zu;%zu", "GValueArray", sizeof(GValueArray), alignof(GValueArray));
+    printf("%s;%zu;%zu", "GWeakRef", sizeof(GWeakRef), alignof(GWeakRef));
     return 0;
 }
