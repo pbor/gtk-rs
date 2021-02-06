@@ -5,8 +5,69 @@
 #include "manual.h"
 #include <stdalign.h>
 #include <stdio.h>
-
 int main() {
-    printf("%zu\n%zu", sizeof(ABI_TYPE_NAME), alignof(ABI_TYPE_NAME));
+    printf("%s;%zu;%zu", "AtkActionIface", sizeof(AtkActionIface), alignof(AtkActionIface));
+    printf("%s;%zu;%zu", "AtkAttribute", sizeof(AtkAttribute), alignof(AtkAttribute));
+    printf("%s;%zu;%zu", "AtkAttributeSet", sizeof(AtkAttributeSet), alignof(AtkAttributeSet));
+    printf("%s;%zu;%zu", "AtkComponentIface", sizeof(AtkComponentIface), alignof(AtkComponentIface));
+    printf("%s;%zu;%zu", "AtkCoordType", sizeof(AtkCoordType), alignof(AtkCoordType));
+    printf("%s;%zu;%zu", "AtkDocumentIface", sizeof(AtkDocumentIface), alignof(AtkDocumentIface));
+    printf("%s;%zu;%zu", "AtkEditableTextIface", sizeof(AtkEditableTextIface), alignof(AtkEditableTextIface));
+    printf("%s;%zu;%zu", "AtkGObjectAccessible", sizeof(AtkGObjectAccessible), alignof(AtkGObjectAccessible));
+    printf("%s;%zu;%zu", "AtkGObjectAccessibleClass", sizeof(AtkGObjectAccessibleClass), alignof(AtkGObjectAccessibleClass));
+    printf("%s;%zu;%zu", "AtkHyperlink", sizeof(AtkHyperlink), alignof(AtkHyperlink));
+    printf("%s;%zu;%zu", "AtkHyperlinkClass", sizeof(AtkHyperlinkClass), alignof(AtkHyperlinkClass));
+    printf("%s;%zu;%zu", "AtkHyperlinkImplIface", sizeof(AtkHyperlinkImplIface), alignof(AtkHyperlinkImplIface));
+    printf("%s;%zu;%zu", "AtkHyperlinkStateFlags", sizeof(AtkHyperlinkStateFlags), alignof(AtkHyperlinkStateFlags));
+    printf("%s;%zu;%zu", "AtkHypertextIface", sizeof(AtkHypertextIface), alignof(AtkHypertextIface));
+    printf("%s;%zu;%zu", "AtkImageIface", sizeof(AtkImageIface), alignof(AtkImageIface));
+    printf("%s;%zu;%zu", "AtkKeyEventStruct", sizeof(AtkKeyEventStruct), alignof(AtkKeyEventStruct));
+    printf("%s;%zu;%zu", "AtkKeyEventType", sizeof(AtkKeyEventType), alignof(AtkKeyEventType));
+    printf("%s;%zu;%zu", "AtkLayer", sizeof(AtkLayer), alignof(AtkLayer));
+    printf("%s;%zu;%zu", "AtkMisc", sizeof(AtkMisc), alignof(AtkMisc));
+    printf("%s;%zu;%zu", "AtkMiscClass", sizeof(AtkMiscClass), alignof(AtkMiscClass));
+    printf("%s;%zu;%zu", "AtkNoOpObject", sizeof(AtkNoOpObject), alignof(AtkNoOpObject));
+    printf("%s;%zu;%zu", "AtkNoOpObjectClass", sizeof(AtkNoOpObjectClass), alignof(AtkNoOpObjectClass));
+    printf("%s;%zu;%zu", "AtkNoOpObjectFactory", sizeof(AtkNoOpObjectFactory), alignof(AtkNoOpObjectFactory));
+    printf("%s;%zu;%zu", "AtkNoOpObjectFactoryClass", sizeof(AtkNoOpObjectFactoryClass), alignof(AtkNoOpObjectFactoryClass));
+    printf("%s;%zu;%zu", "AtkObject", sizeof(AtkObject), alignof(AtkObject));
+    printf("%s;%zu;%zu", "AtkObjectClass", sizeof(AtkObjectClass), alignof(AtkObjectClass));
+    printf("%s;%zu;%zu", "AtkObjectFactory", sizeof(AtkObjectFactory), alignof(AtkObjectFactory));
+    printf("%s;%zu;%zu", "AtkObjectFactoryClass", sizeof(AtkObjectFactoryClass), alignof(AtkObjectFactoryClass));
+    printf("%s;%zu;%zu", "AtkPlug", sizeof(AtkPlug), alignof(AtkPlug));
+    printf("%s;%zu;%zu", "AtkPlugClass", sizeof(AtkPlugClass), alignof(AtkPlugClass));
+    printf("%s;%zu;%zu", "AtkPropertyValues", sizeof(AtkPropertyValues), alignof(AtkPropertyValues));
+    printf("%s;%zu;%zu", "AtkRectangle", sizeof(AtkRectangle), alignof(AtkRectangle));
+    printf("%s;%zu;%zu", "AtkRegistry", sizeof(AtkRegistry), alignof(AtkRegistry));
+    printf("%s;%zu;%zu", "AtkRegistryClass", sizeof(AtkRegistryClass), alignof(AtkRegistryClass));
+    printf("%s;%zu;%zu", "AtkRelation", sizeof(AtkRelation), alignof(AtkRelation));
+    printf("%s;%zu;%zu", "AtkRelationClass", sizeof(AtkRelationClass), alignof(AtkRelationClass));
+    printf("%s;%zu;%zu", "AtkRelationSet", sizeof(AtkRelationSet), alignof(AtkRelationSet));
+    printf("%s;%zu;%zu", "AtkRelationSetClass", sizeof(AtkRelationSetClass), alignof(AtkRelationSetClass));
+    printf("%s;%zu;%zu", "AtkRelationType", sizeof(AtkRelationType), alignof(AtkRelationType));
+    printf("%s;%zu;%zu", "AtkRole", sizeof(AtkRole), alignof(AtkRole));
+    printf("%s;%zu;%zu", "AtkScrollType", sizeof(AtkScrollType), alignof(AtkScrollType));
+    printf("%s;%zu;%zu", "AtkSelectionIface", sizeof(AtkSelectionIface), alignof(AtkSelectionIface));
+    printf("%s;%zu;%zu", "AtkSocket", sizeof(AtkSocket), alignof(AtkSocket));
+    printf("%s;%zu;%zu", "AtkSocketClass", sizeof(AtkSocketClass), alignof(AtkSocketClass));
+    printf("%s;%zu;%zu", "AtkState", sizeof(AtkState), alignof(AtkState));
+    printf("%s;%zu;%zu", "AtkStateSet", sizeof(AtkStateSet), alignof(AtkStateSet));
+    printf("%s;%zu;%zu", "AtkStateSetClass", sizeof(AtkStateSetClass), alignof(AtkStateSetClass));
+    printf("%s;%zu;%zu", "AtkStateType", sizeof(AtkStateType), alignof(AtkStateType));
+    printf("%s;%zu;%zu", "AtkStreamableContentIface", sizeof(AtkStreamableContentIface), alignof(AtkStreamableContentIface));
+    printf("%s;%zu;%zu", "AtkTableCellIface", sizeof(AtkTableCellIface), alignof(AtkTableCellIface));
+    printf("%s;%zu;%zu", "AtkTableIface", sizeof(AtkTableIface), alignof(AtkTableIface));
+    printf("%s;%zu;%zu", "AtkTextAttribute", sizeof(AtkTextAttribute), alignof(AtkTextAttribute));
+    printf("%s;%zu;%zu", "AtkTextBoundary", sizeof(AtkTextBoundary), alignof(AtkTextBoundary));
+    printf("%s;%zu;%zu", "AtkTextClipType", sizeof(AtkTextClipType), alignof(AtkTextClipType));
+    printf("%s;%zu;%zu", "AtkTextGranularity", sizeof(AtkTextGranularity), alignof(AtkTextGranularity));
+    printf("%s;%zu;%zu", "AtkTextIface", sizeof(AtkTextIface), alignof(AtkTextIface));
+    printf("%s;%zu;%zu", "AtkTextRange", sizeof(AtkTextRange), alignof(AtkTextRange));
+    printf("%s;%zu;%zu", "AtkTextRectangle", sizeof(AtkTextRectangle), alignof(AtkTextRectangle));
+    printf("%s;%zu;%zu", "AtkUtil", sizeof(AtkUtil), alignof(AtkUtil));
+    printf("%s;%zu;%zu", "AtkUtilClass", sizeof(AtkUtilClass), alignof(AtkUtilClass));
+    printf("%s;%zu;%zu", "AtkValueIface", sizeof(AtkValueIface), alignof(AtkValueIface));
+    printf("%s;%zu;%zu", "AtkValueType", sizeof(AtkValueType), alignof(AtkValueType));
+    printf("%s;%zu;%zu", "AtkWindowIface", sizeof(AtkWindowIface), alignof(AtkWindowIface));
     return 0;
 }
