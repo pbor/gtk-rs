@@ -70,17 +70,17 @@ jobs:
       matrix:
         # FIXME: for now we turn off almost all sys tests, since they fail the ABI check
         conf:
-          - { name: "atk", test: true, test-sys: false, args: "--features v2_34" }
-          - { name: "cairo", test: true, test-sys: true, args: "--features png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface" }
-          - { name: "gdk", test: true, test-sys: false, args: "--features v3_24" }
-          - { name: "gdk-pixbuf", test: true, test-sys: false, args: "--features v2_40" }
-          - { name: "gio", test: true, test-sys: false, args: "--features v2_66" }
-          - { name: "glib", test: true, test-sys: false, args: "--features v2_66" }
-          - { name: "graphene", test: false, test-sys: false, args: "--features v1_10" }
-          - { name: "gtk", test: true, test-sys: false, args: "--features v3_24_9" }
-          - { name: "pango", test: true, test-sys: false, args: "--features v1_46" }
-          - { name: "pangocairo", test: true, test-sys: false, args: "" }
-          - { name: "examples", test: false, test-sys: false, args: "--bins --examples --all-features" }
+          - { name: "atk", test: true, test_sys: true, args: "--features v2_34", abi_tests: "--features abi-tests" }
+          - { name: "cairo", test: true, test_sys: true, args: "--features png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface", abi_tests: "" }
+          - { name: "gdk", test: true, test_sys: true, args: "--features v3_24", abi_tests: "--features abi-tests" }
+          - { name: "gdk-pixbuf", test: true, test_sys: true, args: "--features v2_40", abi_tests: "--features abi-tests" }
+          - { name: "gio", test: true, test_sys: false, args: "--features v2_66", abi_tests: "--features abi-tests" }
+          - { name: "glib", test: true, test_sys: false, args: "--features v2_66", abi_tests: "--features abi-tests" }
+          - { name: "graphene", test: false, test_sys: false, args: "--features v1_10", abi_tests: "--features abi-tests" }
+          - { name: "gtk", test: true, test_sys: false, args: "--features v3_24_9", abi_tests: "--features abi-tests" }
+          - { name: "pango", test: true, test_sys: false, args: "--features v1_46", abi_tests: "--features abi-tests" }
+          - { name: "pangocairo", test: true, test_sys: true, args: "", abi_tests: "--features abi-tests" }
+          - { name: "examples", test: false, test_sys: false, args: "--bins --examples --all-features", abi_tests: "" }
 
     steps:
 
@@ -119,8 +119,8 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml ${{ matrix.conf.args }}
-        if: matrix.conf.test-sys
+          args: --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml ${{ matrix.conf.args }} ${{ matrix.conf.abi_tests }}
+        if: matrix.conf.test_sys
 
       - name: build
         uses: actions-rs/cargo@v1

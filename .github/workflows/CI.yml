@@ -19,17 +19,17 @@ jobs:
           - nightly
           - "1.48.0"
         conf:
-          - { name: "atk", features: "v2_34", nightly: "--all-features", test_sys: true }
-          - { name: "cairo", features: "png,pdf,svg,ps,use_glib,v1_16,freetype,script,xcb,xlib,win32-surface", nightly: "--features 'png,pdf,svg,ps,use_glib,v1_16,freetype,script,xcb,xlib,win32-surface'", test_sys: true }
-          - { name: "gdk", features: "v3_24", nightly: "--features v3_24", test_sys: true }
-          - { name: "gdk-pixbuf", features: "v2_40", nightly: "--all-features", test_sys: true }
-          - { name: "gdkx11", features: "v3_24", nightly: "--all-features", test_sys: true }
-          - { name: "gio", features: "v2_66", nightly: "--all-features", test_sys: false }
-          - { name: "glib", features: "v2_66", nightly: "--all-features", test_sys: false }
-          - { name: "graphene", features: "v1_10", nightly: "", test_sys: false }
-          - { name: "gtk", features: "v3_24_9", nightly: "--all-features", test_sys: false }
-          - { name: "pango", features: "v1_46", nightly: "--all-features", test_sys: false }
-          - { name: "pangocairo", features: "", nightly: "--all-features", test_sys: true }
+          - { name: "atk", features: "v2_34", nightly: "--all-features", test_sys: true, abi_tests: "--features abi-tests" }
+          - { name: "cairo", features: "png,pdf,svg,ps,use_glib,v1_16,freetype,script,xcb,xlib,win32-surface", nightly: "--features 'png,pdf,svg,ps,use_glib,v1_16,freetype,script,xcb,xlib,win32-surface'", test_sys: true, abi_tests: "" }
+          - { name: "gdk", features: "v3_24", nightly: "--features v3_24", test_sys: true, abi_tests: "--features abi-tests" }
+          - { name: "gdk-pixbuf", features: "v2_40", nightly: "--all-features", test_sys: true, abi_tests: "--features abi-tests" }
+          - { name: "gdkx11", features: "v3_24", nightly: "--all-features", test_sys: true, abi_tests: "--features abi-tests" }
+          - { name: "gio", features: "v2_66", nightly: "--all-features", test_sys: false, abi_tests: "--features abi-tests" }
+          - { name: "glib", features: "v2_66", nightly: "--all-features", test_sys: false, abi_tests: "--features abi-tests" }
+          - { name: "graphene", features: "v1_10", nightly: "", test_sys: false, abi_tests: "--features abi-tests" }
+          - { name: "gtk", features: "v3_24_9", nightly: "--all-features", test_sys: false, abi_tests: "--features abi-tests" }
+          - { name: "pango", features: "v1_46", nightly: "--all-features", test_sys: false, abi_tests: "--features abi-tests" }
+          - { name: "pangocairo", features: "", nightly: "--all-features", test_sys: true, abi_tests: "--features abi-tests" }
     steps:
       - run: apt-get update -y
       - run: apt-get install -y libgtk-3-dev libglib2.0-dev libgraphene-1.0-dev git xvfb curl libcairo-gobject2 libcairo2-dev
@@ -85,7 +85,7 @@ jobs:
         run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/Cargo.toml ${{ matrix.conf.nightly }}
         if: matrix.rust == 'nightly'
       - name: tests sys nightly
-        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml ${{ matrix.conf.nightly }}
+        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml ${{ matrix.conf.nightly }} ${{ matrix.conf.abi_tests }}
         if: matrix.rust == 'nightly' && matrix.conf.test_sys
       - name: build nightly
         run: cargo build --manifest-path ${{ matrix.conf.name }}/Cargo.toml ${{ matrix.conf.nightly }}
@@ -103,7 +103,7 @@ jobs:
         run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/Cargo.toml --features "${{ matrix.conf.features }}"
         if: matrix.rust != 'nightly'
       - name: tests sys
-        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml --features "${{ matrix.conf.features }}"
+        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml --features "${{ matrix.conf.features }}" ${{ matrix.conf.abi_tests }}
         if: matrix.rust != 'nightly' && matrix.conf.test_sys
       - name: build
         run: cargo build --manifest-path ${{ matrix.conf.name }}/Cargo.toml --features "${{ matrix.conf.features }}"
