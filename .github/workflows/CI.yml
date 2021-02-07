@@ -160,13 +160,3 @@ jobs:
         with:
           command: fmt
           args: --all -- --check
-
-  generator:
-    name: regen check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - run: python3 generator.py
-      - run: git diff -R --exit-code
