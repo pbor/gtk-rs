@@ -82,13 +82,13 @@ jobs:
         if: matrix.rust == 'nightly'
       # tests run
       - name: tests nightly
-        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/Cargo.toml ${{ matrix.conf.nightly }}
+        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/Cargo.toml --features "${{ matrix.conf.features }}"
         if: matrix.rust == 'nightly'
       - name: tests sys nightly
-        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml ${{ matrix.conf.nightly }} ${{ matrix.conf.abi_tests }}
+        run: xvfb-run --auto-servernum cargo test --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml --features "${{ matrix.conf.features }}" ${{ matrix.conf.abi_tests }}
         if: matrix.rust == 'nightly' && matrix.conf.test_sys
       - name: build nightly
-        run: cargo build --manifest-path ${{ matrix.conf.name }}/Cargo.toml ${{ matrix.conf.nightly }}
+        run: cargo build --manifest-path ${{ matrix.conf.name }}/Cargo.toml --features "${{ matrix.conf.features }}"
         if: matrix.rust == 'nightly'
       # not nightly
       # clippy
