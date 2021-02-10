@@ -3,88 +3,159 @@
 // DO NOT EDIT
 
 #include "manual.h"
-#include <stdio.h>
+#include <glib.h>
 
-#define PRINT_CONSTANT(CONSTANT_NAME) \
-    printf("%s;", #CONSTANT_NAME); \
-    printf(_Generic((CONSTANT_NAME), \
-                    char *: "%s", \
-                    const char *: "%s", \
-                    char: "%c", \
-                    signed char: "%hhd", \
-                    unsigned char: "%hhu", \
-                    short int: "%hd", \
-                    unsigned short int: "%hu", \
-                    int: "%d", \
-                    unsigned int: "%u", \
-                    long: "%ld", \
-                    unsigned long: "%lu", \
-                    long long: "%lld", \
-                    unsigned long long: "%llu", \
-                    double: "%f", \
-                    long double: "%ld"), \
-           CONSTANT_NAME); \
-    printf("\n");
+#define FORMAT_CONSTANT(CONSTANT_NAME) \
+    _Generic((CONSTANT_NAME), \
+        char *: "%s", \
+        const char *: "%s", \
+        signed char: "%hhd", \
+        unsigned char: "%hhu", \
+        short int: "%hd", \
+        unsigned short int: "%hu", \
+        int: "%d", \
+        unsigned int: "%u", \
+        long: "%ld", \
+        unsigned long: "%lu", \
+        long long: "%lld", \
+        unsigned long long: "%llu", \
+        double: "%f", \
+        long double: "%ld")
 
-int main() {
-    PRINT_CONSTANT((guint) G_BINDING_BIDIRECTIONAL);
-    PRINT_CONSTANT((guint) G_BINDING_DEFAULT);
-    PRINT_CONSTANT((guint) G_BINDING_INVERT_BOOLEAN);
-    PRINT_CONSTANT((guint) G_BINDING_SYNC_CREATE);
-    PRINT_CONSTANT((guint) G_CONNECT_AFTER);
-    PRINT_CONSTANT((guint) G_CONNECT_SWAPPED);
-    PRINT_CONSTANT((guint) G_PARAM_CONSTRUCT);
-    PRINT_CONSTANT((guint) G_PARAM_CONSTRUCT_ONLY);
-    PRINT_CONSTANT((guint) G_PARAM_DEPRECATED);
-    PRINT_CONSTANT((guint) G_PARAM_EXPLICIT_NOTIFY);
-    PRINT_CONSTANT((guint) G_PARAM_LAX_VALIDATION);
-    PRINT_CONSTANT(G_PARAM_MASK);
-    PRINT_CONSTANT((guint) G_PARAM_PRIVATE);
-    PRINT_CONSTANT((guint) G_PARAM_READABLE);
-    PRINT_CONSTANT((guint) G_PARAM_READWRITE);
-    PRINT_CONSTANT((guint) G_PARAM_STATIC_BLURB);
-    PRINT_CONSTANT((guint) G_PARAM_STATIC_NAME);
-    PRINT_CONSTANT((guint) G_PARAM_STATIC_NICK);
-    PRINT_CONSTANT(G_PARAM_STATIC_STRINGS);
-    PRINT_CONSTANT(G_PARAM_USER_SHIFT);
-    PRINT_CONSTANT((guint) G_PARAM_WRITABLE);
-    PRINT_CONSTANT((guint) G_SIGNAL_ACTION);
-    PRINT_CONSTANT((guint) G_SIGNAL_DEPRECATED);
-    PRINT_CONSTANT((guint) G_SIGNAL_DETAILED);
-    PRINT_CONSTANT(G_SIGNAL_FLAGS_MASK);
-    PRINT_CONSTANT((guint) G_SIGNAL_MATCH_CLOSURE);
-    PRINT_CONSTANT((guint) G_SIGNAL_MATCH_DATA);
-    PRINT_CONSTANT((guint) G_SIGNAL_MATCH_DETAIL);
-    PRINT_CONSTANT((guint) G_SIGNAL_MATCH_FUNC);
-    PRINT_CONSTANT((guint) G_SIGNAL_MATCH_ID);
-    PRINT_CONSTANT(G_SIGNAL_MATCH_MASK);
-    PRINT_CONSTANT((guint) G_SIGNAL_MATCH_UNBLOCKED);
-    PRINT_CONSTANT((guint) G_SIGNAL_MUST_COLLECT);
-    PRINT_CONSTANT((guint) G_SIGNAL_NO_HOOKS);
-    PRINT_CONSTANT((guint) G_SIGNAL_NO_RECURSE);
-    PRINT_CONSTANT((guint) G_SIGNAL_RUN_CLEANUP);
-    PRINT_CONSTANT((guint) G_SIGNAL_RUN_FIRST);
-    PRINT_CONSTANT((guint) G_SIGNAL_RUN_LAST);
-    PRINT_CONSTANT((guint) G_TYPE_DEBUG_INSTANCE_COUNT);
-    PRINT_CONSTANT((guint) G_TYPE_DEBUG_MASK);
-    PRINT_CONSTANT((guint) G_TYPE_DEBUG_NONE);
-    PRINT_CONSTANT((guint) G_TYPE_DEBUG_OBJECTS);
-    PRINT_CONSTANT((guint) G_TYPE_DEBUG_SIGNALS);
-    PRINT_CONSTANT((guint) G_TYPE_FLAG_ABSTRACT);
-    PRINT_CONSTANT((guint) G_TYPE_FLAG_CLASSED);
-    PRINT_CONSTANT((guint) G_TYPE_FLAG_DEEP_DERIVABLE);
-    PRINT_CONSTANT((guint) G_TYPE_FLAG_DERIVABLE);
-    PRINT_CONSTANT((guint) G_TYPE_FLAG_INSTANTIATABLE);
-    PRINT_CONSTANT(G_TYPE_FLAG_RESERVED_ID_BIT);
-    PRINT_CONSTANT((guint) G_TYPE_FLAG_VALUE_ABSTRACT);
-    PRINT_CONSTANT(G_TYPE_FUNDAMENTAL_MAX);
-    PRINT_CONSTANT(G_TYPE_FUNDAMENTAL_SHIFT);
-    PRINT_CONSTANT(G_TYPE_RESERVED_BSE_FIRST);
-    PRINT_CONSTANT(G_TYPE_RESERVED_BSE_LAST);
-    PRINT_CONSTANT(G_TYPE_RESERVED_GLIB_FIRST);
-    PRINT_CONSTANT(G_TYPE_RESERVED_GLIB_LAST);
-    PRINT_CONSTANT(G_TYPE_RESERVED_USER_FIRST);
-    PRINT_CONSTANT(G_VALUE_INTERNED_STRING);
-    PRINT_CONSTANT(G_VALUE_NOCOPY_CONTENTS);
-    return 0;
+typedef struct {
+    char *name;
+    char *value;
+} Constant;
+
+Constant *c_constants(size_t *n) {
+    *n = 59;
+    Constant *res = g_new0(Constant, *n);
+    res[0].name = g_strdup("(guint) G_BINDING_BIDIRECTIONAL");
+    res[0].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_BINDING_BIDIRECTIONAL), (guint) G_BINDING_BIDIRECTIONAL);
+    res[1].name = g_strdup("(guint) G_BINDING_DEFAULT");
+    res[1].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_BINDING_DEFAULT), (guint) G_BINDING_DEFAULT);
+    res[2].name = g_strdup("(guint) G_BINDING_INVERT_BOOLEAN");
+    res[2].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_BINDING_INVERT_BOOLEAN), (guint) G_BINDING_INVERT_BOOLEAN);
+    res[3].name = g_strdup("(guint) G_BINDING_SYNC_CREATE");
+    res[3].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_BINDING_SYNC_CREATE), (guint) G_BINDING_SYNC_CREATE);
+    res[4].name = g_strdup("(guint) G_CONNECT_AFTER");
+    res[4].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_CONNECT_AFTER), (guint) G_CONNECT_AFTER);
+    res[5].name = g_strdup("(guint) G_CONNECT_SWAPPED");
+    res[5].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_CONNECT_SWAPPED), (guint) G_CONNECT_SWAPPED);
+    res[6].name = g_strdup("(guint) G_PARAM_CONSTRUCT");
+    res[6].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_CONSTRUCT), (guint) G_PARAM_CONSTRUCT);
+    res[7].name = g_strdup("(guint) G_PARAM_CONSTRUCT_ONLY");
+    res[7].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_CONSTRUCT_ONLY), (guint) G_PARAM_CONSTRUCT_ONLY);
+    res[8].name = g_strdup("(guint) G_PARAM_DEPRECATED");
+    res[8].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_DEPRECATED), (guint) G_PARAM_DEPRECATED);
+    res[9].name = g_strdup("(guint) G_PARAM_EXPLICIT_NOTIFY");
+    res[9].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_EXPLICIT_NOTIFY), (guint) G_PARAM_EXPLICIT_NOTIFY);
+    res[10].name = g_strdup("(guint) G_PARAM_LAX_VALIDATION");
+    res[10].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_LAX_VALIDATION), (guint) G_PARAM_LAX_VALIDATION);
+    res[11].name = g_strdup("G_PARAM_MASK");
+    res[11].value = g_strdup_printf(FORMAT_CONSTANT(G_PARAM_MASK), G_PARAM_MASK);
+    res[12].name = g_strdup("(guint) G_PARAM_PRIVATE");
+    res[12].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_PRIVATE), (guint) G_PARAM_PRIVATE);
+    res[13].name = g_strdup("(guint) G_PARAM_READABLE");
+    res[13].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_READABLE), (guint) G_PARAM_READABLE);
+    res[14].name = g_strdup("(guint) G_PARAM_READWRITE");
+    res[14].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_READWRITE), (guint) G_PARAM_READWRITE);
+    res[15].name = g_strdup("(guint) G_PARAM_STATIC_BLURB");
+    res[15].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_STATIC_BLURB), (guint) G_PARAM_STATIC_BLURB);
+    res[16].name = g_strdup("(guint) G_PARAM_STATIC_NAME");
+    res[16].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_STATIC_NAME), (guint) G_PARAM_STATIC_NAME);
+    res[17].name = g_strdup("(guint) G_PARAM_STATIC_NICK");
+    res[17].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_STATIC_NICK), (guint) G_PARAM_STATIC_NICK);
+    res[18].name = g_strdup("G_PARAM_STATIC_STRINGS");
+    res[18].value = g_strdup_printf(FORMAT_CONSTANT(G_PARAM_STATIC_STRINGS), G_PARAM_STATIC_STRINGS);
+    res[19].name = g_strdup("G_PARAM_USER_SHIFT");
+    res[19].value = g_strdup_printf(FORMAT_CONSTANT(G_PARAM_USER_SHIFT), G_PARAM_USER_SHIFT);
+    res[20].name = g_strdup("(guint) G_PARAM_WRITABLE");
+    res[20].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_PARAM_WRITABLE), (guint) G_PARAM_WRITABLE);
+    res[21].name = g_strdup("(guint) G_SIGNAL_ACTION");
+    res[21].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_ACTION), (guint) G_SIGNAL_ACTION);
+    res[22].name = g_strdup("(guint) G_SIGNAL_DEPRECATED");
+    res[22].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_DEPRECATED), (guint) G_SIGNAL_DEPRECATED);
+    res[23].name = g_strdup("(guint) G_SIGNAL_DETAILED");
+    res[23].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_DETAILED), (guint) G_SIGNAL_DETAILED);
+    res[24].name = g_strdup("G_SIGNAL_FLAGS_MASK");
+    res[24].value = g_strdup_printf(FORMAT_CONSTANT(G_SIGNAL_FLAGS_MASK), G_SIGNAL_FLAGS_MASK);
+    res[25].name = g_strdup("(guint) G_SIGNAL_MATCH_CLOSURE");
+    res[25].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_MATCH_CLOSURE), (guint) G_SIGNAL_MATCH_CLOSURE);
+    res[26].name = g_strdup("(guint) G_SIGNAL_MATCH_DATA");
+    res[26].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_MATCH_DATA), (guint) G_SIGNAL_MATCH_DATA);
+    res[27].name = g_strdup("(guint) G_SIGNAL_MATCH_DETAIL");
+    res[27].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_MATCH_DETAIL), (guint) G_SIGNAL_MATCH_DETAIL);
+    res[28].name = g_strdup("(guint) G_SIGNAL_MATCH_FUNC");
+    res[28].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_MATCH_FUNC), (guint) G_SIGNAL_MATCH_FUNC);
+    res[29].name = g_strdup("(guint) G_SIGNAL_MATCH_ID");
+    res[29].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_MATCH_ID), (guint) G_SIGNAL_MATCH_ID);
+    res[30].name = g_strdup("G_SIGNAL_MATCH_MASK");
+    res[30].value = g_strdup_printf(FORMAT_CONSTANT(G_SIGNAL_MATCH_MASK), G_SIGNAL_MATCH_MASK);
+    res[31].name = g_strdup("(guint) G_SIGNAL_MATCH_UNBLOCKED");
+    res[31].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_MATCH_UNBLOCKED), (guint) G_SIGNAL_MATCH_UNBLOCKED);
+    res[32].name = g_strdup("(guint) G_SIGNAL_MUST_COLLECT");
+    res[32].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_MUST_COLLECT), (guint) G_SIGNAL_MUST_COLLECT);
+    res[33].name = g_strdup("(guint) G_SIGNAL_NO_HOOKS");
+    res[33].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_NO_HOOKS), (guint) G_SIGNAL_NO_HOOKS);
+    res[34].name = g_strdup("(guint) G_SIGNAL_NO_RECURSE");
+    res[34].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_NO_RECURSE), (guint) G_SIGNAL_NO_RECURSE);
+    res[35].name = g_strdup("(guint) G_SIGNAL_RUN_CLEANUP");
+    res[35].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_RUN_CLEANUP), (guint) G_SIGNAL_RUN_CLEANUP);
+    res[36].name = g_strdup("(guint) G_SIGNAL_RUN_FIRST");
+    res[36].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_RUN_FIRST), (guint) G_SIGNAL_RUN_FIRST);
+    res[37].name = g_strdup("(guint) G_SIGNAL_RUN_LAST");
+    res[37].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_SIGNAL_RUN_LAST), (guint) G_SIGNAL_RUN_LAST);
+    res[38].name = g_strdup("(guint) G_TYPE_DEBUG_INSTANCE_COUNT");
+    res[38].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_DEBUG_INSTANCE_COUNT), (guint) G_TYPE_DEBUG_INSTANCE_COUNT);
+    res[39].name = g_strdup("(guint) G_TYPE_DEBUG_MASK");
+    res[39].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_DEBUG_MASK), (guint) G_TYPE_DEBUG_MASK);
+    res[40].name = g_strdup("(guint) G_TYPE_DEBUG_NONE");
+    res[40].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_DEBUG_NONE), (guint) G_TYPE_DEBUG_NONE);
+    res[41].name = g_strdup("(guint) G_TYPE_DEBUG_OBJECTS");
+    res[41].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_DEBUG_OBJECTS), (guint) G_TYPE_DEBUG_OBJECTS);
+    res[42].name = g_strdup("(guint) G_TYPE_DEBUG_SIGNALS");
+    res[42].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_DEBUG_SIGNALS), (guint) G_TYPE_DEBUG_SIGNALS);
+    res[43].name = g_strdup("(guint) G_TYPE_FLAG_ABSTRACT");
+    res[43].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_FLAG_ABSTRACT), (guint) G_TYPE_FLAG_ABSTRACT);
+    res[44].name = g_strdup("(guint) G_TYPE_FLAG_CLASSED");
+    res[44].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_FLAG_CLASSED), (guint) G_TYPE_FLAG_CLASSED);
+    res[45].name = g_strdup("(guint) G_TYPE_FLAG_DEEP_DERIVABLE");
+    res[45].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_FLAG_DEEP_DERIVABLE), (guint) G_TYPE_FLAG_DEEP_DERIVABLE);
+    res[46].name = g_strdup("(guint) G_TYPE_FLAG_DERIVABLE");
+    res[46].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_FLAG_DERIVABLE), (guint) G_TYPE_FLAG_DERIVABLE);
+    res[47].name = g_strdup("(guint) G_TYPE_FLAG_INSTANTIATABLE");
+    res[47].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_FLAG_INSTANTIATABLE), (guint) G_TYPE_FLAG_INSTANTIATABLE);
+    res[48].name = g_strdup("G_TYPE_FLAG_RESERVED_ID_BIT");
+    res[48].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_FLAG_RESERVED_ID_BIT), G_TYPE_FLAG_RESERVED_ID_BIT);
+    res[49].name = g_strdup("(guint) G_TYPE_FLAG_VALUE_ABSTRACT");
+    res[49].value = g_strdup_printf(FORMAT_CONSTANT((guint) G_TYPE_FLAG_VALUE_ABSTRACT), (guint) G_TYPE_FLAG_VALUE_ABSTRACT);
+    res[50].name = g_strdup("G_TYPE_FUNDAMENTAL_MAX");
+    res[50].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_FUNDAMENTAL_MAX), G_TYPE_FUNDAMENTAL_MAX);
+    res[51].name = g_strdup("G_TYPE_FUNDAMENTAL_SHIFT");
+    res[51].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_FUNDAMENTAL_SHIFT), G_TYPE_FUNDAMENTAL_SHIFT);
+    res[52].name = g_strdup("G_TYPE_RESERVED_BSE_FIRST");
+    res[52].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_RESERVED_BSE_FIRST), G_TYPE_RESERVED_BSE_FIRST);
+    res[53].name = g_strdup("G_TYPE_RESERVED_BSE_LAST");
+    res[53].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_RESERVED_BSE_LAST), G_TYPE_RESERVED_BSE_LAST);
+    res[54].name = g_strdup("G_TYPE_RESERVED_GLIB_FIRST");
+    res[54].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_RESERVED_GLIB_FIRST), G_TYPE_RESERVED_GLIB_FIRST);
+    res[55].name = g_strdup("G_TYPE_RESERVED_GLIB_LAST");
+    res[55].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_RESERVED_GLIB_LAST), G_TYPE_RESERVED_GLIB_LAST);
+    res[56].name = g_strdup("G_TYPE_RESERVED_USER_FIRST");
+    res[56].value = g_strdup_printf(FORMAT_CONSTANT(G_TYPE_RESERVED_USER_FIRST), G_TYPE_RESERVED_USER_FIRST);
+    res[57].name = g_strdup("G_VALUE_INTERNED_STRING");
+    res[57].value = g_strdup_printf(FORMAT_CONSTANT(G_VALUE_INTERNED_STRING), G_VALUE_INTERNED_STRING);
+    res[58].name = g_strdup("G_VALUE_NOCOPY_CONTENTS");
+    res[58].value = g_strdup_printf(FORMAT_CONSTANT(G_VALUE_NOCOPY_CONTENTS), G_VALUE_NOCOPY_CONTENTS);
+    return res;
+}
+
+void c_constants_free(Constant *constants, size_t n) {
+    size_t i;
+    for (i = 0; i < n; i++) {
+        g_free(constants[i].name);
+        g_free(constants[i].value);
+    }
+    g_free(constants);
 }

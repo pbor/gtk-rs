@@ -1,5 +1,6 @@
 [build-dependencies]
 system-deps = "3"
+cc = "1.0"
 
 [dependencies]
 libc = "0.2"
@@ -19,6 +20,7 @@ tempfile = "3"
 
 [features]
 dox = []
+abi-tests = []
 
 [lib]
 name = "pango_cairo_sys"

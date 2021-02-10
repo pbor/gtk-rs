@@ -1,5 +1,6 @@
 [build-dependencies]
 system-deps = "3"
+cc = "1.0"
 
 [dependencies]
 libc = "0.2"
@@ -31,6 +32,7 @@ v2_62 = ["v2_60"]
 v2_64 = ["v2_62"]
 dox = []
 v2_66 = ["v2_64"]
+abi-tests = []
 
 [lib]
 name = "gio_sys"

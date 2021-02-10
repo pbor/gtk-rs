@@ -4,69 +4,78 @@
 
 #include "manual.h"
 #include <stdalign.h>
-#include <stdio.h>
 
-int main() {
-    printf("%s;%zu;%zu\n", "GBindingFlags", sizeof(GBindingFlags), alignof(GBindingFlags));
-    printf("%s;%zu;%zu\n", "GClosureNotifyData", sizeof(GClosureNotifyData), alignof(GClosureNotifyData));
-    printf("%s;%zu;%zu\n", "GConnectFlags", sizeof(GConnectFlags), alignof(GConnectFlags));
-    printf("%s;%zu;%zu\n", "GEnumClass", sizeof(GEnumClass), alignof(GEnumClass));
-    printf("%s;%zu;%zu\n", "GEnumValue", sizeof(GEnumValue), alignof(GEnumValue));
-    printf("%s;%zu;%zu\n", "GFlagsClass", sizeof(GFlagsClass), alignof(GFlagsClass));
-    printf("%s;%zu;%zu\n", "GFlagsValue", sizeof(GFlagsValue), alignof(GFlagsValue));
-    printf("%s;%zu;%zu\n", "GInitiallyUnowned", sizeof(GInitiallyUnowned), alignof(GInitiallyUnowned));
-    printf("%s;%zu;%zu\n", "GInitiallyUnownedClass", sizeof(GInitiallyUnownedClass), alignof(GInitiallyUnownedClass));
-    printf("%s;%zu;%zu\n", "GInterfaceInfo", sizeof(GInterfaceInfo), alignof(GInterfaceInfo));
-    printf("%s;%zu;%zu\n", "GObject", sizeof(GObject), alignof(GObject));
-    printf("%s;%zu;%zu\n", "GObjectClass", sizeof(GObjectClass), alignof(GObjectClass));
-    printf("%s;%zu;%zu\n", "GObjectConstructParam", sizeof(GObjectConstructParam), alignof(GObjectConstructParam));
-    printf("%s;%zu;%zu\n", "GParamFlags", sizeof(GParamFlags), alignof(GParamFlags));
-    printf("%s;%zu;%zu\n", "GParamSpec", sizeof(GParamSpec), alignof(GParamSpec));
-    printf("%s;%zu;%zu\n", "GParamSpecBoolean", sizeof(GParamSpecBoolean), alignof(GParamSpecBoolean));
-    printf("%s;%zu;%zu\n", "GParamSpecBoxed", sizeof(GParamSpecBoxed), alignof(GParamSpecBoxed));
-    printf("%s;%zu;%zu\n", "GParamSpecChar", sizeof(GParamSpecChar), alignof(GParamSpecChar));
-    printf("%s;%zu;%zu\n", "GParamSpecClass", sizeof(GParamSpecClass), alignof(GParamSpecClass));
-    printf("%s;%zu;%zu\n", "GParamSpecDouble", sizeof(GParamSpecDouble), alignof(GParamSpecDouble));
-    printf("%s;%zu;%zu\n", "GParamSpecEnum", sizeof(GParamSpecEnum), alignof(GParamSpecEnum));
-    printf("%s;%zu;%zu\n", "GParamSpecFlags", sizeof(GParamSpecFlags), alignof(GParamSpecFlags));
-    printf("%s;%zu;%zu\n", "GParamSpecFloat", sizeof(GParamSpecFloat), alignof(GParamSpecFloat));
-    printf("%s;%zu;%zu\n", "GParamSpecGType", sizeof(GParamSpecGType), alignof(GParamSpecGType));
-    printf("%s;%zu;%zu\n", "GParamSpecInt", sizeof(GParamSpecInt), alignof(GParamSpecInt));
-    printf("%s;%zu;%zu\n", "GParamSpecInt64", sizeof(GParamSpecInt64), alignof(GParamSpecInt64));
-    printf("%s;%zu;%zu\n", "GParamSpecLong", sizeof(GParamSpecLong), alignof(GParamSpecLong));
-    printf("%s;%zu;%zu\n", "GParamSpecObject", sizeof(GParamSpecObject), alignof(GParamSpecObject));
-    printf("%s;%zu;%zu\n", "GParamSpecOverride", sizeof(GParamSpecOverride), alignof(GParamSpecOverride));
-    printf("%s;%zu;%zu\n", "GParamSpecParam", sizeof(GParamSpecParam), alignof(GParamSpecParam));
-    printf("%s;%zu;%zu\n", "GParamSpecPointer", sizeof(GParamSpecPointer), alignof(GParamSpecPointer));
-    printf("%s;%zu;%zu\n", "GParamSpecTypeInfo", sizeof(GParamSpecTypeInfo), alignof(GParamSpecTypeInfo));
-    printf("%s;%zu;%zu\n", "GParamSpecUChar", sizeof(GParamSpecUChar), alignof(GParamSpecUChar));
-    printf("%s;%zu;%zu\n", "GParamSpecUInt", sizeof(GParamSpecUInt), alignof(GParamSpecUInt));
-    printf("%s;%zu;%zu\n", "GParamSpecUInt64", sizeof(GParamSpecUInt64), alignof(GParamSpecUInt64));
-    printf("%s;%zu;%zu\n", "GParamSpecULong", sizeof(GParamSpecULong), alignof(GParamSpecULong));
-    printf("%s;%zu;%zu\n", "GParamSpecUnichar", sizeof(GParamSpecUnichar), alignof(GParamSpecUnichar));
-    printf("%s;%zu;%zu\n", "GParamSpecValueArray", sizeof(GParamSpecValueArray), alignof(GParamSpecValueArray));
-    printf("%s;%zu;%zu\n", "GParamSpecVariant", sizeof(GParamSpecVariant), alignof(GParamSpecVariant));
-    printf("%s;%zu;%zu\n", "GParameter", sizeof(GParameter), alignof(GParameter));
-    printf("%s;%zu;%zu\n", "GSignalCMarshaller", sizeof(GSignalCMarshaller), alignof(GSignalCMarshaller));
-    printf("%s;%zu;%zu\n", "GSignalFlags", sizeof(GSignalFlags), alignof(GSignalFlags));
-    printf("%s;%zu;%zu\n", "GSignalInvocationHint", sizeof(GSignalInvocationHint), alignof(GSignalInvocationHint));
-    printf("%s;%zu;%zu\n", "GSignalMatchType", sizeof(GSignalMatchType), alignof(GSignalMatchType));
-    printf("%s;%zu;%zu\n", "GSignalQuery", sizeof(GSignalQuery), alignof(GSignalQuery));
-    printf("%s;%zu;%zu\n", "GTypeClass", sizeof(GTypeClass), alignof(GTypeClass));
-    printf("%s;%zu;%zu\n", "GTypeDebugFlags", sizeof(GTypeDebugFlags), alignof(GTypeDebugFlags));
-    printf("%s;%zu;%zu\n", "GTypeFlags", sizeof(GTypeFlags), alignof(GTypeFlags));
-    printf("%s;%zu;%zu\n", "GTypeFundamentalFlags", sizeof(GTypeFundamentalFlags), alignof(GTypeFundamentalFlags));
-    printf("%s;%zu;%zu\n", "GTypeFundamentalInfo", sizeof(GTypeFundamentalInfo), alignof(GTypeFundamentalInfo));
-    printf("%s;%zu;%zu\n", "GTypeInfo", sizeof(GTypeInfo), alignof(GTypeInfo));
-    printf("%s;%zu;%zu\n", "GTypeInstance", sizeof(GTypeInstance), alignof(GTypeInstance));
-    printf("%s;%zu;%zu\n", "GTypeInterface", sizeof(GTypeInterface), alignof(GTypeInterface));
-    printf("%s;%zu;%zu\n", "GTypeModule", sizeof(GTypeModule), alignof(GTypeModule));
-    printf("%s;%zu;%zu\n", "GTypeModuleClass", sizeof(GTypeModuleClass), alignof(GTypeModuleClass));
-    printf("%s;%zu;%zu\n", "GTypePluginClass", sizeof(GTypePluginClass), alignof(GTypePluginClass));
-    printf("%s;%zu;%zu\n", "GTypeQuery", sizeof(GTypeQuery), alignof(GTypeQuery));
-    printf("%s;%zu;%zu\n", "GTypeValueTable", sizeof(GTypeValueTable), alignof(GTypeValueTable));
-    printf("%s;%zu;%zu\n", "GValue", sizeof(GValue), alignof(GValue));
-    printf("%s;%zu;%zu\n", "GValueArray", sizeof(GValueArray), alignof(GValueArray));
-    printf("%s;%zu;%zu\n", "GWeakRef", sizeof(GWeakRef), alignof(GWeakRef));
-    return 0;
+typedef struct {
+    const char *name;
+    size_t size;
+    size_t alignent;
+} Layout;
+
+const Layout LAYOUTS[] = {
+    { "GBindingFlags", sizeof(GBindingFlags), alignof(GBindingFlags) },
+    { "GClosureNotifyData", sizeof(GClosureNotifyData), alignof(GClosureNotifyData) },
+    { "GConnectFlags", sizeof(GConnectFlags), alignof(GConnectFlags) },
+    { "GEnumClass", sizeof(GEnumClass), alignof(GEnumClass) },
+    { "GEnumValue", sizeof(GEnumValue), alignof(GEnumValue) },
+    { "GFlagsClass", sizeof(GFlagsClass), alignof(GFlagsClass) },
+    { "GFlagsValue", sizeof(GFlagsValue), alignof(GFlagsValue) },
+    { "GInitiallyUnowned", sizeof(GInitiallyUnowned), alignof(GInitiallyUnowned) },
+    { "GInitiallyUnownedClass", sizeof(GInitiallyUnownedClass), alignof(GInitiallyUnownedClass) },
+    { "GInterfaceInfo", sizeof(GInterfaceInfo), alignof(GInterfaceInfo) },
+    { "GObject", sizeof(GObject), alignof(GObject) },
+    { "GObjectClass", sizeof(GObjectClass), alignof(GObjectClass) },
+    { "GObjectConstructParam", sizeof(GObjectConstructParam), alignof(GObjectConstructParam) },
+    { "GParamFlags", sizeof(GParamFlags), alignof(GParamFlags) },
+    { "GParamSpec", sizeof(GParamSpec), alignof(GParamSpec) },
+    { "GParamSpecBoolean", sizeof(GParamSpecBoolean), alignof(GParamSpecBoolean) },
+    { "GParamSpecBoxed", sizeof(GParamSpecBoxed), alignof(GParamSpecBoxed) },
+    { "GParamSpecChar", sizeof(GParamSpecChar), alignof(GParamSpecChar) },
+    { "GParamSpecClass", sizeof(GParamSpecClass), alignof(GParamSpecClass) },
+    { "GParamSpecDouble", sizeof(GParamSpecDouble), alignof(GParamSpecDouble) },
+    { "GParamSpecEnum", sizeof(GParamSpecEnum), alignof(GParamSpecEnum) },
+    { "GParamSpecFlags", sizeof(GParamSpecFlags), alignof(GParamSpecFlags) },
+    { "GParamSpecFloat", sizeof(GParamSpecFloat), alignof(GParamSpecFloat) },
+    { "GParamSpecGType", sizeof(GParamSpecGType), alignof(GParamSpecGType) },
+    { "GParamSpecInt", sizeof(GParamSpecInt), alignof(GParamSpecInt) },
+    { "GParamSpecInt64", sizeof(GParamSpecInt64), alignof(GParamSpecInt64) },
+    { "GParamSpecLong", sizeof(GParamSpecLong), alignof(GParamSpecLong) },
+    { "GParamSpecObject", sizeof(GParamSpecObject), alignof(GParamSpecObject) },
+    { "GParamSpecOverride", sizeof(GParamSpecOverride), alignof(GParamSpecOverride) },
+    { "GParamSpecParam", sizeof(GParamSpecParam), alignof(GParamSpecParam) },
+    { "GParamSpecPointer", sizeof(GParamSpecPointer), alignof(GParamSpecPointer) },
+    { "GParamSpecTypeInfo", sizeof(GParamSpecTypeInfo), alignof(GParamSpecTypeInfo) },
+    { "GParamSpecUChar", sizeof(GParamSpecUChar), alignof(GParamSpecUChar) },
+    { "GParamSpecUInt", sizeof(GParamSpecUInt), alignof(GParamSpecUInt) },
+    { "GParamSpecUInt64", sizeof(GParamSpecUInt64), alignof(GParamSpecUInt64) },
+    { "GParamSpecULong", sizeof(GParamSpecULong), alignof(GParamSpecULong) },
+    { "GParamSpecUnichar", sizeof(GParamSpecUnichar), alignof(GParamSpecUnichar) },
+    { "GParamSpecValueArray", sizeof(GParamSpecValueArray), alignof(GParamSpecValueArray) },
+    { "GParamSpecVariant", sizeof(GParamSpecVariant), alignof(GParamSpecVariant) },
+    { "GParameter", sizeof(GParameter), alignof(GParameter) },
+    { "GSignalCMarshaller", sizeof(GSignalCMarshaller), alignof(GSignalCMarshaller) },
+    { "GSignalFlags", sizeof(GSignalFlags), alignof(GSignalFlags) },
+    { "GSignalInvocationHint", sizeof(GSignalInvocationHint), alignof(GSignalInvocationHint) },
+    { "GSignalMatchType", sizeof(GSignalMatchType), alignof(GSignalMatchType) },
+    { "GSignalQuery", sizeof(GSignalQuery), alignof(GSignalQuery) },
+    { "GTypeClass", sizeof(GTypeClass), alignof(GTypeClass) },
+    { "GTypeDebugFlags", sizeof(GTypeDebugFlags), alignof(GTypeDebugFlags) },
+    { "GTypeFlags", sizeof(GTypeFlags), alignof(GTypeFlags) },
+    { "GTypeFundamentalFlags", sizeof(GTypeFundamentalFlags), alignof(GTypeFundamentalFlags) },
+    { "GTypeFundamentalInfo", sizeof(GTypeFundamentalInfo), alignof(GTypeFundamentalInfo) },
+    { "GTypeInfo", sizeof(GTypeInfo), alignof(GTypeInfo) },
+    { "GTypeInstance", sizeof(GTypeInstance), alignof(GTypeInstance) },
+    { "GTypeInterface", sizeof(GTypeInterface), alignof(GTypeInterface) },
+    { "GTypeModule", sizeof(GTypeModule), alignof(GTypeModule) },
+    { "GTypeModuleClass", sizeof(GTypeModuleClass), alignof(GTypeModuleClass) },
+    { "GTypePluginClass", sizeof(GTypePluginClass), alignof(GTypePluginClass) },
+    { "GTypeQuery", sizeof(GTypeQuery), alignof(GTypeQuery) },
+    { "GTypeValueTable", sizeof(GTypeValueTable), alignof(GTypeValueTable) },
+    { "GValue", sizeof(GValue), alignof(GValue) },
+    { "GValueArray", sizeof(GValueArray), alignof(GValueArray) },
+    { "GWeakRef", sizeof(GWeakRef), alignof(GWeakRef) }
+};
+
+const Layout *c_layouts(size_t *n) {
+    *n = sizeof(LAYOUTS) / sizeof(Layout);
+    return LAYOUTS;
 }

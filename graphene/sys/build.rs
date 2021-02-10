@@ -10,8 +10,27 @@ fn main() {} // prevent linking libraries to avoid documentation failure
 
 #[cfg(not(feature = "dox"))]
 fn main() {
-    if let Err(s) = system_deps::Config::new().probe() {
+    let deps = system_deps::Config::new().probe();
+    if let Err(s) = deps {
         println!("cargo:warning={}", s);
         process::exit(1);
+    }
+
+    #[cfg(feature = "abi-tests")]
+    {
+        let mut cc = cc::Build::new();
+
+        cc.flag_if_supported("-Wno-deprecated-declarations");
+        cc.flag_if_supported("-std=c11"); // for _Generic
+        cc.flag_if_supported("/std:c11"); // for _Generic (MSVC)
+
+        cc.file("tests/constant.c");
+        cc.file("tests/layout.c");
+
+        for i in deps.unwrap().all_include_paths() {
+            cc.include(i);
+        }
+
+        cc.compile("cabitests");
     }
 }

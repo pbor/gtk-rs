@@ -1,5 +1,6 @@
 [build-dependencies]
 system-deps = "3"
+cc = "1.0"
 
 [dependencies]
 libc = "0.2"
@@ -19,6 +20,7 @@ v2_58 = ["v2_54"]
 v2_62 = ["v2_58"]
 dox = []
 v2_66 = ["v2_62"]
+abi-tests = []
 
 [lib]
 name = "gobject_sys"

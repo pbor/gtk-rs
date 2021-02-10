@@ -4,8 +4,17 @@
 
 #include "manual.h"
 #include <stdalign.h>
-#include <stdio.h>
 
-int main() {
-    return 0;
+typedef struct {
+    const char *name;
+    size_t size;
+    size_t alignent;
+} Layout;
+
+const Layout LAYOUTS[] = {
+};
+
+const Layout *c_layouts(size_t *n) {
+    *n = sizeof(LAYOUTS) / sizeof(Layout);
+    return LAYOUTS;
 }

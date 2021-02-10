@@ -4,23 +4,32 @@
 
 #include "manual.h"
 #include <stdalign.h>
-#include <stdio.h>
 
-int main() {
-    printf("%s;%zu;%zu\n", "GdkColorspace", sizeof(GdkColorspace), alignof(GdkColorspace));
-    printf("%s;%zu;%zu\n", "GdkInterpType", sizeof(GdkInterpType), alignof(GdkInterpType));
-    printf("%s;%zu;%zu\n", "GdkPixbufAlphaMode", sizeof(GdkPixbufAlphaMode), alignof(GdkPixbufAlphaMode));
-    printf("%s;%zu;%zu\n", "GdkPixbufAnimation", sizeof(GdkPixbufAnimation), alignof(GdkPixbufAnimation));
-    printf("%s;%zu;%zu\n", "GdkPixbufAnimationClass", sizeof(GdkPixbufAnimationClass), alignof(GdkPixbufAnimationClass));
-    printf("%s;%zu;%zu\n", "GdkPixbufAnimationIter", sizeof(GdkPixbufAnimationIter), alignof(GdkPixbufAnimationIter));
-    printf("%s;%zu;%zu\n", "GdkPixbufAnimationIterClass", sizeof(GdkPixbufAnimationIterClass), alignof(GdkPixbufAnimationIterClass));
-    printf("%s;%zu;%zu\n", "GdkPixbufError", sizeof(GdkPixbufError), alignof(GdkPixbufError));
-    printf("%s;%zu;%zu\n", "GdkPixbufFormat", sizeof(GdkPixbufFormat), alignof(GdkPixbufFormat));
-    printf("%s;%zu;%zu\n", "GdkPixbufFormatFlags", sizeof(GdkPixbufFormatFlags), alignof(GdkPixbufFormatFlags));
-    printf("%s;%zu;%zu\n", "GdkPixbufLoader", sizeof(GdkPixbufLoader), alignof(GdkPixbufLoader));
-    printf("%s;%zu;%zu\n", "GdkPixbufLoaderClass", sizeof(GdkPixbufLoaderClass), alignof(GdkPixbufLoaderClass));
-    printf("%s;%zu;%zu\n", "GdkPixbufModule", sizeof(GdkPixbufModule), alignof(GdkPixbufModule));
-    printf("%s;%zu;%zu\n", "GdkPixbufModulePattern", sizeof(GdkPixbufModulePattern), alignof(GdkPixbufModulePattern));
-    printf("%s;%zu;%zu\n", "GdkPixbufRotation", sizeof(GdkPixbufRotation), alignof(GdkPixbufRotation));
-    return 0;
+typedef struct {
+    const char *name;
+    size_t size;
+    size_t alignent;
+} Layout;
+
+const Layout LAYOUTS[] = {
+    { "GdkColorspace", sizeof(GdkColorspace), alignof(GdkColorspace) },
+    { "GdkInterpType", sizeof(GdkInterpType), alignof(GdkInterpType) },
+    { "GdkPixbufAlphaMode", sizeof(GdkPixbufAlphaMode), alignof(GdkPixbufAlphaMode) },
+    { "GdkPixbufAnimation", sizeof(GdkPixbufAnimation), alignof(GdkPixbufAnimation) },
+    { "GdkPixbufAnimationClass", sizeof(GdkPixbufAnimationClass), alignof(GdkPixbufAnimationClass) },
+    { "GdkPixbufAnimationIter", sizeof(GdkPixbufAnimationIter), alignof(GdkPixbufAnimationIter) },
+    { "GdkPixbufAnimationIterClass", sizeof(GdkPixbufAnimationIterClass), alignof(GdkPixbufAnimationIterClass) },
+    { "GdkPixbufError", sizeof(GdkPixbufError), alignof(GdkPixbufError) },
+    { "GdkPixbufFormat", sizeof(GdkPixbufFormat), alignof(GdkPixbufFormat) },
+    { "GdkPixbufFormatFlags", sizeof(GdkPixbufFormatFlags), alignof(GdkPixbufFormatFlags) },
+    { "GdkPixbufLoader", sizeof(GdkPixbufLoader), alignof(GdkPixbufLoader) },
+    { "GdkPixbufLoaderClass", sizeof(GdkPixbufLoaderClass), alignof(GdkPixbufLoaderClass) },
+    { "GdkPixbufModule", sizeof(GdkPixbufModule), alignof(GdkPixbufModule) },
+    { "GdkPixbufModulePattern", sizeof(GdkPixbufModulePattern), alignof(GdkPixbufModulePattern) },
+    { "GdkPixbufRotation", sizeof(GdkPixbufRotation), alignof(GdkPixbufRotation) }
+};
+
+const Layout *c_layouts(size_t *n) {
+    *n = sizeof(LAYOUTS) / sizeof(Layout);
+    return LAYOUTS;
 }

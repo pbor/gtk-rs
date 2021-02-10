@@ -3,50 +3,83 @@
 // DO NOT EDIT
 
 #include "manual.h"
-#include <stdio.h>
+#include <glib.h>
 
-#define PRINT_CONSTANT(CONSTANT_NAME) \
-    printf("%s;", #CONSTANT_NAME); \
-    printf(_Generic((CONSTANT_NAME), \
-                    char *: "%s", \
-                    const char *: "%s", \
-                    char: "%c", \
-                    signed char: "%hhd", \
-                    unsigned char: "%hhu", \
-                    short int: "%hd", \
-                    unsigned short int: "%hu", \
-                    int: "%d", \
-                    unsigned int: "%u", \
-                    long: "%ld", \
-                    unsigned long: "%lu", \
-                    long long: "%lld", \
-                    unsigned long long: "%llu", \
-                    double: "%f", \
-                    long double: "%ld"), \
-           CONSTANT_NAME); \
-    printf("\n");
+#define FORMAT_CONSTANT(CONSTANT_NAME) \
+    _Generic((CONSTANT_NAME), \
+        char *: "%s", \
+        const char *: "%s", \
+        signed char: "%hhd", \
+        unsigned char: "%hhu", \
+        short int: "%hd", \
+        unsigned short int: "%hu", \
+        int: "%d", \
+        unsigned int: "%u", \
+        long: "%ld", \
+        unsigned long: "%lu", \
+        long long: "%lld", \
+        unsigned long long: "%llu", \
+        double: "%f", \
+        long double: "%ld")
 
-int main() {
-    PRINT_CONSTANT((gint) GDK_COLORSPACE_RGB);
-    PRINT_CONSTANT((gint) GDK_INTERP_BILINEAR);
-    PRINT_CONSTANT((gint) GDK_INTERP_HYPER);
-    PRINT_CONSTANT((gint) GDK_INTERP_NEAREST);
-    PRINT_CONSTANT((gint) GDK_INTERP_TILES);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ALPHA_BILEVEL);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ALPHA_FULL);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ERROR_BAD_OPTION);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ERROR_CORRUPT_IMAGE);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ERROR_FAILED);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ERROR_UNKNOWN_TYPE);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION);
-    PRINT_CONSTANT((guint) GDK_PIXBUF_FORMAT_SCALABLE);
-    PRINT_CONSTANT((guint) GDK_PIXBUF_FORMAT_THREADSAFE);
-    PRINT_CONSTANT((guint) GDK_PIXBUF_FORMAT_WRITABLE);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ROTATE_CLOCKWISE);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ROTATE_NONE);
-    PRINT_CONSTANT((gint) GDK_PIXBUF_ROTATE_UPSIDEDOWN);
-    return 0;
+typedef struct {
+    char *name;
+    char *value;
+} Constant;
+
+Constant *c_constants(size_t *n) {
+    *n = 21;
+    Constant *res = g_new0(Constant, *n);
+    res[0].name = g_strdup("(gint) GDK_COLORSPACE_RGB");
+    res[0].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_COLORSPACE_RGB), (gint) GDK_COLORSPACE_RGB);
+    res[1].name = g_strdup("(gint) GDK_INTERP_BILINEAR");
+    res[1].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_INTERP_BILINEAR), (gint) GDK_INTERP_BILINEAR);
+    res[2].name = g_strdup("(gint) GDK_INTERP_HYPER");
+    res[2].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_INTERP_HYPER), (gint) GDK_INTERP_HYPER);
+    res[3].name = g_strdup("(gint) GDK_INTERP_NEAREST");
+    res[3].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_INTERP_NEAREST), (gint) GDK_INTERP_NEAREST);
+    res[4].name = g_strdup("(gint) GDK_INTERP_TILES");
+    res[4].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_INTERP_TILES), (gint) GDK_INTERP_TILES);
+    res[5].name = g_strdup("(gint) GDK_PIXBUF_ALPHA_BILEVEL");
+    res[5].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ALPHA_BILEVEL), (gint) GDK_PIXBUF_ALPHA_BILEVEL);
+    res[6].name = g_strdup("(gint) GDK_PIXBUF_ALPHA_FULL");
+    res[6].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ALPHA_FULL), (gint) GDK_PIXBUF_ALPHA_FULL);
+    res[7].name = g_strdup("(gint) GDK_PIXBUF_ERROR_BAD_OPTION");
+    res[7].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ERROR_BAD_OPTION), (gint) GDK_PIXBUF_ERROR_BAD_OPTION);
+    res[8].name = g_strdup("(gint) GDK_PIXBUF_ERROR_CORRUPT_IMAGE");
+    res[8].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ERROR_CORRUPT_IMAGE), (gint) GDK_PIXBUF_ERROR_CORRUPT_IMAGE);
+    res[9].name = g_strdup("(gint) GDK_PIXBUF_ERROR_FAILED");
+    res[9].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ERROR_FAILED), (gint) GDK_PIXBUF_ERROR_FAILED);
+    res[10].name = g_strdup("(gint) GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION");
+    res[10].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION), (gint) GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION);
+    res[11].name = g_strdup("(gint) GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY");
+    res[11].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY), (gint) GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY);
+    res[12].name = g_strdup("(gint) GDK_PIXBUF_ERROR_UNKNOWN_TYPE");
+    res[12].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ERROR_UNKNOWN_TYPE), (gint) GDK_PIXBUF_ERROR_UNKNOWN_TYPE);
+    res[13].name = g_strdup("(gint) GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION");
+    res[13].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION), (gint) GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION);
+    res[14].name = g_strdup("(guint) GDK_PIXBUF_FORMAT_SCALABLE");
+    res[14].value = g_strdup_printf(FORMAT_CONSTANT((guint) GDK_PIXBUF_FORMAT_SCALABLE), (guint) GDK_PIXBUF_FORMAT_SCALABLE);
+    res[15].name = g_strdup("(guint) GDK_PIXBUF_FORMAT_THREADSAFE");
+    res[15].value = g_strdup_printf(FORMAT_CONSTANT((guint) GDK_PIXBUF_FORMAT_THREADSAFE), (guint) GDK_PIXBUF_FORMAT_THREADSAFE);
+    res[16].name = g_strdup("(guint) GDK_PIXBUF_FORMAT_WRITABLE");
+    res[16].value = g_strdup_printf(FORMAT_CONSTANT((guint) GDK_PIXBUF_FORMAT_WRITABLE), (guint) GDK_PIXBUF_FORMAT_WRITABLE);
+    res[17].name = g_strdup("(gint) GDK_PIXBUF_ROTATE_CLOCKWISE");
+    res[17].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ROTATE_CLOCKWISE), (gint) GDK_PIXBUF_ROTATE_CLOCKWISE);
+    res[18].name = g_strdup("(gint) GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE");
+    res[18].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE), (gint) GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
+    res[19].name = g_strdup("(gint) GDK_PIXBUF_ROTATE_NONE");
+    res[19].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ROTATE_NONE), (gint) GDK_PIXBUF_ROTATE_NONE);
+    res[20].name = g_strdup("(gint) GDK_PIXBUF_ROTATE_UPSIDEDOWN");
+    res[20].value = g_strdup_printf(FORMAT_CONSTANT((gint) GDK_PIXBUF_ROTATE_UPSIDEDOWN), (gint) GDK_PIXBUF_ROTATE_UPSIDEDOWN);
+    return res;
+}
+
+void c_constants_free(Constant *constants, size_t n) {
+    size_t i;
+    for (i = 0; i < n; i++) {
+        g_free(constants[i].name);
+        g_free(constants[i].value);
+    }
+    g_free(constants);
 }

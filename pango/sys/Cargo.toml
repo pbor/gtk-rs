@@ -1,5 +1,6 @@
 [build-dependencies]
 system-deps = "3"
+cc = "1.0"
 
 [dependencies]
 libc = "0.2"
@@ -21,6 +22,7 @@ v1_42 = ["v1_38"]
 v1_44 = ["v1_42"]
 dox = []
 v1_46 = ["v1_44"]
+abi-tests = []
 
 [lib]
 name = "pango_sys"

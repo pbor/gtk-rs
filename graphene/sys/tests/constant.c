@@ -3,72 +3,127 @@
 // DO NOT EDIT
 
 #include "manual.h"
-#include <stdio.h>
+#include <glib.h>
 
-#define PRINT_CONSTANT(CONSTANT_NAME) \
-    printf("%s;", #CONSTANT_NAME); \
-    printf(_Generic((CONSTANT_NAME), \
-                    char *: "%s", \
-                    const char *: "%s", \
-                    char: "%c", \
-                    signed char: "%hhd", \
-                    unsigned char: "%hhu", \
-                    short int: "%hd", \
-                    unsigned short int: "%hu", \
-                    int: "%d", \
-                    unsigned int: "%u", \
-                    long: "%ld", \
-                    unsigned long: "%lu", \
-                    long long: "%lld", \
-                    unsigned long long: "%llu", \
-                    double: "%f", \
-                    long double: "%ld"), \
-           CONSTANT_NAME); \
-    printf("\n");
+#define FORMAT_CONSTANT(CONSTANT_NAME) \
+    _Generic((CONSTANT_NAME), \
+        char *: "%s", \
+        const char *: "%s", \
+        signed char: "%hhd", \
+        unsigned char: "%hhu", \
+        short int: "%hd", \
+        unsigned short int: "%hu", \
+        int: "%d", \
+        unsigned int: "%u", \
+        long: "%ld", \
+        unsigned long: "%lu", \
+        long long: "%lld", \
+        unsigned long long: "%llu", \
+        double: "%f", \
+        long double: "%ld")
 
-int main() {
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_DEFAULT);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXYX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXYZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXZX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXZY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYXY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYXZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYZX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYZY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZXY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZXZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZYX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZYZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXYX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXYZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXZX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXZY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYXY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYXZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYZX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYZY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZXY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZXZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZYX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZYZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_XYZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_XZY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_YXZ);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_YZX);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_ZXY);
-    PRINT_CONSTANT((gint) GRAPHENE_EULER_ORDER_ZYX);
-    PRINT_CONSTANT(GRAPHENE_HAS_GCC);
-    PRINT_CONSTANT(GRAPHENE_HAS_SCALAR);
-    PRINT_CONSTANT(GRAPHENE_HAS_SSE);
-    PRINT_CONSTANT(GRAPHENE_PI);
-    PRINT_CONSTANT(GRAPHENE_PI_2);
-    PRINT_CONSTANT((gint) GRAPHENE_RAY_INTERSECTION_KIND_ENTER);
-    PRINT_CONSTANT((gint) GRAPHENE_RAY_INTERSECTION_KIND_LEAVE);
-    PRINT_CONSTANT((gint) GRAPHENE_RAY_INTERSECTION_KIND_NONE);
-    PRINT_CONSTANT(GRAPHENE_SIMD_S);
-    PRINT_CONSTANT(GRAPHENE_VEC2_LEN);
-    PRINT_CONSTANT(GRAPHENE_VEC3_LEN);
-    PRINT_CONSTANT(GRAPHENE_VEC4_LEN);
-    return 0;
+typedef struct {
+    char *name;
+    char *value;
+} Constant;
+
+Constant *c_constants(size_t *n) {
+    *n = 43;
+    Constant *res = g_new0(Constant, *n);
+    res[0].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_DEFAULT");
+    res[0].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_DEFAULT), (gint) GRAPHENE_EULER_ORDER_DEFAULT);
+    res[1].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RXYX");
+    res[1].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXYX), (gint) GRAPHENE_EULER_ORDER_RXYX);
+    res[2].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RXYZ");
+    res[2].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXYZ), (gint) GRAPHENE_EULER_ORDER_RXYZ);
+    res[3].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RXZX");
+    res[3].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXZX), (gint) GRAPHENE_EULER_ORDER_RXZX);
+    res[4].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RXZY");
+    res[4].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RXZY), (gint) GRAPHENE_EULER_ORDER_RXZY);
+    res[5].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RYXY");
+    res[5].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYXY), (gint) GRAPHENE_EULER_ORDER_RYXY);
+    res[6].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RYXZ");
+    res[6].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYXZ), (gint) GRAPHENE_EULER_ORDER_RYXZ);
+    res[7].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RYZX");
+    res[7].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYZX), (gint) GRAPHENE_EULER_ORDER_RYZX);
+    res[8].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RYZY");
+    res[8].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RYZY), (gint) GRAPHENE_EULER_ORDER_RYZY);
+    res[9].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RZXY");
+    res[9].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZXY), (gint) GRAPHENE_EULER_ORDER_RZXY);
+    res[10].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RZXZ");
+    res[10].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZXZ), (gint) GRAPHENE_EULER_ORDER_RZXZ);
+    res[11].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RZYX");
+    res[11].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZYX), (gint) GRAPHENE_EULER_ORDER_RZYX);
+    res[12].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_RZYZ");
+    res[12].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_RZYZ), (gint) GRAPHENE_EULER_ORDER_RZYZ);
+    res[13].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SXYX");
+    res[13].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXYX), (gint) GRAPHENE_EULER_ORDER_SXYX);
+    res[14].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SXYZ");
+    res[14].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXYZ), (gint) GRAPHENE_EULER_ORDER_SXYZ);
+    res[15].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SXZX");
+    res[15].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXZX), (gint) GRAPHENE_EULER_ORDER_SXZX);
+    res[16].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SXZY");
+    res[16].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SXZY), (gint) GRAPHENE_EULER_ORDER_SXZY);
+    res[17].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SYXY");
+    res[17].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYXY), (gint) GRAPHENE_EULER_ORDER_SYXY);
+    res[18].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SYXZ");
+    res[18].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYXZ), (gint) GRAPHENE_EULER_ORDER_SYXZ);
+    res[19].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SYZX");
+    res[19].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYZX), (gint) GRAPHENE_EULER_ORDER_SYZX);
+    res[20].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SYZY");
+    res[20].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SYZY), (gint) GRAPHENE_EULER_ORDER_SYZY);
+    res[21].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SZXY");
+    res[21].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZXY), (gint) GRAPHENE_EULER_ORDER_SZXY);
+    res[22].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SZXZ");
+    res[22].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZXZ), (gint) GRAPHENE_EULER_ORDER_SZXZ);
+    res[23].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SZYX");
+    res[23].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZYX), (gint) GRAPHENE_EULER_ORDER_SZYX);
+    res[24].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_SZYZ");
+    res[24].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_SZYZ), (gint) GRAPHENE_EULER_ORDER_SZYZ);
+    res[25].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_XYZ");
+    res[25].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_XYZ), (gint) GRAPHENE_EULER_ORDER_XYZ);
+    res[26].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_XZY");
+    res[26].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_XZY), (gint) GRAPHENE_EULER_ORDER_XZY);
+    res[27].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_YXZ");
+    res[27].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_YXZ), (gint) GRAPHENE_EULER_ORDER_YXZ);
+    res[28].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_YZX");
+    res[28].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_YZX), (gint) GRAPHENE_EULER_ORDER_YZX);
+    res[29].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_ZXY");
+    res[29].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_ZXY), (gint) GRAPHENE_EULER_ORDER_ZXY);
+    res[30].name = g_strdup("(gint) GRAPHENE_EULER_ORDER_ZYX");
+    res[30].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_EULER_ORDER_ZYX), (gint) GRAPHENE_EULER_ORDER_ZYX);
+    res[31].name = g_strdup("GRAPHENE_HAS_GCC");
+    res[31].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_HAS_GCC), GRAPHENE_HAS_GCC);
+    res[32].name = g_strdup("GRAPHENE_HAS_SCALAR");
+    res[32].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_HAS_SCALAR), GRAPHENE_HAS_SCALAR);
+    res[33].name = g_strdup("GRAPHENE_HAS_SSE");
+    res[33].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_HAS_SSE), GRAPHENE_HAS_SSE);
+    res[34].name = g_strdup("GRAPHENE_PI");
+    res[34].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_PI), GRAPHENE_PI);
+    res[35].name = g_strdup("GRAPHENE_PI_2");
+    res[35].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_PI_2), GRAPHENE_PI_2);
+    res[36].name = g_strdup("(gint) GRAPHENE_RAY_INTERSECTION_KIND_ENTER");
+    res[36].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_RAY_INTERSECTION_KIND_ENTER), (gint) GRAPHENE_RAY_INTERSECTION_KIND_ENTER);
+    res[37].name = g_strdup("(gint) GRAPHENE_RAY_INTERSECTION_KIND_LEAVE");
+    res[37].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_RAY_INTERSECTION_KIND_LEAVE), (gint) GRAPHENE_RAY_INTERSECTION_KIND_LEAVE);
+    res[38].name = g_strdup("(gint) GRAPHENE_RAY_INTERSECTION_KIND_NONE");
+    res[38].value = g_strdup_printf(FORMAT_CONSTANT((gint) GRAPHENE_RAY_INTERSECTION_KIND_NONE), (gint) GRAPHENE_RAY_INTERSECTION_KIND_NONE);
+    res[39].name = g_strdup("GRAPHENE_SIMD_S");
+    res[39].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_SIMD_S), GRAPHENE_SIMD_S);
+    res[40].name = g_strdup("GRAPHENE_VEC2_LEN");
+    res[40].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_VEC2_LEN), GRAPHENE_VEC2_LEN);
+    res[41].name = g_strdup("GRAPHENE_VEC3_LEN");
+    res[41].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_VEC3_LEN), GRAPHENE_VEC3_LEN);
+    res[42].name = g_strdup("GRAPHENE_VEC4_LEN");
+    res[42].value = g_strdup_printf(FORMAT_CONSTANT(GRAPHENE_VEC4_LEN), GRAPHENE_VEC4_LEN);
+    return res;
+}
+
+void c_constants_free(Constant *constants, size_t n) {
+    size_t i;
+    for (i = 0; i < n; i++) {
+        g_free(constants[i].name);
+        g_free(constants[i].value);
+    }
+    g_free(constants);
 }

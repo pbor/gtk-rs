@@ -1,5 +1,6 @@
 [build-dependencies]
 system-deps = "3"
+cc = "1.0"
 
 [dependencies]
 libc = "0.2"
@@ -19,6 +20,7 @@ v2_30 = []
 v2_32 = ["v2_30"]
 v2_34 = ["v2_32"]
 dox = []
+abi-tests = []
 
 [lib]
 name = "atk_sys"
