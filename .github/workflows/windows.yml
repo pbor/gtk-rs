@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [master]
+    branches: [wci]
   pull_request:
 
 name: Windows
@@ -71,16 +71,6 @@ jobs:
         # FIXME: for now we turn off almost all sys tests, since they fail the ABI check
         conf:
           - { name: "atk", test: true, test_sys: true, args: "--features v2_34", abi_tests: "--features abi-tests" }
-          - { name: "cairo", test: true, test_sys: true, args: "--features png,pdf,svg,ps,use_glib,v1_16,freetype,script,win32-surface", abi_tests: "" }
-          - { name: "gdk", test: true, test_sys: true, args: "--features v3_24", abi_tests: "--features abi-tests" }
-          - { name: "gdk-pixbuf", test: true, test_sys: true, args: "--features v2_40", abi_tests: "--features abi-tests" }
-          - { name: "gio", test: true, test_sys: false, args: "--features v2_66", abi_tests: "--features abi-tests" }
-          - { name: "glib", test: true, test_sys: false, args: "--features v2_66", abi_tests: "--features abi-tests" }
-          - { name: "graphene", test: false, test_sys: false, args: "--features v1_10", abi_tests: "--features abi-tests" }
-          - { name: "gtk", test: true, test_sys: false, args: "--features v3_24_9", abi_tests: "--features abi-tests" }
-          - { name: "pango", test: true, test_sys: false, args: "--features v1_46", abi_tests: "--features abi-tests" }
-          - { name: "pangocairo", test: true, test_sys: true, args: "", abi_tests: "--features abi-tests" }
-          - { name: "examples", test: false, test_sys: false, args: "--bins --examples --all-features", abi_tests: "" }
 
     steps:
 
@@ -95,15 +85,24 @@ jobs:
           path: C:\gtk-build\gtk\x64\release\**
           key: ${{needs.gvsbuild.outputs.cachekey}}
 
-      - name: Set up env
+      - name: vswhere
         run: |
-          echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
-          echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
         shell: bash
 
-      # We do not use msbuild, but this seems to be enough to bring the latest version of MSVC in the path
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Set up env
+        run: |
+          # Make sure the latest MSVC is in the PATH
+          MSVC_INSTALL_DIR=`vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`
+          echo ${MSVC_INSTALL_DIR}
+          MSVC_VERSION=`cat "${MSVC_INSTALL_DIR}/VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt"`
+          echo ${MSVC_VERSION}
+
+          # Make sure we use gvsbuild's PKG_CONFIG so that it returns the proper paths
+          echo "PKG_CONFIG=C:\gtk-build\gtk\x64\release\bin\pkgconf.exe" >> $GITHUB_ENV
+
+          # Make sure GTK dependencies are in the PATH
+          echo "C:\gtk-build\gtk\x64\release\bin" >> $GITHUB_PATH
+        shell: bash
 
       - uses: actions/checkout@v2
 
@@ -112,13 +111,6 @@ jobs:
           toolchain: stable
           default: true
 
-      - name: test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path ${{ matrix.conf.name }}/Cargo.toml ${{ matrix.conf.args }}
-        if: matrix.conf.test
-
       - name: test sys
         uses: actions-rs/cargo@v1
         with:
@@ -126,8 +118,3 @@ jobs:
           args: --manifest-path ${{ matrix.conf.name }}/sys/Cargo.toml ${{ matrix.conf.args }} ${{ matrix.conf.abi_tests }}
         if: matrix.conf.test_sys
 
-      - name: build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path ${{ matrix.conf.name }}/Cargo.toml ${{ matrix.conf.args }}
