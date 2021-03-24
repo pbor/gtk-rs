@@ -1,7 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/object.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>object.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/object.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>object.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../glib/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../glib/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -2582,14 +2582,397 @@
 <span id="2579">2579</span>
 <span id="2580">2580</span>
 <span id="2581">2581</span>
+<span id="2582">2582</span>
+<span id="2583">2583</span>
+<span id="2584">2584</span>
+<span id="2585">2585</span>
+<span id="2586">2586</span>
+<span id="2587">2587</span>
+<span id="2588">2588</span>
+<span id="2589">2589</span>
+<span id="2590">2590</span>
+<span id="2591">2591</span>
+<span id="2592">2592</span>
+<span id="2593">2593</span>
+<span id="2594">2594</span>
+<span id="2595">2595</span>
+<span id="2596">2596</span>
+<span id="2597">2597</span>
+<span id="2598">2598</span>
+<span id="2599">2599</span>
+<span id="2600">2600</span>
+<span id="2601">2601</span>
+<span id="2602">2602</span>
+<span id="2603">2603</span>
+<span id="2604">2604</span>
+<span id="2605">2605</span>
+<span id="2606">2606</span>
+<span id="2607">2607</span>
+<span id="2608">2608</span>
+<span id="2609">2609</span>
+<span id="2610">2610</span>
+<span id="2611">2611</span>
+<span id="2612">2612</span>
+<span id="2613">2613</span>
+<span id="2614">2614</span>
+<span id="2615">2615</span>
+<span id="2616">2616</span>
+<span id="2617">2617</span>
+<span id="2618">2618</span>
+<span id="2619">2619</span>
+<span id="2620">2620</span>
+<span id="2621">2621</span>
+<span id="2622">2622</span>
+<span id="2623">2623</span>
+<span id="2624">2624</span>
+<span id="2625">2625</span>
+<span id="2626">2626</span>
+<span id="2627">2627</span>
+<span id="2628">2628</span>
+<span id="2629">2629</span>
+<span id="2630">2630</span>
+<span id="2631">2631</span>
+<span id="2632">2632</span>
+<span id="2633">2633</span>
+<span id="2634">2634</span>
+<span id="2635">2635</span>
+<span id="2636">2636</span>
+<span id="2637">2637</span>
+<span id="2638">2638</span>
+<span id="2639">2639</span>
+<span id="2640">2640</span>
+<span id="2641">2641</span>
+<span id="2642">2642</span>
+<span id="2643">2643</span>
+<span id="2644">2644</span>
+<span id="2645">2645</span>
+<span id="2646">2646</span>
+<span id="2647">2647</span>
+<span id="2648">2648</span>
+<span id="2649">2649</span>
+<span id="2650">2650</span>
+<span id="2651">2651</span>
+<span id="2652">2652</span>
+<span id="2653">2653</span>
+<span id="2654">2654</span>
+<span id="2655">2655</span>
+<span id="2656">2656</span>
+<span id="2657">2657</span>
+<span id="2658">2658</span>
+<span id="2659">2659</span>
+<span id="2660">2660</span>
+<span id="2661">2661</span>
+<span id="2662">2662</span>
+<span id="2663">2663</span>
+<span id="2664">2664</span>
+<span id="2665">2665</span>
+<span id="2666">2666</span>
+<span id="2667">2667</span>
+<span id="2668">2668</span>
+<span id="2669">2669</span>
+<span id="2670">2670</span>
+<span id="2671">2671</span>
+<span id="2672">2672</span>
+<span id="2673">2673</span>
+<span id="2674">2674</span>
+<span id="2675">2675</span>
+<span id="2676">2676</span>
+<span id="2677">2677</span>
+<span id="2678">2678</span>
+<span id="2679">2679</span>
+<span id="2680">2680</span>
+<span id="2681">2681</span>
+<span id="2682">2682</span>
+<span id="2683">2683</span>
+<span id="2684">2684</span>
+<span id="2685">2685</span>
+<span id="2686">2686</span>
+<span id="2687">2687</span>
+<span id="2688">2688</span>
+<span id="2689">2689</span>
+<span id="2690">2690</span>
+<span id="2691">2691</span>
+<span id="2692">2692</span>
+<span id="2693">2693</span>
+<span id="2694">2694</span>
+<span id="2695">2695</span>
+<span id="2696">2696</span>
+<span id="2697">2697</span>
+<span id="2698">2698</span>
+<span id="2699">2699</span>
+<span id="2700">2700</span>
+<span id="2701">2701</span>
+<span id="2702">2702</span>
+<span id="2703">2703</span>
+<span id="2704">2704</span>
+<span id="2705">2705</span>
+<span id="2706">2706</span>
+<span id="2707">2707</span>
+<span id="2708">2708</span>
+<span id="2709">2709</span>
+<span id="2710">2710</span>
+<span id="2711">2711</span>
+<span id="2712">2712</span>
+<span id="2713">2713</span>
+<span id="2714">2714</span>
+<span id="2715">2715</span>
+<span id="2716">2716</span>
+<span id="2717">2717</span>
+<span id="2718">2718</span>
+<span id="2719">2719</span>
+<span id="2720">2720</span>
+<span id="2721">2721</span>
+<span id="2722">2722</span>
+<span id="2723">2723</span>
+<span id="2724">2724</span>
+<span id="2725">2725</span>
+<span id="2726">2726</span>
+<span id="2727">2727</span>
+<span id="2728">2728</span>
+<span id="2729">2729</span>
+<span id="2730">2730</span>
+<span id="2731">2731</span>
+<span id="2732">2732</span>
+<span id="2733">2733</span>
+<span id="2734">2734</span>
+<span id="2735">2735</span>
+<span id="2736">2736</span>
+<span id="2737">2737</span>
+<span id="2738">2738</span>
+<span id="2739">2739</span>
+<span id="2740">2740</span>
+<span id="2741">2741</span>
+<span id="2742">2742</span>
+<span id="2743">2743</span>
+<span id="2744">2744</span>
+<span id="2745">2745</span>
+<span id="2746">2746</span>
+<span id="2747">2747</span>
+<span id="2748">2748</span>
+<span id="2749">2749</span>
+<span id="2750">2750</span>
+<span id="2751">2751</span>
+<span id="2752">2752</span>
+<span id="2753">2753</span>
+<span id="2754">2754</span>
+<span id="2755">2755</span>
+<span id="2756">2756</span>
+<span id="2757">2757</span>
+<span id="2758">2758</span>
+<span id="2759">2759</span>
+<span id="2760">2760</span>
+<span id="2761">2761</span>
+<span id="2762">2762</span>
+<span id="2763">2763</span>
+<span id="2764">2764</span>
+<span id="2765">2765</span>
+<span id="2766">2766</span>
+<span id="2767">2767</span>
+<span id="2768">2768</span>
+<span id="2769">2769</span>
+<span id="2770">2770</span>
+<span id="2771">2771</span>
+<span id="2772">2772</span>
+<span id="2773">2773</span>
+<span id="2774">2774</span>
+<span id="2775">2775</span>
+<span id="2776">2776</span>
+<span id="2777">2777</span>
+<span id="2778">2778</span>
+<span id="2779">2779</span>
+<span id="2780">2780</span>
+<span id="2781">2781</span>
+<span id="2782">2782</span>
+<span id="2783">2783</span>
+<span id="2784">2784</span>
+<span id="2785">2785</span>
+<span id="2786">2786</span>
+<span id="2787">2787</span>
+<span id="2788">2788</span>
+<span id="2789">2789</span>
+<span id="2790">2790</span>
+<span id="2791">2791</span>
+<span id="2792">2792</span>
+<span id="2793">2793</span>
+<span id="2794">2794</span>
+<span id="2795">2795</span>
+<span id="2796">2796</span>
+<span id="2797">2797</span>
+<span id="2798">2798</span>
+<span id="2799">2799</span>
+<span id="2800">2800</span>
+<span id="2801">2801</span>
+<span id="2802">2802</span>
+<span id="2803">2803</span>
+<span id="2804">2804</span>
+<span id="2805">2805</span>
+<span id="2806">2806</span>
+<span id="2807">2807</span>
+<span id="2808">2808</span>
+<span id="2809">2809</span>
+<span id="2810">2810</span>
+<span id="2811">2811</span>
+<span id="2812">2812</span>
+<span id="2813">2813</span>
+<span id="2814">2814</span>
+<span id="2815">2815</span>
+<span id="2816">2816</span>
+<span id="2817">2817</span>
+<span id="2818">2818</span>
+<span id="2819">2819</span>
+<span id="2820">2820</span>
+<span id="2821">2821</span>
+<span id="2822">2822</span>
+<span id="2823">2823</span>
+<span id="2824">2824</span>
+<span id="2825">2825</span>
+<span id="2826">2826</span>
+<span id="2827">2827</span>
+<span id="2828">2828</span>
+<span id="2829">2829</span>
+<span id="2830">2830</span>
+<span id="2831">2831</span>
+<span id="2832">2832</span>
+<span id="2833">2833</span>
+<span id="2834">2834</span>
+<span id="2835">2835</span>
+<span id="2836">2836</span>
+<span id="2837">2837</span>
+<span id="2838">2838</span>
+<span id="2839">2839</span>
+<span id="2840">2840</span>
+<span id="2841">2841</span>
+<span id="2842">2842</span>
+<span id="2843">2843</span>
+<span id="2844">2844</span>
+<span id="2845">2845</span>
+<span id="2846">2846</span>
+<span id="2847">2847</span>
+<span id="2848">2848</span>
+<span id="2849">2849</span>
+<span id="2850">2850</span>
+<span id="2851">2851</span>
+<span id="2852">2852</span>
+<span id="2853">2853</span>
+<span id="2854">2854</span>
+<span id="2855">2855</span>
+<span id="2856">2856</span>
+<span id="2857">2857</span>
+<span id="2858">2858</span>
+<span id="2859">2859</span>
+<span id="2860">2860</span>
+<span id="2861">2861</span>
+<span id="2862">2862</span>
+<span id="2863">2863</span>
+<span id="2864">2864</span>
+<span id="2865">2865</span>
+<span id="2866">2866</span>
+<span id="2867">2867</span>
+<span id="2868">2868</span>
+<span id="2869">2869</span>
+<span id="2870">2870</span>
+<span id="2871">2871</span>
+<span id="2872">2872</span>
+<span id="2873">2873</span>
+<span id="2874">2874</span>
+<span id="2875">2875</span>
+<span id="2876">2876</span>
+<span id="2877">2877</span>
+<span id="2878">2878</span>
+<span id="2879">2879</span>
+<span id="2880">2880</span>
+<span id="2881">2881</span>
+<span id="2882">2882</span>
+<span id="2883">2883</span>
+<span id="2884">2884</span>
+<span id="2885">2885</span>
+<span id="2886">2886</span>
+<span id="2887">2887</span>
+<span id="2888">2888</span>
+<span id="2889">2889</span>
+<span id="2890">2890</span>
+<span id="2891">2891</span>
+<span id="2892">2892</span>
+<span id="2893">2893</span>
+<span id="2894">2894</span>
+<span id="2895">2895</span>
+<span id="2896">2896</span>
+<span id="2897">2897</span>
+<span id="2898">2898</span>
+<span id="2899">2899</span>
+<span id="2900">2900</span>
+<span id="2901">2901</span>
+<span id="2902">2902</span>
+<span id="2903">2903</span>
+<span id="2904">2904</span>
+<span id="2905">2905</span>
+<span id="2906">2906</span>
+<span id="2907">2907</span>
+<span id="2908">2908</span>
+<span id="2909">2909</span>
+<span id="2910">2910</span>
+<span id="2911">2911</span>
+<span id="2912">2912</span>
+<span id="2913">2913</span>
+<span id="2914">2914</span>
+<span id="2915">2915</span>
+<span id="2916">2916</span>
+<span id="2917">2917</span>
+<span id="2918">2918</span>
+<span id="2919">2919</span>
+<span id="2920">2920</span>
+<span id="2921">2921</span>
+<span id="2922">2922</span>
+<span id="2923">2923</span>
+<span id="2924">2924</span>
+<span id="2925">2925</span>
+<span id="2926">2926</span>
+<span id="2927">2927</span>
+<span id="2928">2928</span>
+<span id="2929">2929</span>
+<span id="2930">2930</span>
+<span id="2931">2931</span>
+<span id="2932">2932</span>
+<span id="2933">2933</span>
+<span id="2934">2934</span>
+<span id="2935">2935</span>
+<span id="2936">2936</span>
+<span id="2937">2937</span>
+<span id="2938">2938</span>
+<span id="2939">2939</span>
+<span id="2940">2940</span>
+<span id="2941">2941</span>
+<span id="2942">2942</span>
+<span id="2943">2943</span>
+<span id="2944">2944</span>
+<span id="2945">2945</span>
+<span id="2946">2946</span>
+<span id="2947">2947</span>
+<span id="2948">2948</span>
+<span id="2949">2949</span>
+<span id="2950">2950</span>
+<span id="2951">2951</span>
+<span id="2952">2952</span>
+<span id="2953">2953</span>
+<span id="2954">2954</span>
+<span id="2955">2955</span>
+<span id="2956">2956</span>
+<span id="2957">2957</span>
+<span id="2958">2958</span>
+<span id="2959">2959</span>
+<span id="2960">2960</span>
+<span id="2961">2961</span>
+<span id="2962">2962</span>
+<span id="2963">2963</span>
+<span id="2964">2964</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.</span>
 
 <span class="doccomment">//! `IMPL` Object wrapper implementation and `Object` binding.</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">quark</span>::<span class="ident">Quark</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">translate</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">StaticType</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">quark</span>::<span class="ident">Quark</span>, <span class="ident">subclass</span>::<span class="ident">signal</span>::<span class="ident">SignalQuery</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">hash</span>;
@@ -2599,7 +2982,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">pin</span>::<span class="ident">Pin</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ptr</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">subclass</span>::<span class="ident">prelude</span>::<span class="ident">ObjectSubclass</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">subclass</span>::{<span class="ident">prelude</span>::<span class="ident">ObjectSubclass</span>, <span class="ident">SignalId</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">ToValue</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">BoolError</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Closure</span>;
@@ -2666,28 +3049,6 @@
 <span class="doccomment">/// The trait can only be implemented if the appropriate `ToGlibPtr`</span>
 <span class="doccomment">/// implementations exist.</span>
 <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span>: <span class="ident">ObjectType</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span>(<span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>);
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">ops</span>::<span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>;
-
-    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>() }
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">unsafe</span> {
-            <span class="ident">gobject_ffi</span>::<span class="ident">g_type_class_unref</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>);
-        }
-    }
-}
-
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
 
 <span class="doccomment">/// Upcasting and downcasting support.</span>
 <span class="doccomment">///</span>
@@ -3610,6 +3971,9 @@
     (@<span class="ident">object</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attr</span>:<span class="ident">meta</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_class_name</span>:<span class="ident">ty</span>, @<span class="ident">get_type</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">get_type_expr</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">glib_object_wrapper</span><span class="macro">!</span>(@<span class="macro-nonterminal">generic_impl</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attr</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_class_name</span>,
             @<span class="ident">get_type</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">get_type_expr</span>);
+
+        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+        <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">object</span>::<span class="ident">IsClass</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> { }
     };
 
     (@<span class="ident">object</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attr</span>:<span class="ident">meta</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_class_name</span>:<span class="ident">ty</span>,
@@ -3628,10 +3992,14 @@
 
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
         <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">object</span>::<span class="ident">IsA</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">object</span>::<span class="ident">Object</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> { }
+
+        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+        <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">object</span>::<span class="ident">IsClass</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> { }
     };
 
-    (@<span class="ident">interface</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attr</span>:<span class="ident">meta</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>:<span class="ident">ty</span>, @<span class="ident">get_type</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">get_type_expr</span>:<span class="ident">expr</span>, @<span class="ident">requires</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">requires</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">glib_object_wrapper</span><span class="macro">!</span>(@<span class="macro-nonterminal">generic_impl</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attr</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>, (),
+    (@<span class="ident">interface</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attr</span>:<span class="ident">meta</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_class_name</span>:<span class="ident">ty</span>,
+        @<span class="ident">get_type</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">get_type_expr</span>:<span class="ident">expr</span>, @<span class="ident">requires</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">requires</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">glib_object_wrapper</span><span class="macro">!</span>(@<span class="macro-nonterminal">generic_impl</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attr</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_name</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ffi_class_name</span>,
             @<span class="ident">get_type</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">get_type_expr</span>);
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro">glib_object_wrapper</span><span class="macro">!</span>(@<span class="macro-nonterminal">munch_impls</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">requires</span>)<span class="kw-2">*</span>);
 
@@ -3644,6 +4012,9 @@
 
         <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
         <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">object</span>::<span class="ident">IsA</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">object</span>::<span class="ident">Object</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> { }
+
+        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+        <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">object</span>::<span class="ident">IsInterface</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> { }
     };
 }
 
@@ -3655,7 +4026,9 @@
 
 <span class="kw">impl</span> <span class="ident">Object</span> {
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">new_ret_no_self</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">properties</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">IsClass</span><span class="op">&gt;</span>(
+        <span class="ident">properties</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>)],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">Object</span>::<span class="ident">with_type</span>(<span class="ident">T</span>::<span class="ident">static_type</span>(), <span class="ident">properties</span>)<span class="question-mark">?</span>
             .<span class="ident">downcast</span>()
             .<span class="ident">unwrap</span>())
@@ -3690,7 +4063,7 @@
         <span class="kw">unsafe</span> { <span class="ident">Object</span>::<span class="ident">new_internal</span>(<span class="ident">type_</span>, <span class="kw-2">&amp;</span><span class="ident">params</span>) }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_generic</span>(<span class="ident">type_</span>: <span class="ident">Type</span>, <span class="ident">properties</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">Value</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Object</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_values</span>(<span class="ident">type_</span>: <span class="ident">Type</span>, <span class="ident">properties</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">Value</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Object</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
 
         <span class="kw">let</span> <span class="ident">klass</span> <span class="op">=</span> <span class="ident">ObjectClass</span>::<span class="ident">from_type</span>(<span class="ident">type_</span>)
@@ -3720,7 +4093,7 @@
         <span class="ident">type_</span>: <span class="ident">Type</span>,
         <span class="ident">params</span>: <span class="kw-2">&amp;</span>[(<span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>, <span class="ident">Value</span>)],
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Object</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">type_</span>.<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">Object</span>::<span class="ident">static_type</span>()) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">type_</span>.<span class="ident">is_a</span>(<span class="ident">Object</span>::<span class="ident">static_type</span>()) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(
                 <span class="string">&quot;Can&#39;t instantiate non-GObject type &#39;{}&#39;&quot;</span>,
                 <span class="ident">type_</span>
@@ -3754,7 +4127,7 @@
         );
         <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
             <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(<span class="string">&quot;Can&#39;t instantiate object for type &#39;{}&#39;&quot;</span>, <span class="ident">type_</span>))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">type_</span>.<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">InitiallyUnowned</span>::<span class="ident">static_type</span>()) {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">type_</span>.<span class="ident">is_a</span>(<span class="ident">InitiallyUnowned</span>::<span class="ident">static_type</span>()) {
             <span class="comment">// Attention: This takes ownership of the floating reference</span>
             <span class="prelude-val">Ok</span>(<span class="ident">from_glib_none</span>(<span class="ident">ptr</span>))
         } <span class="kw">else</span> {
@@ -3769,19 +4142,25 @@
 
     <span class="kw">fn</span> <span class="ident">get_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Type</span>;
     <span class="kw">fn</span> <span class="ident">get_object_class</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">ObjectClass</span>;
+    <span class="kw">fn</span> <span class="ident">get_class</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="self">Self</span>: <span class="ident">IsClass</span>;
+    <span class="kw">fn</span> <span class="ident">get_class_of</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">get_interface</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">set_property</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">V</span>: <span class="ident">ToValue</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">property_name</span>: <span class="ident">N</span>,
         <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">V</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">set_property_generic</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">set_property_from_value</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">property_name</span>: <span class="ident">N</span>,
         <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">Value</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">set_properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_values</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">set_properties_generic</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_values</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">Value</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">set_properties_from_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_values</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">Value</span>)])
+        <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">get_property</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_name</span>: <span class="ident">N</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">has_property</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_name</span>: <span class="ident">N</span>, <span class="ident">type_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
     <span class="kw">fn</span> <span class="ident">get_property_type</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_name</span>: <span class="ident">N</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;</span>;
@@ -3795,8 +4174,11 @@
 
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// The returned pointer can become invalid by a call to</span>
+    <span class="doccomment">/// `set_qdata`, `steal_qdata`, `set_data` or `steal_data`.</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// The caller is responsible for ensuring the returned value is of a suitable type</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_qdata</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">Quark</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">QD</span><span class="op">&gt;</span>;
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_qdata</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">Quark</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">QD</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
@@ -3810,8 +4192,11 @@
 
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// The returned pointer can become invalid by a call to</span>
+    <span class="doccomment">/// `set_qdata`, `steal_qdata`, `set_data` or `steal_data`.</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// The caller is responsible for ensuring the returned value is of a suitable type</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_data</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">QD</span><span class="op">&gt;</span>;
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_data</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">QD</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
@@ -3831,6 +4216,17 @@
     <span class="kw">where</span>
         <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+    <span class="doccomment">/// Same as `connect` but takes a `SignalId` instead of a signal name.</span>
+    <span class="kw">fn</span> <span class="ident">connect_id</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Quark</span><span class="op">&gt;</span>,
+        <span class="ident">after</span>: <span class="ident">bool</span>,
+        <span class="ident">callback</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignalHandlerId</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+
     <span class="kw">fn</span> <span class="ident">connect_local</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>, <span class="ident">F</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">signal_name</span>: <span class="ident">N</span>,
@@ -3840,6 +4236,17 @@
     <span class="kw">where</span>
         <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+    <span class="doccomment">/// Same as `connect_local` but takes a `SignalId` instead of a signal name.</span>
+    <span class="kw">fn</span> <span class="ident">connect_local_id</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Quark</span><span class="op">&gt;</span>,
+        <span class="ident">after</span>: <span class="ident">bool</span>,
+        <span class="ident">callback</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignalHandlerId</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">connect_unsafe</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>, <span class="ident">F</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">signal_name</span>: <span class="ident">N</span>,
@@ -3849,14 +4256,48 @@
     <span class="kw">where</span>
         <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">emit</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Same as `connect_unsafe` but takes a `SignalId` instead of a signal name.</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">connect_unsafe_id</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Quark</span><span class="op">&gt;</span>,
+        <span class="ident">after</span>: <span class="ident">bool</span>,
+        <span class="ident">callback</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignalHandlerId</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Emit signal by signal id.</span>
+    <span class="kw">fn</span> <span class="ident">emit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">signal_id</span>: <span class="ident">SignalId</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Same as `emit` but takes `Value` for the arguments.</span>
+    <span class="kw">fn</span> <span class="ident">emit_with_values</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Emit signal by it&#39;s name.</span>
+    <span class="kw">fn</span> <span class="ident">emit_by_name</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">signal_name</span>: <span class="ident">N</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>],
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">emit_generic</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Same as `emit_by_name` but takes `Value` for the arguments.</span>
+    <span class="kw">fn</span> <span class="ident">emit_by_name_with_values</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">signal_name</span>: <span class="ident">N</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Emit signal with details by signal id.</span>
+    <span class="kw">fn</span> <span class="ident">emit_with_details</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="ident">Quark</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Same as `emit_with_details` but takes `Value` for the arguments.</span>
+    <span class="kw">fn</span> <span class="ident">emit_with_details_and_values</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="ident">Quark</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">disconnect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">handler_id</span>: <span class="ident">SignalHandlerId</span>);
@@ -3893,7 +4334,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">ObjectExt</span> <span class="kw">for</span> <span class="ident">T</span> {
     <span class="kw">fn</span> <span class="ident">is</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">StaticType</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">U</span>::<span class="ident">static_type</span>())
+        <span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="ident">U</span>::<span class="ident">static_type</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">get_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Type</span> {
@@ -3906,6 +4347,33 @@
             <span class="kw">let</span> <span class="ident">klass</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">obj</span>).<span class="ident">g_type_instance</span>.<span class="ident">g_class</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ObjectClass</span>;
             <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">klass</span>
         }
+    }
+
+    <span class="kw">fn</span> <span class="ident">get_class</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="self">Self</span>: <span class="ident">IsClass</span>,
+    {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">obj</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">gobject_ffi</span>::<span class="ident">GObject</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_object_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">klass</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">obj</span>).<span class="ident">g_type_instance</span>.<span class="ident">g_class</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+            <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">klass</span>
+        }
+    }
+
+    <span class="kw">fn</span> <span class="ident">get_class_of</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">is</span>::<span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>() {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
+
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">obj</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">gobject_ffi</span>::<span class="ident">GObject</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_object_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>;
+            <span class="kw">let</span> <span class="ident">klass</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">obj</span>).<span class="ident">g_type_instance</span>.<span class="ident">g_class</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>;
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">klass</span>)
+        }
+    }
+
+    <span class="kw">fn</span> <span class="ident">get_interface</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="ident">Interface</span>::<span class="ident">from_class</span>(<span class="self">self</span>.<span class="ident">get_object_class</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">set_properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_values</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span> {
@@ -3946,7 +4414,10 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">set_properties_generic</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">property_values</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">Value</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">set_properties_from_value</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">property_values</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">Value</span>)],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BoolError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
 
         <span class="kw">let</span> <span class="ident">pspecs</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">list_properties</span>();
@@ -4015,7 +4486,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">set_property_generic</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">set_property_from_value</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">property_name</span>: <span class="ident">N</span>,
         <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">Value</span>,
@@ -4077,15 +4548,13 @@
             );
 
             <span class="comment">// This can&#39;t really happen unless something goes wrong inside GObject</span>
-            <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">type_</span>() <span class="op">=</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Type</span>::<span class="ident">Invalid</span> {
-                <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(
+            <span class="prelude-val">Some</span>(<span class="ident">value</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">type_</span>().<span class="ident">is_valid</span>()).<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
+                <span class="macro">bool_error</span><span class="macro">!</span>(
                     <span class="string">&quot;Failed to get property value for property &#39;{}&#39; of type &#39;{}&#39;&quot;</span>,
                     <span class="ident">property_name</span>,
                     <span class="self">self</span>.<span class="ident">get_type</span>()
-                ))
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">value</span>)
-            }
+                )
+            })
         }
     }
 
@@ -4105,14 +4574,11 @@
         );
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_qdata</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">Quark</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">QD</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span>
-            <span class="ident">gobject_ffi</span>::<span class="ident">g_object_get_qdata</span>(<span class="self">self</span>.<span class="ident">as_object_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>, <span class="ident">key</span>.<span class="ident">to_glib</span>());
-        <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
-            <span class="prelude-val">None</span>
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">QD</span>))
-        }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_qdata</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">Quark</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">QD</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new</span>(<span class="ident">gobject_ffi</span>::<span class="ident">g_object_get_qdata</span>(
+            <span class="self">self</span>.<span class="ident">as_object_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>,
+            <span class="ident">key</span>.<span class="ident">to_glib</span>(),
+        ) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">QD</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">steal_qdata</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">Quark</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">QD</span><span class="op">&gt;</span> {
@@ -4130,7 +4596,7 @@
         <span class="self">self</span>.<span class="ident">set_qdata</span>::<span class="op">&lt;</span><span class="ident">QD</span><span class="op">&gt;</span>(<span class="ident">Quark</span>::<span class="ident">from_string</span>(<span class="ident">key</span>), <span class="ident">value</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_data</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">QD</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_data</span><span class="op">&lt;</span><span class="ident">QD</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">QD</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">get_qdata</span>::<span class="op">&lt;</span><span class="ident">QD</span><span class="op">&gt;</span>(<span class="ident">Quark</span>::<span class="ident">from_string</span>(<span class="ident">key</span>))
     }
 
@@ -4281,6 +4747,19 @@
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">connect_unsafe</span>(<span class="ident">signal_name</span>, <span class="ident">after</span>, <span class="ident">callback</span>) }
     }
 
+    <span class="kw">fn</span> <span class="ident">connect_id</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Quark</span><span class="op">&gt;</span>,
+        <span class="ident">after</span>: <span class="ident">bool</span>,
+        <span class="ident">callback</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignalHandlerId</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">connect_unsafe_id</span>(<span class="ident">signal_id</span>, <span class="ident">details</span>, <span class="ident">after</span>, <span class="ident">callback</span>) }
+    }
+
     <span class="kw">fn</span> <span class="ident">connect_local</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>, <span class="ident">F</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">signal_name</span>: <span class="ident">N</span>,
@@ -4300,6 +4779,25 @@
         }
     }
 
+    <span class="kw">fn</span> <span class="ident">connect_local_id</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Quark</span><span class="op">&gt;</span>,
+        <span class="ident">after</span>: <span class="ident">bool</span>,
+        <span class="ident">callback</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignalHandlerId</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="kw">let</span> <span class="ident">callback</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ThreadGuard</span>::<span class="ident">new</span>(<span class="ident">callback</span>);
+
+        <span class="kw">unsafe</span> {
+            <span class="self">self</span>.<span class="ident">connect_unsafe_id</span>(<span class="ident">signal_id</span>, <span class="ident">details</span>, <span class="ident">after</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">values</span><span class="op">|</span> {
+                (<span class="ident">callback</span>.<span class="ident">get_ref</span>())(<span class="ident">values</span>)
+            })
+        }
+    }
+
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">connect_unsafe</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>, <span class="ident">F</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">signal_name</span>: <span class="ident">N</span>,
@@ -4311,46 +4809,38 @@
         <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">signal_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="ident">signal_name</span>.<span class="ident">into</span>();
-
         <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
+        <span class="kw">let</span> (<span class="ident">signal_id</span>, <span class="ident">details</span>) <span class="op">=</span> <span class="ident">SignalId</span>::<span class="ident">parse_name</span>(<span class="ident">signal_name</span>, <span class="ident">type_</span>, <span class="bool-val">true</span>)
+            .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">bool_error</span><span class="macro">!</span>(<span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>, <span class="ident">signal_name</span>, <span class="ident">type_</span>))<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">connect_unsafe_id</span>(<span class="ident">signal_id</span>, <span class="prelude-val">Some</span>(<span class="ident">details</span>), <span class="ident">after</span>, <span class="ident">callback</span>)
+    }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signal_id</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signal_detail</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">connect_unsafe_id</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Quark</span><span class="op">&gt;</span>,
+        <span class="ident">after</span>: <span class="ident">bool</span>,
+        <span class="ident">callback</span>: <span class="ident">F</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SignalHandlerId</span>, <span class="ident">BoolError</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span>[<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+    {
+        <span class="kw">let</span> <span class="ident">signal_query</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">query</span>();
+        <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
+        <span class="kw">let</span> <span class="ident">return_type</span>: <span class="ident">Type</span> <span class="op">=</span> <span class="ident">signal_query</span>.<span class="ident">return_type</span>().<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">signal_name</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">name</span>();
 
-        <span class="kw">let</span> <span class="ident">found</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="ident">from_glib</span>(<span class="ident">gobject_ffi</span>::<span class="ident">g_signal_parse_name</span>(
-            <span class="ident">signal_name</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-            <span class="ident">type_</span>.<span class="ident">to_glib</span>(),
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signal_id</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signal_detail</span>,
-            <span class="bool-val">true</span>.<span class="ident">to_glib</span>(),
-        ));
-
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">found</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(
-                <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>,
-                <span class="ident">signal_name</span>,
-                <span class="ident">type_</span>
-            ));
+        <span class="kw">let</span> <span class="ident">signal_query_type</span> <span class="op">=</span> <span class="ident">signal_query</span>.<span class="ident">type_</span>();
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">type_</span>.<span class="ident">is_a</span>(<span class="ident">signal_query_type</span>) {
+            <span class="macro">panic</span><span class="macro">!</span>(
+                <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; but got type &#39;{}&#39;&quot;</span>,
+                <span class="ident">signal_name</span>, <span class="ident">type_</span>, <span class="ident">signal_query_type</span>
+            );
         }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">details</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="ident">zeroed</span>();
-        <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_query</span>(<span class="ident">signal_id</span>, <span class="ident">details</span>.<span class="ident">as_mut_ptr</span>());
-        <span class="kw">let</span> <span class="ident">details</span> <span class="op">=</span> <span class="ident">details</span>.<span class="ident">assume_init</span>();
-        <span class="kw">if</span> <span class="ident">details</span>.<span class="ident">signal_id</span> <span class="op">!</span><span class="op">=</span> <span class="ident">signal_id</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(
-                <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>,
-                <span class="ident">signal_name</span>,
-                <span class="ident">type_</span>
-            ));
-        }
-
-        <span class="comment">// This is actually G_SIGNAL_TYPE_STATIC_SCOPE</span>
-        <span class="kw">let</span> <span class="ident">return_type</span>: <span class="ident">Type</span> <span class="op">=</span>
-            <span class="ident">from_glib</span>(<span class="ident">details</span>.<span class="ident">return_type</span> <span class="op">&amp;</span> (<span class="op">!</span><span class="ident">gobject_ffi</span>::<span class="ident">G_TYPE_FLAG_RESERVED_ID_BIT</span>));
-        <span class="kw">let</span> <span class="ident">closure</span> <span class="op">=</span> <span class="ident">Closure</span>::<span class="ident">new_unsafe</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">values</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">callback</span>(<span class="ident">values</span>);
-
-            <span class="kw">if</span> <span class="ident">return_type</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">Unit</span> {
+        <span class="kw">let</span> <span class="ident">closure</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">return_type</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span> {
+            <span class="ident">Closure</span>::<span class="ident">new_unsafe</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">values</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">callback</span>(<span class="ident">values</span>);
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ret</span>) <span class="op">=</span> <span class="ident">ret</span> {
                     <span class="macro">panic</span><span class="macro">!</span>(
                         <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; required no return value but got value of type &#39;{}&#39;&quot;</span>,
@@ -4360,66 +4850,60 @@
                     );
                 }
                 <span class="prelude-val">None</span>
-            } <span class="kw">else</span> {
-                <span class="kw">match</span> <span class="ident">ret</span> {
-                    <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">ret</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                        <span class="kw">let</span> <span class="ident">valid_type</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="ident">from_glib</span>(<span class="ident">gobject_ffi</span>::<span class="ident">g_type_check_value_holds</span>(
-                            <span class="ident">mut_override</span>(<span class="ident">ret</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>),
-                            <span class="ident">return_type</span>.<span class="ident">to_glib</span>(),
-                        ));
+            })
+        } <span class="kw">else</span> {
+            <span class="ident">Closure</span>::<span class="ident">new_unsafe</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">values</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">callback</span>(<span class="ident">values</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
+                    <span class="macro">panic</span><span class="macro">!</span>(
+                        <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; required return value of type &#39;{}&#39; but got None&quot;</span>,
+                        <span class="ident">signal_name</span>,
+                        <span class="ident">type_</span>,
+                        <span class="ident">return_type</span>.<span class="ident">name</span>()
+                    );
+                });
+                <span class="kw">let</span> <span class="ident">valid_type</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="ident">from_glib</span>(<span class="ident">gobject_ffi</span>::<span class="ident">g_type_check_value_holds</span>(
+                    <span class="ident">mut_override</span>(<span class="ident">ret</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>),
+                    <span class="ident">return_type</span>.<span class="ident">to_glib</span>(),
+                ));
 
-                        <span class="comment">// If it&#39;s not directly a valid type but an object type, we check if the</span>
-                        <span class="comment">// actual typed of the contained object is compatible and if so create</span>
-                        <span class="comment">// a properly typed Value. This can happen if the type field in the</span>
-                        <span class="comment">// Value is set to a more generic type than the contained value</span>
-                        <span class="kw">if</span> <span class="op">!</span><span class="ident">valid_type</span> <span class="op">&amp;&amp;</span> <span class="ident">ret</span>.<span class="ident">type_</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">Object</span>::<span class="ident">static_type</span>()) {
-                            <span class="kw">match</span> <span class="ident">ret</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span>() {
-                                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">obj</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                                    <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">return_type</span>) {
-                                        <span class="ident">ret</span>.<span class="number">0</span>.<span class="ident">g_type</span> <span class="op">=</span> <span class="ident">return_type</span>.<span class="ident">to_glib</span>();
-                                    } <span class="kw">else</span> {
-                                        <span class="macro">panic</span><span class="macro">!</span>(
-                                            <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; required return value of type &#39;{}&#39; but got &#39;{}&#39; (actual &#39;{}&#39;)&quot;</span>,
-                                            <span class="ident">signal_name</span>,
-                                            <span class="ident">type_</span>,
-                                            <span class="ident">return_type</span>,
-                                            <span class="ident">ret</span>.<span class="ident">type_</span>(),
-                                            <span class="ident">obj</span>.<span class="ident">get_type</span>()
-                                        );
-                                    }
-                                }
-                                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                                    <span class="comment">// If the value is None then the type is compatible too</span>
-                                    <span class="ident">ret</span>.<span class="number">0</span>.<span class="ident">g_type</span> <span class="op">=</span> <span class="ident">return_type</span>.<span class="ident">to_glib</span>();
-                                }
-                                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;ret type conformity already checked&quot;</span>),
-                            }
-                        } <span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">valid_type</span> {
-                            <span class="macro">panic</span><span class="macro">!</span>(
-                                <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; required return value of type &#39;{}&#39; but got &#39;{}&#39;&quot;</span>,
-                                <span class="ident">signal_name</span>,
-                                <span class="ident">type_</span>,
-                                <span class="ident">return_type</span>,
-                                <span class="ident">ret</span>.<span class="ident">type_</span>()
-                            );
-                        }
-                        <span class="prelude-val">Some</span>(<span class="ident">ret</span>)
-                    }
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
-                        <span class="macro">panic</span><span class="macro">!</span>(
-                            <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; required return value of type &#39;{}&#39; but got None&quot;</span>,
-                            <span class="ident">signal_name</span>,
-                            <span class="ident">type_</span>,
-                            <span class="ident">return_type</span>.<span class="ident">name</span>()
-                        );
-                    }
+                <span class="kw">if</span> <span class="ident">valid_type</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">ret</span>);
                 }
-            }
-        });
+
+                <span class="comment">// If it&#39;s not directly a valid type but an object type, we check if the</span>
+                <span class="comment">// actual typed of the contained object is compatible and if so create</span>
+                <span class="comment">// a properly typed Value. This can happen if the type field in the</span>
+                <span class="comment">// Value is set to a more generic type than the contained value</span>
+                <span class="kw">let</span> <span class="ident">opt_obj</span> <span class="op">=</span> <span class="ident">ret</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
+                    <span class="macro">panic</span><span class="macro">!</span>(
+                        <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; required return value of type &#39;{}&#39; but got &#39;{}&#39;&quot;</span>,
+                        <span class="ident">signal_name</span>,
+                        <span class="ident">type_</span>,
+                        <span class="ident">return_type</span>,
+                        <span class="ident">ret</span>.<span class="ident">type_</span>()
+                    );
+                });
+
+                <span class="kw">let</span> <span class="ident">actual_type</span> <span class="op">=</span> <span class="ident">opt_obj</span>.<span class="ident">map_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ret</span>.<span class="ident">type_</span>(), <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> <span class="ident">obj</span>.<span class="ident">get_type</span>());
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">actual_type</span>.<span class="ident">is_a</span>(<span class="ident">return_type</span>) {
+                    <span class="macro">panic</span><span class="macro">!</span>(
+                        <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; required return value of type &#39;{}&#39; but got &#39;{}&#39; (actual &#39;{}&#39;)&quot;</span>,
+                        <span class="ident">signal_name</span>,
+                        <span class="ident">type_</span>,
+                        <span class="ident">return_type</span>,
+                        <span class="ident">ret</span>.<span class="ident">type_</span>(),
+                        <span class="ident">actual_type</span>
+                    );
+                }
+
+                <span class="ident">ret</span>.<span class="number">0</span>.<span class="ident">g_type</span> <span class="op">=</span> <span class="ident">return_type</span>.<span class="ident">to_glib</span>();
+                <span class="prelude-val">Some</span>(<span class="ident">ret</span>)
+            })
+        };
         <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_connect_closure_by_id</span>(
             <span class="self">self</span>.<span class="ident">as_object_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-            <span class="ident">signal_id</span>,
-            <span class="ident">signal_detail</span>,
+            <span class="ident">signal_id</span>.<span class="ident">to_glib</span>(),
+            <span class="ident">details</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> <span class="ident">d</span>.<span class="ident">to_glib</span>()).<span class="ident">unwrap_or</span>(<span class="number">0</span>), <span class="comment">// 0 matches no detail</span>
             <span class="ident">closure</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
             <span class="ident">after</span>.<span class="ident">to_glib</span>(),
         );
@@ -4435,12 +4919,8 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">emit</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">signal_name</span>: <span class="ident">N</span>,
-        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">signal_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="ident">signal_name</span>.<span class="ident">into</span>();
+    <span class="kw">fn</span> <span class="ident">emit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">signal_id</span>: <span class="ident">SignalId</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">signal_query</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">query</span>();
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
 
@@ -4460,35 +4940,36 @@
             )
             .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">smallvec</span>::<span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="kw">_</span>; <span class="number">10</span>]<span class="op">&gt;</span><span class="op">&gt;</span>();
 
-            <span class="kw">let</span> (<span class="ident">signal_id</span>, <span class="ident">signal_detail</span>, <span class="ident">return_type</span>) <span class="op">=</span>
-                <span class="ident">validate_signal_arguments</span>(<span class="ident">type_</span>, <span class="ident">signal_name</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">args</span>[<span class="number">1</span>..])<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">signal_detail</span> <span class="op">=</span> <span class="ident">validate_signal_arguments</span>(<span class="ident">type_</span>, <span class="kw-2">&amp;</span><span class="ident">signal_query</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">args</span>[<span class="number">1</span>..])<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">return_value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">uninitialized</span>();
-            <span class="kw">if</span> <span class="ident">return_type</span> <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">Unit</span> {
-                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(<span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>, <span class="ident">return_type</span>.<span class="ident">to_glib</span>());
+            <span class="kw">if</span> <span class="ident">signal_query</span>.<span class="ident">return_type</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span> {
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(
+                    <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+                    <span class="ident">signal_query</span>.<span class="ident">return_type</span>().<span class="ident">to_glib</span>(),
+                );
             }
 
             <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_emitv</span>(
                 <span class="ident">mut_override</span>(<span class="ident">args</span>.<span class="ident">as_ptr</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">gobject_ffi</span>::<span class="ident">GValue</span>,
-                <span class="ident">signal_id</span>,
-                <span class="ident">signal_detail</span>,
+                <span class="ident">signal_id</span>.<span class="ident">to_glib</span>(),
+                <span class="ident">signal_detail</span>.<span class="ident">to_glib</span>(),
                 <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
             );
 
-            <span class="kw">if</span> <span class="ident">return_value</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">Unit</span> <span class="op">&amp;&amp;</span> <span class="ident">return_value</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">Invalid</span> {
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">return_value</span>))
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
-            }
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">return_value</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">type_</span>().<span class="ident">is_valid</span>() <span class="op">&amp;&amp;</span> <span class="ident">r</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span>))
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">emit_generic</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">emit_with_details</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">signal_name</span>: <span class="ident">N</span>,
-        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="ident">Quark</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>],
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">signal_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="ident">signal_name</span>.<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">signal_query</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">query</span>();
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">signal_query</span>.<span class="ident">flags</span>().<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">SignalFlags</span>::<span class="ident">DETAILED</span>));
+
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
 
@@ -4502,30 +4983,43 @@
                 <span class="ident">v</span>
             };
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">Iterator</span>::<span class="ident">chain</span>(<span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">once</span>(<span class="ident">self_v</span>), <span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>())
-                .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">smallvec</span>::<span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="kw">_</span>; <span class="number">10</span>]<span class="op">&gt;</span><span class="op">&gt;</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">Iterator</span>::<span class="ident">chain</span>(
+                <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">once</span>(<span class="ident">self_v</span>),
+                <span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">map</span>(<span class="ident">ToValue</span>::<span class="ident">to_value</span>),
+            )
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">smallvec</span>::<span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="kw">_</span>; <span class="number">10</span>]<span class="op">&gt;</span><span class="op">&gt;</span>();
 
-            <span class="kw">let</span> (<span class="ident">signal_id</span>, <span class="ident">signal_detail</span>, <span class="ident">return_type</span>) <span class="op">=</span>
-                <span class="ident">validate_signal_arguments</span>(<span class="ident">type_</span>, <span class="ident">signal_name</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">args</span>[<span class="number">1</span>..])<span class="question-mark">?</span>;
+            <span class="ident">validate_signal_arguments</span>(<span class="ident">type_</span>, <span class="kw-2">&amp;</span><span class="ident">signal_query</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">args</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">return_value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">uninitialized</span>();
-            <span class="kw">if</span> <span class="ident">return_type</span> <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">Unit</span> {
-                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(<span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>, <span class="ident">return_type</span>.<span class="ident">to_glib</span>());
+            <span class="kw">if</span> <span class="ident">signal_query</span>.<span class="ident">return_type</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span> {
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(
+                    <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+                    <span class="ident">signal_query</span>.<span class="ident">return_type</span>().<span class="ident">to_glib</span>(),
+                );
             }
 
             <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_emitv</span>(
                 <span class="ident">mut_override</span>(<span class="ident">args</span>.<span class="ident">as_ptr</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">gobject_ffi</span>::<span class="ident">GValue</span>,
-                <span class="ident">signal_id</span>,
-                <span class="ident">signal_detail</span>,
+                <span class="ident">signal_id</span>.<span class="ident">to_glib</span>(),
+                <span class="ident">details</span>.<span class="ident">to_glib</span>(),
                 <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
             );
 
-            <span class="kw">if</span> <span class="ident">return_value</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">Unit</span> <span class="op">&amp;&amp;</span> <span class="ident">return_value</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">Invalid</span> {
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">return_value</span>))
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
-            }
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">return_value</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">type_</span>().<span class="ident">is_valid</span>() <span class="op">&amp;&amp;</span> <span class="ident">r</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span>))
         }
+    }
+
+    <span class="kw">fn</span> <span class="ident">emit_by_name</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_name</span>: <span class="ident">N</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ToValue</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">signal_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="ident">signal_name</span>.<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
+        <span class="kw">let</span> <span class="ident">signal_id</span> <span class="op">=</span> <span class="ident">SignalId</span>::<span class="ident">lookup</span>(<span class="ident">signal_name</span>, <span class="ident">type_</span>)
+            .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">bool_error</span><span class="macro">!</span>(<span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>, <span class="ident">signal_name</span>, <span class="ident">type_</span>))<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">emit</span>(<span class="ident">signal_id</span>, <span class="ident">args</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">downgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">WeakRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
@@ -4556,6 +5050,108 @@
         <span class="kw">let</span> <span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">gobject_ffi</span>::<span class="ident">GObject</span> <span class="op">=</span> <span class="ident">stash</span>.<span class="number">0</span>;
 
         <span class="kw">unsafe</span> { <span class="ident">ffi</span>::<span class="ident">g_atomic_int_get</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">ref_count</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u32</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">i32</span>) <span class="kw">as</span> <span class="ident">u32</span> }
+    }
+
+    <span class="kw">fn</span> <span class="ident">emit_with_values</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
+
+            <span class="kw">let</span> <span class="ident">signal_query</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">query</span>();
+
+            <span class="kw">let</span> <span class="ident">self_v</span> <span class="op">=</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">uninitialized</span>();
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(<span class="ident">v</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>, <span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">to_glib</span>());
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_set_object</span>(
+                    <span class="ident">v</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+                    <span class="self">self</span>.<span class="ident">as_object_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>,
+                );
+                <span class="ident">v</span>
+            };
+
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">Iterator</span>::<span class="ident">chain</span>(<span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">once</span>(<span class="ident">self_v</span>), <span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>())
+                .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">smallvec</span>::<span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="kw">_</span>; <span class="number">10</span>]<span class="op">&gt;</span><span class="op">&gt;</span>();
+
+            <span class="kw">let</span> <span class="ident">signal_detail</span> <span class="op">=</span> <span class="ident">validate_signal_arguments</span>(<span class="ident">type_</span>, <span class="kw-2">&amp;</span><span class="ident">signal_query</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">args</span>[<span class="number">1</span>..])<span class="question-mark">?</span>;
+
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">return_value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">uninitialized</span>();
+            <span class="kw">if</span> <span class="ident">signal_query</span>.<span class="ident">return_type</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span> {
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(
+                    <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+                    <span class="ident">signal_query</span>.<span class="ident">return_type</span>().<span class="ident">to_glib</span>(),
+                );
+            }
+
+            <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_emitv</span>(
+                <span class="ident">mut_override</span>(<span class="ident">args</span>.<span class="ident">as_ptr</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">gobject_ffi</span>::<span class="ident">GValue</span>,
+                <span class="ident">signal_id</span>.<span class="ident">to_glib</span>(),
+                <span class="ident">signal_detail</span>.<span class="ident">to_glib</span>(),
+                <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+            );
+
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">return_value</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">type_</span>().<span class="ident">is_valid</span>() <span class="op">&amp;&amp;</span> <span class="ident">r</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span>))
+        }
+    }
+
+    <span class="kw">fn</span> <span class="ident">emit_by_name_with_values</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_name</span>: <span class="ident">N</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">signal_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="ident">signal_name</span>.<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
+        <span class="kw">let</span> <span class="ident">signal_id</span> <span class="op">=</span> <span class="ident">SignalId</span>::<span class="ident">lookup</span>(<span class="ident">signal_name</span>, <span class="ident">type_</span>)
+            .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">bool_error</span><span class="macro">!</span>(<span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>, <span class="ident">signal_name</span>, <span class="ident">type_</span>))<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">emit_with_values</span>(<span class="ident">signal_id</span>, <span class="ident">args</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">emit_with_details_and_values</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">signal_id</span>: <span class="ident">SignalId</span>,
+        <span class="ident">details</span>: <span class="ident">Quark</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">signal_query</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">query</span>();
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">signal_query</span>.<span class="ident">flags</span>().<span class="ident">contains</span>(<span class="kw">crate</span>::<span class="ident">SignalFlags</span>::<span class="ident">DETAILED</span>));
+
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">type_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_type</span>();
+
+            <span class="kw">let</span> <span class="ident">self_v</span> <span class="op">=</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">uninitialized</span>();
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(<span class="ident">v</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>, <span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">to_glib</span>());
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_set_object</span>(
+                    <span class="ident">v</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+                    <span class="self">self</span>.<span class="ident">as_object_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>,
+                );
+                <span class="ident">v</span>
+            };
+
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">Iterator</span>::<span class="ident">chain</span>(<span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">once</span>(<span class="ident">self_v</span>), <span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>())
+                .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">smallvec</span>::<span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="kw">_</span>; <span class="number">10</span>]<span class="op">&gt;</span><span class="op">&gt;</span>();
+
+            <span class="ident">validate_signal_arguments</span>(<span class="ident">type_</span>, <span class="kw-2">&amp;</span><span class="ident">signal_query</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">args</span>)<span class="question-mark">?</span>;
+
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">return_value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">uninitialized</span>();
+            <span class="kw">if</span> <span class="ident">signal_query</span>.<span class="ident">return_type</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span> {
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_value_init</span>(
+                    <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+                    <span class="ident">signal_query</span>.<span class="ident">return_type</span>().<span class="ident">to_glib</span>(),
+                );
+            }
+
+            <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_emitv</span>(
+                <span class="ident">mut_override</span>(<span class="ident">args</span>.<span class="ident">as_ptr</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">gobject_ffi</span>::<span class="ident">GValue</span>,
+                <span class="ident">signal_id</span>.<span class="ident">to_glib</span>(),
+                <span class="ident">details</span>.<span class="ident">to_glib</span>(),
+                <span class="ident">return_value</span>.<span class="ident">to_glib_none_mut</span>().<span class="number">0</span>,
+            );
+
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">return_value</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">type_</span>().<span class="ident">is_valid</span>() <span class="op">&amp;&amp;</span> <span class="ident">r</span>.<span class="ident">type_</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">Type</span>::<span class="ident">UNIT</span>))
+        }
     }
 }
 
@@ -4594,10 +5190,10 @@
         <span class="comment">// actual type of the contained object is compatible and if so create</span>
         <span class="comment">// a properly typed Value. This can happen if the type field in the</span>
         <span class="comment">// Value is set to a more generic type than the contained value</span>
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">valid_type</span> <span class="op">&amp;&amp;</span> <span class="ident">property_value</span>.<span class="ident">type_</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">Object</span>::<span class="ident">static_type</span>()) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">valid_type</span> <span class="op">&amp;&amp;</span> <span class="ident">property_value</span>.<span class="ident">type_</span>().<span class="ident">is_a</span>(<span class="ident">Object</span>::<span class="ident">static_type</span>()) {
             <span class="kw">match</span> <span class="ident">property_value</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">obj</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">pspec</span>.<span class="ident">get_value_type</span>()) {
+                    <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="ident">pspec</span>.<span class="ident">get_value_type</span>()) {
                         <span class="ident">property_value</span>.<span class="number">0</span>.<span class="ident">g_type</span> <span class="op">=</span> <span class="ident">pspec</span>.<span class="ident">get_value_type</span>().<span class="ident">to_glib</span>();
                     } <span class="kw">else</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(
@@ -4648,67 +5244,33 @@
 
 <span class="kw">fn</span> <span class="ident">validate_signal_arguments</span>(
     <span class="ident">type_</span>: <span class="ident">Type</span>,
-    <span class="ident">signal_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+    <span class="ident">signal_query</span>: <span class="kw-2">&amp;</span><span class="ident">SignalQuery</span>,
     <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">Value</span>],
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">Type</span>), <span class="kw">crate</span>::<span class="ident">BoolError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signal_id</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signal_detail</span> <span class="op">=</span> <span class="number">0</span>;
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Quark</span>, <span class="ident">BoolError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">signal_name</span> <span class="op">=</span> <span class="ident">signal_query</span>.<span class="ident">signal_name</span>();
+    <span class="kw">let</span> (<span class="ident">signal_id</span>, <span class="ident">signal_detail</span>) <span class="op">=</span> <span class="ident">SignalId</span>::<span class="ident">parse_name</span>(<span class="ident">signal_name</span>, <span class="ident">type_</span>, <span class="bool-val">false</span>)
+        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">bool_error</span><span class="macro">!</span>(<span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>, <span class="ident">signal_name</span>, <span class="ident">type_</span>))<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> <span class="ident">found</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-        <span class="ident">from_glib</span>(<span class="ident">gobject_ffi</span>::<span class="ident">g_signal_parse_name</span>(
-            <span class="ident">signal_name</span>.<span class="ident">to_glib_none</span>().<span class="number">0</span>,
-            <span class="ident">type_</span>.<span class="ident">to_glib</span>(),
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signal_id</span>,
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signal_detail</span>,
-            <span class="bool-val">true</span>.<span class="ident">to_glib</span>(),
-        ))
-    };
+    <span class="kw">let</span> <span class="ident">signal_query</span> <span class="op">=</span> <span class="ident">signal_id</span>.<span class="ident">query</span>();
 
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">found</span> {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(
-            <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>,
-            <span class="ident">signal_name</span>,
-            <span class="ident">type_</span>
-        ));
-    }
-
-    <span class="kw">let</span> <span class="ident">details</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">details</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="ident">zeroed</span>();
-        <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_query</span>(<span class="ident">signal_id</span>, <span class="ident">details</span>.<span class="ident">as_mut_ptr</span>());
-        <span class="ident">details</span>.<span class="ident">assume_init</span>()
-    };
-
-    <span class="kw">if</span> <span class="ident">details</span>.<span class="ident">signal_id</span> <span class="op">!</span><span class="op">=</span> <span class="ident">signal_id</span> {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(
-            <span class="string">&quot;Signal &#39;{}&#39; of type &#39;{}&#39; not found&quot;</span>,
-            <span class="ident">signal_name</span>,
-            <span class="ident">type_</span>
-        ));
-    }
-
-    <span class="kw">if</span> <span class="ident">details</span>.<span class="ident">n_params</span> <span class="op">!</span><span class="op">=</span> <span class="ident">args</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span> {
+    <span class="kw">if</span> <span class="ident">signal_query</span>.<span class="ident">n_params</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">args</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span> {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">bool_error</span><span class="macro">!</span>(
             <span class="string">&quot;Incompatible number of arguments for signal &#39;{}&#39; of type &#39;{}&#39; (expected {}, got {})&quot;</span>,
             <span class="ident">signal_name</span>,
             <span class="ident">type_</span>,
-            <span class="ident">details</span>.<span class="ident">n_params</span>,
+            <span class="ident">signal_query</span>.<span class="ident">n_params</span>(),
             <span class="ident">args</span>.<span class="ident">len</span>(),
         ));
     }
 
-    <span class="kw">let</span> <span class="ident">param_types</span> <span class="op">=</span>
-        <span class="kw">unsafe</span> { <span class="ident">std</span>::<span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">details</span>.<span class="ident">param_types</span>, <span class="ident">details</span>.<span class="ident">n_params</span> <span class="kw">as</span> <span class="ident">usize</span>) };
+    <span class="kw">let</span> <span class="ident">param_types</span> <span class="op">=</span> <span class="ident">Iterator</span>::<span class="ident">zip</span>(<span class="ident">args</span>.<span class="ident">iter_mut</span>(), <span class="ident">signal_query</span>.<span class="ident">param_types</span>());
 
-    <span class="kw">for</span> (<span class="ident">i</span>, (<span class="ident">arg</span>, <span class="ident">param_type</span>)) <span class="kw">in</span> <span class="ident">Iterator</span>::<span class="ident">zip</span>(
-        <span class="ident">args</span>.<span class="ident">iter_mut</span>(),
-        <span class="ident">param_types</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="ident">from_glib</span>(<span class="ident">x</span>) }),
-    )
-    .<span class="ident">enumerate</span>()
-    {
-        <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">type_</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">Object</span>::<span class="ident">static_type</span>()) {
+    <span class="kw">for</span> (<span class="ident">i</span>, (<span class="ident">arg</span>, <span class="ident">param_type</span>)) <span class="kw">in</span> <span class="ident">param_types</span>.<span class="ident">enumerate</span>() {
+        <span class="kw">let</span> <span class="ident">param_type</span>: <span class="ident">Type</span> <span class="op">=</span> <span class="ident">param_type</span>.<span class="ident">into</span>();
+        <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">type_</span>().<span class="ident">is_a</span>(<span class="ident">Object</span>::<span class="ident">static_type</span>()) {
             <span class="kw">match</span> <span class="ident">arg</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">obj</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">param_type</span>) {
+                    <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="ident">param_type</span>) {
                         <span class="ident">arg</span>.<span class="number">0</span>.<span class="ident">g_type</span> <span class="op">=</span> <span class="ident">param_type</span>.<span class="ident">to_glib</span>();
                     } <span class="kw">else</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(
@@ -4743,9 +5305,7 @@
         }
     }
 
-    <span class="prelude-val">Ok</span>((<span class="ident">signal_id</span>, <span class="ident">signal_detail</span>, <span class="kw">unsafe</span> {
-        <span class="ident">from_glib</span>(<span class="ident">details</span>.<span class="ident">return_type</span>)
-    }))
+    <span class="prelude-val">Ok</span>(<span class="ident">signal_detail</span>)
 }
 
 <span class="kw">impl</span> <span class="ident">ObjectClass</span> {
@@ -5034,20 +5594,26 @@
     }
 }
 
+<span class="doccomment">/// Class struct of type `T`.</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span>(<span class="ident">T</span>::<span class="ident">GlibClassType</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="ident">T</span>::<span class="ident">GlibClassType</span>);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Get the type id for this class.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is not equivalent to `T::static_type()` but is the type of the subclass of `T` where</span>
+    <span class="doccomment">/// this class belongs to.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Type</span> {
         <span class="kw">unsafe</span> {
+            <span class="comment">// This also works for interfaces because they also have the type</span>
+            <span class="comment">// as the first struct field.</span>
             <span class="kw">let</span> <span class="ident">klass</span> <span class="op">=</span> <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">gobject_ffi</span>::<span class="ident">GTypeClass</span>;
             <span class="ident">from_glib</span>((<span class="kw-2">*</span><span class="ident">klass</span>).<span class="ident">g_type</span>)
         }
     }
 
     <span class="doccomment">/// Casts this class to a reference to a parent type&#39;s class.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upcast_ref</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upcast_ref</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>,
     {
@@ -5058,7 +5624,7 @@
     }
 
     <span class="doccomment">/// Casts this class to a mutable reference to a parent type&#39;s class.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upcast_ref_mut</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upcast_ref_mut</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>,
     {
@@ -5070,11 +5636,11 @@
 
     <span class="doccomment">/// Casts this class to a reference to a child type&#39;s class or</span>
     <span class="doccomment">/// fails if this class is not implementing the child class.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downcast_ref</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downcast_ref</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">U</span>: <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     {
-        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">U</span>::<span class="ident">static_type</span>()) {
+        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="ident">U</span>::<span class="ident">static_type</span>()) {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
 
@@ -5086,11 +5652,11 @@
 
     <span class="doccomment">/// Casts this class to a mutable reference to a child type&#39;s class or</span>
     <span class="doccomment">/// fails if this class is not implementing the child class.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downcast_ref_mut</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downcast_ref_mut</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">U</span>: <span class="ident">IsA</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     {
-        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">U</span>::<span class="ident">static_type</span>()) {
+        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="ident">U</span>::<span class="ident">static_type</span>()) {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
 
@@ -5100,11 +5666,11 @@
         }
     }
 
-    <span class="doccomment">/// Gets the class struct corresponding to `type_`.</span>
+    <span class="doccomment">/// Gets the class struct for `Self` of `type_`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will return `None` if `type_` is not a subclass of `Self`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_type</span>(<span class="ident">type_</span>: <span class="ident">Type</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClassRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">type_</span>.<span class="ident">is_a</span>(<span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">static_type</span>()) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_type</span>(<span class="ident">type_</span>: <span class="ident">Type</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClassRef</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">type_</span>.<span class="ident">is_a</span>(<span class="ident">T</span>::<span class="ident">static_type</span>()) {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
 
@@ -5113,35 +5679,80 @@
             <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
                 <span class="prelude-val">None</span>
             } <span class="kw">else</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">ClassRef</span>(<span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new_unchecked</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span>)))
+                <span class="prelude-val">Some</span>(<span class="ident">ClassRef</span>(
+                    <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new_unchecked</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span>),
+                    <span class="bool-val">true</span>,
+                    <span class="ident">PhantomData</span>,
+                ))
+            }
+        }
+    }
+
+    <span class="doccomment">/// Gets the parent class struct, if any.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClassRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">gobject_ffi</span>::<span class="ident">g_type_class_peek_parent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>);
+            <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
+                <span class="prelude-val">None</span>
+            } <span class="kw">else</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">ClassRef</span>(
+                    <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new_unchecked</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span>),
+                    <span class="bool-val">false</span>,
+                    <span class="ident">PhantomData</span>,
+                ))
             }
         }
     }
 }
 
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ObjectType</span><span class="op">&gt;</span> <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>::<span class="ident">GlibClassType</span> {
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span>
     }
 }
 
+<span class="doccomment">/// Reference to the class struct of type `T`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">bool</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> ()<span class="op">&gt;</span>);
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">ops</span>::<span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>;
+
+    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>() }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">1</span> {
+            <span class="kw">unsafe</span> {
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_type_class_unref</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>);
+            }
+        }
+    }
+}
+
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsClass</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">ClassRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
+
 <span class="comment">// This should require Self: IsA&lt;Self::Super&gt;, but that seems to cause a cycle error</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">ParentClassIs</span>: <span class="ident">ObjectType</span> {
-    <span class="kw">type</span> <span class="ident">Parent</span>: <span class="ident">ObjectType</span>;
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">ParentClassIs</span>: <span class="ident">IsClass</span> {
+    <span class="kw">type</span> <span class="ident">Parent</span>: <span class="ident">IsClass</span>;
 }
 
 <span class="doccomment">/// Automatically implemented by `ObjectSubclass` variants of</span>
 <span class="doccomment">/// [`wrapper!`][crate::wrapper!]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">ObjectSubclassIs</span>: <span class="ident">ObjectType</span> {
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">ObjectSubclassIs</span>: <span class="ident">IsClass</span> {
     <span class="kw">type</span> <span class="ident">Subclass</span>: <span class="ident">ObjectSubclass</span>;
 }
 
@@ -5164,6 +5775,161 @@
         }
     }
 }
+
+<span class="doccomment">/// Trait implemented by class types.</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">IsClass</span>: <span class="ident">ObjectType</span> {}
+
+<span class="doccomment">/// Interface struct of type `T` for some type.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span>(<span class="ident">T</span>::<span class="ident">GlibClassType</span>);
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Get the type id for this interface.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is equivalent to `T::static_type()`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Type</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">klass</span> <span class="op">=</span> <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">gobject_ffi</span>::<span class="ident">GTypeInterface</span>;
+            <span class="ident">from_glib</span>((<span class="kw-2">*</span><span class="ident">klass</span>).<span class="ident">g_type</span>)
+        }
+    }
+
+    <span class="doccomment">/// Get the type id for the instance type of this interface.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is not equivalent to `T::static_type()` but is the type id of the type this specific</span>
+    <span class="doccomment">/// interface belongs to.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_instance_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Type</span> {
+        <span class="kw">unsafe</span> {
+            <span class="comment">// This also works for interfaces because they also have the type</span>
+            <span class="comment">// as the first struct field.</span>
+            <span class="kw">let</span> <span class="ident">klass</span> <span class="op">=</span> <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">gobject_ffi</span>::<span class="ident">GTypeInterface</span>;
+            <span class="ident">from_glib</span>((<span class="kw-2">*</span><span class="ident">klass</span>).<span class="ident">g_instance_type</span>)
+        }
+    }
+
+    <span class="doccomment">/// Gets the interface struct for `Self` of `klass`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This will return `None` if `klass` is not implementing `Self`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_class</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">IsClass</span><span class="op">&gt;</span>(<span class="ident">klass</span>: <span class="kw-2">&amp;</span><span class="ident">Class</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">klass</span>.<span class="ident">get_type</span>().<span class="ident">is_a</span>(<span class="ident">T</span>::<span class="ident">static_type</span>()) {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
+
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">gobject_ffi</span>::<span class="ident">g_type_interface_peek</span>(
+                <span class="kw-2">&amp;</span><span class="ident">klass</span>.<span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>,
+                <span class="ident">T</span>::<span class="ident">static_type</span>().<span class="ident">to_glib</span>(),
+            );
+            <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
+                <span class="prelude-val">None</span>
+            } <span class="kw">else</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">InterfaceRef</span>(
+                    <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new_unchecked</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span>),
+                    <span class="bool-val">false</span>,
+                    <span class="ident">PhantomData</span>,
+                ))
+            }
+        }
+    }
+
+    <span class="doccomment">/// Gets the default interface struct for `Self`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">gobject_ffi</span>::<span class="ident">g_type_default_interface_ref</span>(<span class="ident">T</span>::<span class="ident">static_type</span>().<span class="ident">to_glib</span>());
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">ptr</span>.<span class="ident">is_null</span>());
+            <span class="ident">InterfaceRef</span>(
+                <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new_unchecked</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span>),
+                <span class="bool-val">true</span>,
+                <span class="ident">PhantomData</span>,
+            )
+        }
+    }
+
+    <span class="doccomment">/// Gets the parent interface struct, if any.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This returns the parent interface if a parent type of the instance type also implements the</span>
+    <span class="doccomment">/// interface.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">gobject_ffi</span>::<span class="ident">g_type_interface_peek_parent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>);
+            <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
+                <span class="prelude-val">None</span>
+            } <span class="kw">else</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">InterfaceRef</span>(
+                    <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new_unchecked</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span>),
+                    <span class="bool-val">false</span>,
+                    <span class="ident">PhantomData</span>,
+                ))
+            }
+        }
+    }
+}
+
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">GlibClassType</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>::<span class="ident">GlibClassType</span> {
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span>
+    }
+}
+
+<span class="doccomment">/// Reference to a class struct of type `T`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span>(<span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">bool</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> ()<span class="op">&gt;</span>);
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">1</span> {
+            <span class="kw">unsafe</span> {
+                <span class="ident">gobject_ffi</span>::<span class="ident">g_type_default_interface_unref</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>);
+            }
+        }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">ops</span>::<span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>;
+
+    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Interface</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>() }
+    }
+}
+
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">IsInterface</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">InterfaceRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
+
+<span class="doccomment">/// Trait implemented by interface types.</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">IsInterface</span>: <span class="ident">ObjectType</span> {}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">new</span>() {
+        <span class="kw">let</span> <span class="ident">obj</span>: <span class="ident">Object</span> <span class="op">=</span> <span class="ident">Object</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[]).<span class="ident">unwrap</span>();
+        <span class="ident">drop</span>(<span class="ident">obj</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">data</span>() {
+        <span class="kw">let</span> <span class="ident">obj</span>: <span class="ident">Object</span> <span class="op">=</span> <span class="ident">Object</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[]).<span class="ident">unwrap</span>();
+        <span class="kw">unsafe</span> {
+            <span class="ident">obj</span>.<span class="ident">set_data</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;hello&quot;</span>.<span class="ident">into</span>());
+            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">obj</span>.<span class="ident">get_data</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>(<span class="string">&quot;foo&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">as_ref</span>(), <span class="string">&quot;hello&quot;</span>);
+            <span class="kw">let</span> <span class="ident">data2</span> <span class="op">=</span> <span class="ident">obj</span>.<span class="ident">steal_data</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>(<span class="string">&quot;foo&quot;</span>).<span class="ident">unwrap</span>();
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">data2</span>, <span class="string">&quot;hello&quot;</span>);
+        }
+    }
+}
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="glib"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="glib" data-search-js="../../search-index.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

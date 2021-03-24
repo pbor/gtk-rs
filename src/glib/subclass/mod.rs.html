@@ -1,7 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/subclass/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `glib/src/subclass/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../glib/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../glib/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -271,8 +271,6 @@
 <span id="268">268</span>
 <span id="269">269</span>
 <span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.</span>
 
@@ -312,13 +310,17 @@
 <span class="doccomment">//!     }</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! // Note that the first `#[glib::gflags(...)]` is the proc-macro invocation,</span>
+<span class="doccomment">//! // while the plain `#[gflags(...)]` inside the braces are just custom attributes that</span>
+<span class="doccomment">//! // get read by the proc-macro, and they must be written exactly like that.</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! #[glib::gflags(&quot;MyFlags&quot;)]</span>
 <span class="doccomment">//! enum MyFlags {</span>
-<span class="doccomment">//!     #[glib::gflags(name = &quot;Flag A&quot;, nick = &quot;nick-a&quot;)]</span>
+<span class="doccomment">//!     #[gflags(name = &quot;Flag A&quot;, nick = &quot;nick-a&quot;)]</span>
 <span class="doccomment">//!     A = 0b00000001,</span>
-<span class="doccomment">//!     #[glib::gflags(name = &quot;Flag B&quot;)]</span>
+<span class="doccomment">//!     #[gflags(name = &quot;Flag B&quot;)]</span>
 <span class="doccomment">//!     B = 0b00000010,</span>
-<span class="doccomment">//!     #[glib::gflags(skip)]</span>
+<span class="doccomment">//!     #[gflags(skip)]</span>
 <span class="doccomment">//!     AB = Self::A.bits() | Self::B.bits(),</span>
 <span class="doccomment">//!     C = 0b00000100,</span>
 <span class="doccomment">//! }</span>
@@ -344,6 +346,7 @@
 <span class="doccomment">//!     // ObjectSubclass is the trait that defines the new type and</span>
 <span class="doccomment">//!     // contains all information needed by the GObject type system,</span>
 <span class="doccomment">//!     // including the new type&#39;s name, parent type, etc.</span>
+<span class="doccomment">//!     #[glib::object_subclass]</span>
 <span class="doccomment">//!     impl ObjectSubclass for SimpleObject {</span>
 <span class="doccomment">//!         // This type name must be unique per process.</span>
 <span class="doccomment">//!         const NAME: &amp;&#39;static str = &quot;SimpleObject&quot;;</span>
@@ -354,16 +357,6 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//!         // Interfaces this type implements</span>
 <span class="doccomment">//!         type Interfaces = ();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!         // The C/FFI instance and class structs. The simple ones</span>
-<span class="doccomment">//!         // are enough in most cases and more is only needed to</span>
-<span class="doccomment">//!         // expose public instance fields to C APIs or to provide</span>
-<span class="doccomment">//!         // new virtual methods for subclasses of this type.</span>
-<span class="doccomment">//!         type Instance = subclass::simple::InstanceStruct&lt;Self&gt;;</span>
-<span class="doccomment">//!         type Class = subclass::simple::ClassStruct&lt;Self&gt;;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!         // This macro defines some boilerplate.</span>
-<span class="doccomment">//!         glib::object_subclass!();</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!         // Called every time a new instance is created. This should return</span>
 <span class="doccomment">//!         // a new instance of our type with its basic values.</span>
@@ -508,7 +501,7 @@
 <span class="doccomment">//! struct MyBoxed(String);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! pub fn main() {</span>
-<span class="doccomment">//!     assert_ne!(glib::Type::Invalid, MyBoxed::get_type());</span>
+<span class="doccomment">//!     assert!(MyBoxed::get_type().is_valid());</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     let b = MyBoxed(String::from(&quot;abc&quot;));</span>
 <span class="doccomment">//!     let v = b.to_value();</span>
@@ -517,7 +510,7 @@
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! ```</span>
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">simple</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">basic</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">types</span>;
 
@@ -535,17 +528,20 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prelude</span> {
     <span class="doccomment">//! Prelude that re-exports all important traits from this crate.</span>
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">boxed</span>::<span class="ident">BoxedType</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">interface</span>::{<span class="ident">ObjectInterface</span>, <span class="ident">ObjectInterfaceExt</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">interface</span>::{<span class="ident">ObjectInterface</span>, <span class="ident">ObjectInterfaceExt</span>, <span class="ident">ObjectInterfaceType</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">object</span>::{<span class="ident">ObjectClassSubclassExt</span>, <span class="ident">ObjectImpl</span>, <span class="ident">ObjectImplExt</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">types</span>::{
         <span class="ident">ClassStruct</span>, <span class="ident">InstanceStruct</span>, <span class="ident">IsImplementable</span>, <span class="ident">IsSubclassable</span>, <span class="ident">ObjectSubclass</span>,
+        <span class="ident">ObjectSubclassExt</span>, <span class="ident">ObjectSubclassType</span>,
     };
 }
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">boxed</span>::<span class="ident">register_boxed_type</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">interface</span>::<span class="ident">register_interface</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">signal</span>::{<span class="ident">Signal</span>, <span class="ident">SignalClassHandlerToken</span>, <span class="ident">SignalId</span>, <span class="ident">SignalInvocationHint</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">signal</span>::{
+    <span class="ident">Signal</span>, <span class="ident">SignalClassHandlerToken</span>, <span class="ident">SignalId</span>, <span class="ident">SignalInvocationHint</span>, <span class="ident">SignalQuery</span>, <span class="ident">SignalType</span>,
+};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">types</span>::{<span class="ident">register_type</span>, <span class="ident">InitializingObject</span>, <span class="ident">InitializingType</span>, <span class="ident">TypeData</span>};
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="glib"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="glib" data-search-js="../../../search-index.js"></div>
+    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>

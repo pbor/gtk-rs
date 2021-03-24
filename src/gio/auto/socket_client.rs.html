@@ -1,7 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/socket_client.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>socket_client.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `gio/src/auto/socket_client.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>socket_client.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../gio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../gio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1436,6 +1436,15 @@
 <span id="1433">1433</span>
 <span id="1434">1434</span>
 <span id="1435">1435</span>
+<span id="1436">1436</span>
+<span id="1437">1437</span>
+<span id="1438">1438</span>
+<span id="1439">1439</span>
+<span id="1440">1440</span>
+<span id="1441">1441</span>
+<span id="1442">1442</span>
+<span id="1443">1443</span>
+<span id="1444">1444</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This file was generated by gir (https://github.com/gtk-rs/gir)</span>
 <span class="comment">// from gir-files (https://github.com/gtk-rs/gir-files)</span>
@@ -1558,6 +1567,15 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SocketConnection</span>, <span class="ident">glib</span>::<span class="ident">Error</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// This is the asynchronous version of `SocketClientExt::connect`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// You may wish to prefer the asynchronous version even in synchronous</span>
+    <span class="doccomment">/// command line programs because, since 2.60, it implements</span>
+    <span class="doccomment">/// [RFC 8305](https://tools.ietf.org/html/rfc8305) &quot;Happy Eyeballs&quot;</span>
+    <span class="doccomment">/// recommendations to work around long connection timeouts in networks</span>
+    <span class="doccomment">/// where IPv6 is broken by performing an IPv4 connection simultaneously</span>
+    <span class="doccomment">/// without waiting for IPv6 to time out, which is not supported by the</span>
+    <span class="doccomment">/// synchronous call. (This is not an API guarantee, and may change in</span>
+    <span class="doccomment">/// the future.)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// When the operation is finished `callback` will be</span>
     <span class="doccomment">/// called. You can then call `SocketClientExt::connect_finish` to get</span>
@@ -1849,7 +1867,7 @@
     <span class="doccomment">/// The `ProxyResolver` being used by</span>
     <span class="doccomment">///  `self`.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;g_socket_client_get_proxy_resolver&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">get_proxy_resolver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ProxyResolver</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">get_proxy_resolver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ProxyResolver</span>;
 
     <span class="doccomment">/// Gets the socket type of the socket client.</span>
     <span class="doccomment">///</span>
@@ -2049,7 +2067,7 @@
     <span class="doccomment">/// multiple times (or not at all) for a given connectable (in</span>
     <span class="doccomment">/// particular, if `client` ends up attempting to connect to more than</span>
     <span class="doccomment">/// one address). However, if `client` emits the `SocketClient::event`</span>
-    <span class="doccomment">/// signal at all for a given connectable, that it will always emit</span>
+    <span class="doccomment">/// signal at all for a given connectable, then it will always emit</span>
     <span class="doccomment">/// it with `SocketClientEvent::Complete` when it is done.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Note that there may be additional `SocketClientEvent` values in</span>
@@ -2477,7 +2495,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">get_proxy_resolver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ProxyResolver</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_proxy_resolver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ProxyResolver</span> {
         <span class="kw">unsafe</span> {
             <span class="ident">from_glib_none</span>(<span class="ident">ffi</span>::<span class="ident">g_socket_client_get_proxy_resolver</span>(
                 <span class="self">self</span>.<span class="ident">as_ref</span>().<span class="ident">to_glib_none</span>().<span class="number">0</span>,
@@ -2873,5 +2891,5 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="gio"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="gio" data-search-js="../../../search-index.js"></div>
+    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>
