@@ -585,12 +585,19 @@
 <span id="582">582</span>
 <span id="583">583</span>
 <span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Take a look at the license at the top of the repository in the LICENSE file.</span>
 
 <span class="kw">use</span> <span class="ident">smallvec</span>::<span class="ident">SmallVec</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">translate</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils</span>::<span class="ident">is_canonical_pspec_name</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Closure</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">SignalFlags</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Type</span>;
@@ -775,7 +782,7 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">query_ptr</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="ident">uninit</span>();
             <span class="ident">gobject_ffi</span>::<span class="ident">g_signal_query</span>(<span class="self">self</span>.<span class="ident">to_glib</span>(), <span class="ident">query_ptr</span>.<span class="ident">as_mut_ptr</span>());
             <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">query_ptr</span>.<span class="ident">assume_init</span>();
-            <span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">query</span>.<span class="ident">signal_id</span>, <span class="number">0</span>);
+            <span class="macro">assert_ne!</span>(<span class="ident">query</span>.<span class="ident">signal_id</span>, <span class="number">0</span>);
             <span class="ident">SignalQuery</span>(<span class="ident">query</span>)
         }
     }
@@ -793,7 +800,7 @@
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">impl</span> <span class="ident">FromGlib</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SignalId</span> {
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_glib</span>(<span class="ident">signal_id</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">signal_id</span>, <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(<span class="ident">signal_id</span>, <span class="number">0</span>);
         <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">NonZeroU32</span>::<span class="ident">new_unchecked</span>(<span class="ident">signal_id</span>))
     }
 }
@@ -896,12 +903,12 @@
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_glib_container_num_as_vec</span>(<span class="kw">_</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">GType</span>, <span class="kw">_</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="comment">// Can&#39;t really free a *const</span>
-        <span class="macro">unimplemented</span><span class="macro">!</span>();
+        <span class="macro">unimplemented!</span>();
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_glib_full_num_as_vec</span>(<span class="kw">_</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">GType</span>, <span class="kw">_</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="comment">// Can&#39;t really free a *const</span>
-        <span class="macro">unimplemented</span><span class="macro">!</span>();
+        <span class="macro">unimplemented!</span>();
     }
 }
 
@@ -1048,6 +1055,11 @@
         <span class="ident">param_types</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">SignalType</span>],
         <span class="ident">return_type</span>: <span class="ident">SignalType</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SignalBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="macro">assert!</span>(
+            <span class="ident">is_canonical_pspec_name</span>(<span class="ident">name</span>),
+            <span class="string">&quot;{} is not a valid canonical signal name&quot;</span>,
+            <span class="ident">name</span>
+        );
         <span class="ident">SignalBuilder</span> {
             <span class="ident">name</span>,
             <span class="ident">param_types</span>,
@@ -1083,7 +1095,7 @@
     <span class="doccomment">/// This will panic if called before the signal was registered.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">signal_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SignalId</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">registration</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>() {
-            <span class="ident">SignalRegistration</span>::<span class="ident">Unregistered</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Signal not registered yet&quot;</span>),
+            <span class="ident">SignalRegistration</span>::<span class="ident">Unregistered</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;Signal not registered yet&quot;</span>),
             <span class="ident">SignalRegistration</span>::<span class="ident">Registered</span> { <span class="ident">signal_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">signal_id</span>,
         }
     }
@@ -1093,7 +1105,7 @@
     <span class="doccomment">/// This will panic if called before the signal was registered.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">type_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Type</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">registration</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>() {
-            <span class="ident">SignalRegistration</span>::<span class="ident">Unregistered</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Signal not registered yet&quot;</span>),
+            <span class="ident">SignalRegistration</span>::<span class="ident">Unregistered</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;Signal not registered yet&quot;</span>),
             <span class="ident">SignalRegistration</span>::<span class="ident">Registered</span> { <span class="ident">type_</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">type_</span>,
         }
     }
@@ -1106,7 +1118,7 @@
                 <span class="ident">class_handler</span>,
                 <span class="ident">accumulator</span>,
             } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">class_handler</span>.<span class="ident">take</span>(), <span class="ident">accumulator</span>.<span class="ident">take</span>()),
-            <span class="ident">SignalRegistration</span>::<span class="ident">Registered</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="ident">SignalRegistration</span>::<span class="ident">Registered</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(),
         };
 
         <span class="kw">let</span> <span class="ident">param_types</span> <span class="op">=</span> <span class="self">self</span>
